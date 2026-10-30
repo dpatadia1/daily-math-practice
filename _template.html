@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Math Honors — Oct 29, 2026</title>
+<style>
+  :root{
+    --paper:#fdfbf7; --card:#ffffff; --ink:#1b1a17; --muted:#6b675f;
+    --line:#e5e0d6; --accent:#3b4c9e; --accent-soft:#eef1fb;
+    --ok:#1a7a4c; --ok-soft:#e8f5ee; --no:#b3261e; --no-soft:#fdecea;
+    --warn:#8a5a00; --warn-soft:#fdf3e0;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --serif:"Iowan Old Style",Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+       font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+  .wrap{max-width:780px;margin:0 auto;padding:28px 20px 120px}
+
+  /* ---------- header ---------- */
+  header{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:8px}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  h1{font-family:var(--serif);font-size:30px;line-height:1.2;margin:8px 0 6px;font-weight:600}
+  .topicline{font-size:15px;color:var(--accent);font-weight:600}
+  .meta{font-size:13px;color:var(--muted);margin-top:8px}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center}
+  .badge{font-size:12px;padding:4px 10px;border-radius:999px;background:#f1eee6;color:var(--muted);
+         border:1px solid var(--line);font-weight:600}
+  .badge.live{background:var(--ok-soft);color:var(--ok);border-color:#bfe3cf}
+  .badge.local{background:var(--warn-soft);color:var(--warn);border-color:#ebd9b0}
+
+  /* ---------- progress ---------- */
+  .progwrap{position:sticky;top:0;background:var(--paper);padding:14px 0 12px;z-index:20;
+            border-bottom:1px solid var(--line);margin-bottom:26px}
+  .progrow{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin-bottom:7px}
+  .progrow strong{color:var(--ink)}
+  .track{height:7px;background:#ece7dc;border-radius:999px;overflow:hidden}
+  .fill{height:100%;width:0%;background:var(--accent);border-radius:999px;transition:width .3s ease}
+
+  /* ---------- sets & questions ---------- */
+  .setheader{margin:38px 0 18px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+  .setheader:first-of-type{margin-top:8px}
+  .setheader h2{font-family:var(--serif);font-size:21px;margin:0;font-weight:600}
+  .setheader .std{font-size:12px;color:var(--muted);margin-top:3px;letter-spacing:.02em}
+
+  .q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 20px 18px;
+     margin-bottom:18px;position:relative;scroll-margin-top:96px}
+  .q.flagged{border-color:#d9d2c4}
+  .qhead{display:flex;gap:12px;align-items:baseline;margin-bottom:10px}
+  .qnum{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--accent);min-width:26px}
+  .prompt{font-family:var(--serif);font-size:17.5px;line-height:1.5}
+  .prompt em{font-style:italic}
+  table.data{border-collapse:collapse;margin:14px 0 4px;font-family:var(--sans);font-size:14px}
+  table.data th,table.data td{border:1px solid var(--line);padding:7px 14px;text-align:center}
+  table.data th{background:#f6f3ec;font-weight:600;text-align:left}
+
+  .parts{margin-top:14px;display:flex;flex-direction:column;gap:11px}
+  .part{display:flex;flex-direction:column;align-items:stretch;gap:7px}
+  .plabel{font-size:15.5px;line-height:1.5;color:#2e2b26;padding-top:0}
+  .plabel .pk{font-weight:700;color:var(--ink)}
+  input.ans,select.ans{font-family:var(--sans);font-size:15px;padding:9px 11px;border:1.5px solid var(--line);
+       border-radius:8px;background:#fff;color:var(--ink);width:100%;max-width:300px}
+  input.ans:focus,select.ans:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  input.ans[disabled],select.ans[disabled]{background:#f7f5f0;color:#55524c}
+  .radios{display:flex;gap:16px;padding-top:6px;flex-wrap:wrap}
+  .radios label{font-size:15px;display:flex;gap:6px;align-items:center;cursor:pointer}
+  .longans{width:100%;max-width:none}
+  textarea.ans{font-family:var(--sans);font-size:15px;padding:9px 11px;border:1.5px solid var(--line);
+       border-radius:8px;width:100%;min-height:72px;resize:vertical;line-height:1.5;color:var(--ink);background:#fff}
+  textarea.ans:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  textarea.ans[disabled]{background:#f7f5f0;color:#55524c}
+  .explain-note{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:-2px}
+
+  .hintbtn{background:none;border:none;color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;
+           padding:4px 0;margin-top:9px;font-family:var(--sans);text-decoration:underline}
+  .hint{display:none;margin-top:9px;font-size:14px;background:var(--accent-soft);border-left:3px solid var(--accent);
+        padding:10px 13px;border-radius:0 7px 7px 0;color:#2c3870}
+  .hint.show{display:block}
+
+  /* ---------- results ---------- */
+  .result{display:none;margin-top:17px;border-top:1px dashed var(--line);padding-top:15px}
+  .result.show{display:block}
+  .verdict{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;
+           padding:4px 11px;border-radius:999px;margin-bottom:12px}
+  .verdict.ok{background:var(--ok-soft);color:var(--ok)}
+  .verdict.no{background:var(--no-soft);color:var(--no)}
+  .verdict.self{background:var(--accent-soft);color:var(--accent)}
+  .cmp{font-size:14px;margin-bottom:13px;background:#faf8f3;border-radius:8px;padding:11px 13px}
+  .cmp div{margin:3px 0}
+  .cmp .lab{color:var(--muted);display:inline-block;min-width:118px;font-size:13px}
+  .cmp .mine.wrong{color:var(--no);font-weight:600}
+  .cmp .mine.right{color:var(--ok);font-weight:600}
+  .cmp .theirs{font-weight:700}
+  .cmp .tick{color:var(--ok);font-weight:700;margin-left:4px}
+  .cmp .cross{color:var(--no);font-weight:700;margin:0 6px 0 4px}
+  .exp{font-size:15px;line-height:1.62}
+  .exp h4{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+          margin:0 0 7px;font-weight:700}
+  .exp p{margin:0 0 10px}
+  .exp .step{margin:0 0 9px}
+  .exp .calc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;
+             background:#f4f1ea;padding:2px 6px;border-radius:4px;white-space:nowrap}
+  .exp .strategy{background:var(--accent-soft);border-radius:8px;padding:11px 13px;margin:12px 0 0;
+                 font-size:14.5px;color:#2c3870}
+  .exp .strategy b{color:var(--accent)}
+  .exp .mistake{background:var(--warn-soft);border-radius:8px;padding:11px 13px;margin:10px 0 0;
+                font-size:14.5px;color:#6d4800}
+  .exp .mistake b{color:var(--warn)}
+  .selfmark{margin-top:14px;background:#faf8f3;border:1px solid var(--line);border-radius:8px;padding:12px 13px}
+  .selfmark p{margin:0 0 9px;font-size:14px;font-weight:600}
+  .selfmark .btns{display:flex;gap:9px;flex-wrap:wrap}
+  .smbtn{font-family:var(--sans);font-size:13.5px;font-weight:600;padding:7px 14px;border-radius:7px;
+         border:1.5px solid var(--line);background:#fff;cursor:pointer;color:var(--ink)}
+  .smbtn[aria-pressed="true"].yes{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+  .smbtn[aria-pressed="true"].no{background:var(--no-soft);border-color:var(--no);color:var(--no)}
+
+  /* ---------- submit bar ---------- */
+  .submitbar{position:fixed;left:0;right:0;bottom:0;background:rgba(253,251,247,.96);
+             backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:13px 20px;z-index:30}
+  .submitinner{max-width:780px;margin:0 auto;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .submitnote{font-size:13px;color:var(--muted)}
+  .btn{font-family:var(--sans);font-size:15px;font-weight:600;padding:11px 22px;border-radius:9px;
+       border:none;background:var(--accent);color:#fff;cursor:pointer}
+  .btn:disabled{background:#b9b5ac;cursor:not-allowed}
+  .btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+
+  /* ---------- score card ---------- */
+  .scorecard{display:none;background:var(--card);border:2px solid var(--ink);border-radius:14px;
+             padding:24px;margin:8px 0 30px}
+  .scorecard.show{display:block}
+  .scoretop{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+  .ring{width:96px;height:96px;flex-shrink:0;position:relative}
+  .ring svg{transform:rotate(-90deg)}
+  .ringtext{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ringtext b{font-family:var(--serif);font-size:25px;line-height:1}
+  .ringtext span{font-size:11px;color:var(--muted);letter-spacing:.05em}
+  .scoremsg h3{font-family:var(--serif);font-size:21px;margin:0 0 5px;font-weight:600}
+  .scoremsg p{margin:0;font-size:14.5px;color:#46433c;max-width:420px}
+  .breakdown{margin-top:20px;border-top:1px solid var(--line);padding-top:16px;
+             display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px}
+  .bd{font-size:13.5px}
+  .bd .t{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+  .bd .v{font-family:var(--serif);font-size:17px;font-weight:600;margin-top:2px}
+  .review{margin-top:16px;font-size:14px;color:#46433c}
+  .review b{color:var(--ink)}
+
+  /* ---------- send results back ---------- */
+  .sendback{margin-top:20px;border-top:1px solid var(--line);padding-top:18px}
+  .sendback h4{font-family:var(--serif);font-size:17px;margin:0 0 5px;font-weight:600}
+  .sendback p{margin:0 0 13px;font-size:14.5px;color:#46433c}
+  .sendback .btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .sendback .big{font-size:15px;font-weight:600;padding:11px 20px;border-radius:9px;border:none;
+                 background:var(--ok);color:#fff;cursor:pointer;font-family:var(--sans)}
+  .sendback .alt{font-size:14px;font-weight:600;padding:10px 16px;border-radius:9px;
+                 border:1.5px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;font-family:var(--sans)}
+  .sendback .done{margin-top:11px;font-size:13.5px;color:var(--ok);font-weight:600;display:none}
+  .sendback .done.show{display:block}
+  .sendback textarea{margin-top:12px;width:100%;min-height:120px;font-family:ui-monospace,Menlo,Consolas,monospace;
+                     font-size:12.5px;border:1.5px solid var(--line);border-radius:8px;padding:10px;
+                     display:none;background:#faf8f3;color:var(--ink)}
+  .sendback textarea.show{display:block}
+
+  @media (max-width:560px){
+    .wrap{padding:20px 14px 130px}
+    h1{font-size:25px}
+    input.ans,select.ans{max-width:none;width:100%}
+    .qhead{gap:8px}
+    .prompt{font-size:16.5px}
+  }
+  @media print{
+    .submitbar,.hintbtn,.progwrap,.badges{display:none!important}
+    body{background:#fff}
+    .q{break-inside:avoid;border-color:#ccc}
+    .wrap{padding-bottom:20px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">NJ Middle School Math Honors · Daily Set</div>
+    <h1 id="hDate"></h1>
+    <div class="topicline" id="hTopic"></div>
+    <div class="meta" id="hMeta"></div>
+    <div class="badges">
+      <span class="badge" id="syncBadge">Your answers save as you type</span>
+      <span class="badge" id="timerBadge">Time: 0:00</span>
+    </div>
+  </header>
+
+  <div class="progwrap">
+    <div class="progrow">
+      <span><strong id="answeredCount">0</strong> of <strong id="totalCount">0</strong> blanks filled</span>
+      <span id="progHint">Answer everything, then check your work</span>
+    </div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+  </div>
+
+  <div class="scorecard" id="scorecard">
+    <div class="scoretop">
+      <div class="ring">
+        <svg width="96" height="96" viewBox="0 0 96 96">
+          <circle cx="48" cy="48" r="41" fill="none" stroke="#ece7dc" stroke-width="10"></circle>
+          <circle id="ringArc" cx="48" cy="48" r="41" fill="none" stroke="#3b4c9e" stroke-width="10"
+                  stroke-linecap="round" stroke-dasharray="257.6" stroke-dashoffset="257.6"></circle>
+        </svg>
+        <div class="ringtext"><b id="ringPct">0%</b><span id="ringRaw">0/0</span></div>
+      </div>
+      <div class="scoremsg">
+        <h3 id="scoreTitle">Work checked</h3>
+        <p id="scoreMsg"></p>
+      </div>
+    </div>
+    <div class="breakdown" id="breakdown"></div>
+    <div class="review" id="reviewList"></div>
+    <div class="sendback" id="sendback">
+      <h4>Last step — send your results</h4>
+      <p>Tap the button and your email app opens with everything filled in. Just press send.</p>
+      <div class="btns">
+        <button class="big" id="emailResultsBtn" type="button">Email my results</button>
+        <button class="alt" id="copyResultsBtn" type="button">Copy instead</button>
+      </div>
+      <div class="done" id="sendDone"></div>
+      <textarea id="resultsText" readonly></textarea>
+    </div>
+  </div>
+
+  <main id="questions"></main>
+
+</div>
+
+<div class="submitbar">
+  <div class="submitinner">
+    <span class="submitnote" id="barNote">Explanations unlock after you check your work.</span>
+    <div style="display:flex;gap:9px">
+      <button class="btn ghost" id="printBtn" type="button">Print</button>
+      <button class="btn" id="submitBtn" type="button">Check my work</button>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ===== BEGIN DAILY DATA — replace everything down to END DAILY DATA =====
+   Each run swaps only this block. Nothing below it changes.
+   EVERY `label` MUST BE A COMPLETE QUESTION SENTENCE ENDING IN "?", not a
+   field name. She is 11 and reads the label as the question.
+     BAD  -> label:"What is the car's unit rate, in miles per gallon?"
+     GOOD -> label:"What is the car's unit rate, in miles per gallon?"
+   The `prompt` sets up the situation in full; each part then asks one clear
+   question about it that makes sense on its own.
+
+   part types:
+     num    -> {type:"num", correct:<number>, tol:<optional>, show:"display answer"}
+     text   -> {type:"text", accept:["normalized","variants"], re:"optional regex", show:"..."}
+     choice -> {type:"choice", options:["A","B"], correct:"B", show:"B"}
+     self   -> {type:"self", placeholder:"...", show:"model answer HTML"}  (student self-marks)
+   =========================================================================== */
+const DATE_KEY   = "2026-10-29";
+const DATE_LABEL = "Thursday, October 29, 2026";
+const TOPIC_DAY  = 1;
+const TOPIC_NAME = "Ratios, Rates & Proportional Relationships";
+const STANDARDS  = "NJSLS 6.RP.1–3, 7.RP.1–3";
+const SET_NAMES  = {A:"Ratios & Unit Rates", B:"Proportional Relationships",
+                    C:"Percent as a Rate", D:"Challenge"};
+
+const QUESTIONS = [
+{
+  n:1, set:"A", setTitle:"Ratios & Unit Rates", std:"NJSLS 6.RP.2–3",
+  prompt:"A cookie recipe calls for 3 cups of flour for every 2 cups of sugar. How much sugar is needed for 10.5 cups of flour?",
+  hint:"How many 3-cup groups of flour are in 10.5 cups? Scale the sugar by that same factor.",
+  parts:[{key:"", label:"How many cups of sugar are needed?", type:"num", correct:7, show:"7 cups"}],
+  exp:`<p class="step">The ratio flour : sugar is <span class="calc">3 : 2</span>, so sugar is always two-thirds of the flour.</p>
+       <p class="step">10.5 &divide; 3 = 3.5, so 10.5 cups of flour is 3.5 "batches" of the 3-cup unit. Scale the sugar by the same factor: <span class="calc">2 &times; 3.5 = 7</span>.</p>
+       <p class="step">Equivalently, sugar = (2/3) &times; 10.5 = 7 cups.</p>
+       <div class="strategy"><b>Strategy:</b> find the scale factor between the known and the unknown amount, then apply it to both parts of the ratio.</div>
+       <div class="mistake"><b>Common mistake:</b> subtracting instead of scaling — thinking "flour is 1 more than sugar." Ratios multiply; they don't add.</div>`
+},
+{
+  n:2, set:"A", setTitle:"Ratios & Unit Rates", std:"NJSLS 6.RP.2–3",
+  prompt:"A car travels 189 miles on 7 gallons of gas.",
+  hint:"A unit rate means \"per 1 gallon.\" Once you have it, it works as a multiplier for any number of gallons.",
+  parts:[
+    {key:"a", label:"What is the car's unit rate, in miles per gallon?", type:"num", correct:27, show:"27 miles per gallon"},
+    {key:"b", label:"At that rate, how far can the car travel on 11.5 gallons?", type:"num", correct:310.5, show:"310.5 miles"}
+  ],
+  exp:`<p class="step"><b>(a)</b> A unit rate means "per 1 gallon," so divide: <span class="calc">189 &divide; 7 = 27</span> miles per gallon.</p>
+       <p class="step"><b>(b)</b> Now the unit rate is a multiplier: <span class="calc">27 &times; 11.5 = 310.5</span> miles.<br>
+       Mentally: 27 &times; 11 = 297, plus half of 27 (13.5), gives 310.5.</p>
+       <div class="strategy"><b>Strategy:</b> a unit rate turns a one-off comparison into a tool you can reuse for <em>any</em> amount.</div>`
+},
+{
+  n:3, set:"A", setTitle:"Ratios & Unit Rates", std:"NJSLS 6.RP.2–3",
+  prompt:"Store A sells 5 notebooks for $8.75. Store B sells 8 notebooks for $13.20.",
+  hint:"You can't compare $8.75 with $13.20 directly — the bundles are different sizes. Reduce both to the price of one notebook.",
+  parts:[
+    {key:"a", label:"What does one notebook cost at Store A?", type:"num", correct:1.75, show:"$1.75"},
+    {key:"a", label:"What does one notebook cost at Store B?", type:"num", correct:1.65, show:"$1.65"},
+    {key:"b", label:"Which store is the better buy?", type:"choice", options:["Store A","Store B"], correct:"Store B", show:"Store B"},
+    {key:"c", label:"How much would you save buying 24 notebooks at the better store?", type:"num", correct:2.40, show:"$2.40"}
+  ],
+  exp:`<p class="step"><b>(a)</b> Divide price by quantity.<br>
+       Store A: <span class="calc">8.75 &divide; 5 = 1.75</span> &nbsp;·&nbsp; Store B: <span class="calc">13.20 &divide; 8 = 1.65</span></p>
+       <p class="step"><b>(b)</b> <b>Store B</b> — the lower unit price is the better buy.</p>
+       <p class="step"><b>(c)</b> Store B saves <span class="calc">1.75 &minus; 1.65 = $0.10</span> per notebook, so on 24 notebooks: <span class="calc">24 &times; 0.10 = $2.40</span>.</p>
+       <div class="strategy"><b>Strategy:</b> to compare unequal bundles, reduce both to the same unit — "per one."</div>
+       <div class="mistake"><b>Common mistake:</b> comparing the totals ($8.75 looks cheaper than $13.20) without accounting for the different quantities.</div>`
+},
+{
+  n:4, set:"A", setTitle:"Ratios & Unit Rates", std:"NJSLS 6.RP.3",
+  prompt:"In a class, the ratio of boys to girls is 4:5 and there are 36 students in all.",
+  hint:"A 4:5 ratio splits the class into 4 + 5 = 9 equal parts. How many students is one part?",
+  parts:[
+    {key:"a", label:"How many boys are in the class?", type:"num", correct:16, show:"16 boys"},
+    {key:"a", label:"How many girls are in the class?", type:"num", correct:20, show:"20 girls"},
+    {key:"b", label:"If 6 more boys join the class, what is the new ratio of boys to girls in simplest form?", type:"text", accept:["11:10","11to10","11/10"], show:"11 : 10"}
+  ],
+  exp:`<p class="step"><b>(a)</b> The ratio 4 : 5 has <span class="calc">4 + 5 = 9</span> parts. With 36 students, one part is <span class="calc">36 &divide; 9 = 4</span> students.<br>
+       Boys = 4 &times; 4 = <b>16</b>; Girls = 5 &times; 4 = <b>20</b>. Check: 16 + 20 = 36. &#10003;</p>
+       <p class="step"><b>(b)</b> After 6 boys join there are 22 boys and still 20 girls. Divide both by the GCF of 2: <span class="calc">22 : 20 = 11 : 10</span>.</p>
+       <div class="strategy"><b>Strategy:</b> for a part-to-part ratio with a known total — add the parts, divide the total by that sum to get the value of one part.</div>
+       <div class="mistake"><b>Common mistake:</b> assuming the ratio stays 4:5 after the boys join, or forgetting to simplify 22:20.</div>`
+},
+{
+  n:5, set:"B", setTitle:"Proportional Relationships", std:"NJSLS 7.RP.1–2",
+  prompt:"A cyclist's distance is recorded below.",
+  table:`<table class="data"><tr><th>Time (hours)</th><td>2</td><td>5</td><td>8</td></tr>
+         <tr><th>Distance (miles)</th><td>17</td><td>42.5</td><td>68</td></tr></table>`,
+  hint:"A relationship is proportional when every distance ÷ time ratio gives the same number. Test all three columns.",
+  parts:[
+    {key:"a", label:"How can you tell this is a proportional relationship? Explain what you checked.", type:"self", placeholder:"Explain how you can tell…",
+     show:`Every distance &divide; time ratio is the same: 17&divide;2 = 8.5, 42.5&divide;5 = 8.5, 68&divide;8 = 8.5. A constant ratio means the relationship is proportional.`},
+    {key:"b", label:"What is the constant of proportionality?", type:"num", correct:8.5, show:"8.5 miles per hour"},
+    {key:"b", label:"Write an equation linking distance d to time t.", type:"text", accept:["d=8.5t","8.5t","d=8.5×t","d=(17/2)t","d=17/2t","y=8.5x"], show:"d = 8.5t"},
+    {key:"c", label:"How far would the cyclist travel in 14 hours?", type:"num", correct:119, show:"119 miles"}
+  ],
+  exp:`<p class="step"><b>(a)</b> Test every ratio: <span class="calc">17 &divide; 2 = 8.5</span>, <span class="calc">42.5 &divide; 5 = 8.5</span>, <span class="calc">68 &divide; 8 = 8.5</span>. All equal, so it <b>is</b> proportional.</p>
+       <p class="step"><b>(b)</b> The constant of proportionality is <b>k = 8.5</b> miles per hour, and the equation is <b>d = 8.5t</b>. Notice k is exactly the unit rate.</p>
+       <p class="step"><b>(c)</b> <span class="calc">d = 8.5 &times; 14 = 119</span> miles.</p>
+       <div class="strategy"><b>Strategy:</b> proportional &hArr; constant ratio &hArr; an equation <em>y = kx</em> &hArr; a straight-line graph through the origin. Those four descriptions are one idea in different clothing.</div>`
+},
+{
+  n:6, set:"B", setTitle:"Proportional Relationships", std:"NJSLS 7.RP.2",
+  prompt:"A printing shop charges as follows.",
+  table:`<table class="data"><tr><th>Posters</th><td>3</td><td>6</td><td>9</td></tr>
+         <tr><th>Cost ($)</th><td>7</td><td>13</td><td>19</td></tr></table>`,
+  hint:"Test the cost ÷ posters ratios. Then look at what each extra 3 posters adds — and ask what 0 posters would cost.",
+  parts:[
+    {key:"a", label:"Why is this not a proportional relationship? Explain how you can tell.", type:"self", placeholder:"Explain your reasoning…",
+     show:`The ratios aren't constant: 7/3 &asymp; 2.33, 13/6 &asymp; 2.17, 19/9 &asymp; 2.11. Another tell — 0 posters would still cost $1, so the graph doesn't pass through the origin.`},
+    {key:"b", label:"Write a rule for the cost C of p posters.", type:"text", accept:["c=2p+1","c=1+2p","cost=2p+1","y=2x+1","c=2p+1dollars"], show:"C = 2p + 1"},
+    {key:"b", label:"In your rule, what does each number mean in this situation?", type:"self", placeholder:"What does the 2 mean? What does the 1 mean?",
+     show:`The 2 is the cost per poster — the rate. The 1 is a fixed one-time setup fee that doesn't depend on how many posters you order.`}
+  ],
+  exp:`<p class="step"><b>(a)</b> The ratios are <span class="calc">7/3 &asymp; 2.33</span>, <span class="calc">13/6 &asymp; 2.17</span>, <span class="calc">19/9 &asymp; 2.11</span> — not equal, so it is <b>not</b> proportional. A second tell: 0 posters would cost $1, not $0, so the graph misses the origin.</p>
+       <p class="step"><b>(b)</b> Each additional 3 posters adds $6, so posters cost $2 each, and the leftover dollar is fixed: <b>C = 2p + 1</b>. The 2 is the per-poster rate; the 1 is a one-time setup fee. Check: p = 9 &rarr; 2(9) + 1 = 19. &#10003;</p>
+       <div class="strategy"><b>Strategy:</b> a constant rate alone isn't enough for proportionality — a fixed starting amount breaks it. This <em>y = kx</em> vs. <em>y = mx + b</em> distinction is the bridge into 8th-grade linear functions.</div>`
+},
+{
+  n:7, set:"B", setTitle:"Proportional Relationships", std:"NJSLS 7.RP.2, 7.G.1",
+  prompt:"On a map, 1 inch represents 24 miles.",
+  hint:"A scale is a unit rate: 24 miles per inch. Check the units to decide whether to multiply or divide.",
+  parts:[
+    {key:"a", label:"Two cities are 3.75 inches apart on the map. How far apart are they in real life?", type:"num", correct:90, show:"90 miles"},
+    {key:"b", label:"A third city is 138 real miles away. How far apart would it be on the map?", type:"num", correct:5.75, show:"5.75 inches"}
+  ],
+  exp:`<p class="step"><b>(a)</b> The scale is a rate of 24 miles per inch, so multiply: <span class="calc">3.75 &times; 24 = 90</span> miles. (3 &times; 24 = 72, and 0.75 &times; 24 = 18.)</p>
+       <p class="step"><b>(b)</b> Going the other direction, divide: <span class="calc">138 &divide; 24 = 5.75</span> inches.</p>
+       <div class="strategy"><b>Strategy:</b> multiply to go map &rarr; real, divide to go real &rarr; map. Tracking units tells you which: inches &times; (miles/inch) = miles.</div>`
+},
+{
+  n:8, set:"B", setTitle:"Proportional Relationships", std:"NJSLS 7.RP.1",
+  prompt:"A juice mix uses 2/3 cup of concentrate to make 5 cups of juice.",
+  hint:"For part (a) you want juice per 1 cup of concentrate — divide 5 by 2/3. Expect a number bigger than 5.",
+  parts:[
+    {key:"a", label:"How many cups of juice does 1 cup of concentrate make?", type:"num", correct:7.5, show:"7.5 cups of juice"},
+    {key:"b", label:"How much concentrate do you need to make 18 cups of juice?", type:"num", correct:2.4, show:"2.4 cups (= 2 2/5 cups)"}
+  ],
+  exp:`<p class="step"><b>(a)</b> Divide 5 by 2/3: <span class="calc">5 &divide; 2/3 = 5 &times; 3/2 = 15/2 = 7.5</span> cups of juice per cup of concentrate.</p>
+       <p class="step"><b>(b)</b> Reverse the rate: <span class="calc">18 &divide; 7.5 = 2.4</span> cups of concentrate. Check: 2.4 &times; 7.5 = 18. &#10003;</p>
+       <div class="strategy"><b>Strategy:</b> dividing by a fraction less than 1 makes the answer <em>larger</em> — which makes sense here, since a fraction of a cup of concentrate already yields several cups of juice.</div>
+       <div class="mistake"><b>Common mistake:</b> multiplying by 2/3 instead of dividing. Ask "should this be bigger or smaller?" before computing.</div>`
+},
+{
+  n:9, set:"C", setTitle:"Percent as a Rate", std:"NJSLS 7.RP.3",
+  prompt:"A jacket costs $90 and is marked down 35%. New Jersey sales tax of 6.625% is then applied to the sale price. What is the final amount paid, to the nearest cent?",
+  hint:"A 35% markdown means you pay 65% of the price. Tax goes on the sale price, not the original.",
+  parts:[{key:"", label:"What is the final amount paid, to the nearest cent?", type:"num", correct:62.38, tol:0.015, show:"$62.38"}],
+  exp:`<p class="step"><b>Step 1 — the discount.</b> Paying after a 35% markdown means paying 65%: <span class="calc">90 &times; 0.65 = $58.50</span>.</p>
+       <p class="step"><b>Step 2 — the tax</b>, on the sale price: <span class="calc">58.50 &times; 0.06625 = 3.875625</span> &rarr; <b>$3.88</b> to the nearest cent.</p>
+       <p class="step"><b>Step 3 — the total:</b> <span class="calc">58.50 + 3.88 = $62.38</span>.</p>
+       <div class="strategy"><b>Strategy:</b> for a percent decrease, multiply by (100% &minus; the percent) in one step rather than finding the discount and subtracting. Fewer steps, fewer slips.</div>
+       <div class="mistake"><b>Common mistake:</b> applying the tax to the original $90. Tax is charged on what you actually pay.</div>`
+},
+{
+  n:10, set:"C", setTitle:"Percent as a Rate", std:"NJSLS 7.RP.3",
+  prompt:"The population of a town grew from 1,250 to 1,475 people. What was the percent increase?",
+  hint:"Percent change compares the change to the ORIGINAL amount. Find the change first.",
+  parts:[{key:"", label:"What was the percent increase?", type:"num", correct:18, show:"18%"}],
+  exp:`<p class="step">Find the change: <span class="calc">1,475 &minus; 1,250 = 225</span>.</p>
+       <p class="step">Compare it to the original: <span class="calc">225 &divide; 1,250 = 0.18</span> &rarr; an <b>18% increase</b>.</p>
+       <div class="strategy"><b>Strategy:</b> percent change = (new &minus; old) &divide; old. The denominator is always the <em>starting</em> value — that's what makes it a percent <em>of</em> something.</div>
+       <div class="mistake"><b>Common mistake:</b> dividing by the new value (1,475) instead of the original.</div>`
+},
+{
+  n:11, set:"C", setTitle:"Percent as a Rate", std:"NJSLS 7.RP.3",
+  prompt:"Priya deposits $1,200 in an account earning 4.5% simple interest per year.",
+  hint:"Simple interest: I = P · r · t. Write 4.5% as 0.045.",
+  parts:[
+    {key:"a", label:"How much interest does she earn in 3 years?", type:"num", correct:162, show:"$162"},
+    {key:"b", label:"What is her account balance after 3 years?", type:"num", correct:1362, show:"$1,362"}
+  ],
+  exp:`<p class="step"><b>(a)</b> Use <span class="calc">I = P &middot; r &middot; t</span> with P = 1,200, r = 0.045, t = 3:<br>
+       <span class="calc">1,200 &times; 0.045 = 54</span>, then <span class="calc">54 &times; 3 = $162</span>.</p>
+       <p class="step"><b>(b)</b> Balance = <span class="calc">1,200 + 162 = $1,362</span>.</p>
+       <div class="strategy"><b>Strategy:</b> with <em>simple</em> interest the same $54 is earned every year, because interest is always figured on the original principal — unlike compound interest, where it builds on itself.</div>`
+},
+{
+  n:12, set:"D", setTitle:"Challenge", std:"NJSLS 7.RP.1 · multi-step",
+  prompt:"Ana can paint 3 rooms in 5 hours. Ben can paint 2 rooms in 4 hours. Working together at these same rates, how long will it take them to paint 9 rooms? Give your answer as an exact fraction of an hour and also in hours and minutes.",
+  hint:"Do NOT average their times. Convert each to a rate in rooms per hour, add the rates, then divide the job by the combined rate.",
+  parts:[
+    {key:"a", label:"How long will it take them, as an exact fraction of an hour?", type:"num", correct:8.181818, tol:0.02, show:"90/11 hours = 8 2/11 hours"},
+    {key:"b", label:"Write that same answer in hours and minutes.", type:"text", re:"8[^0-9]*(hours?|hrs?|h)?[^0-9]*1[01]", show:"about 8 hours 11 minutes"}
+  ],
+  exp:`<p class="step"><b>Step 1 — each person's rate</b> in rooms per hour.<br>
+       Ana: <span class="calc">3 &divide; 5 = 0.6</span> rooms/hour &nbsp;·&nbsp; Ben: <span class="calc">2 &divide; 4 = 0.5</span> rooms/hour</p>
+       <p class="step"><b>Step 2 — add the rates</b>, since they work at the same time: <span class="calc">0.6 + 0.5 = 1.1</span> rooms/hour (or 11/10).</p>
+       <p class="step"><b>Step 3 — divide the job by the combined rate:</b> <span class="calc">9 &divide; 11/10 = 9 &times; 10/11 = 90/11</span> hours = <b>8 2/11 hours</b>.</p>
+       <p class="step"><b>Step 4 — convert to minutes:</b> <span class="calc">2/11 &times; 60 &asymp; 10.9</span>, so about <b>8 hours 11 minutes</b>.</p>
+       <div class="strategy"><b>Strategy:</b> never average the two <em>times</em> — that's the classic trap. Rates add; times don't.</div>
+       <div class="mistake"><b>Sanity check:</b> Ana alone would need 15 hours for 9 rooms and Ben alone 18 hours, so a shared time of about 8 hours is sensible — less than either one alone, as it must be.</div>`
+}
+];
+/* ===== END DAILY DATA ===== */
+
+/* ===== PROGRAM CONFIG — stable across days, do not change per run ===== */
+const RESULTS_EMAIL = "patadiakd@gmail.com";   // where "Email my results" sends
+const RESULTS_TO_LABEL = "Dad";
+
+/* header */
+document.getElementById("hDate").textContent  = DATE_LABEL;
+document.getElementById("hTopic").textContent = `Topic Day ${TOPIC_DAY} — ${TOPIC_NAME}`;
+document.getElementById("hMeta").textContent  =
+  `${QUESTIONS.length} questions · ${STANDARDS} · No calculator except the money problems`;
+document.title = `Math Honors — ${DATE_LABEL}`;
+
+/* ===================================================================
+   STATE
+   =================================================================== */
+let submitted = false;
+const startedAt = Date.now();
+const selfMarks = {};     // partId -> true/false
+const hintsUsed = {};     // qn -> true
+let fieldIds = [];
+
+/* ===================================================================
+   ANSWER CHECKING
+   =================================================================== */
+const UNIT_WORDS = /\b(cups?|cup|miles?|mph|mpg|miles per gallon|per gallon|gallons?|inches|inch|in\b|hours?|hrs?|hr|minutes?|mins?|min|students?|boys?|girls?|people|persons?|dollars?|dollar|cents?|percent|each|rooms?|posters?|notebooks?|apiece|about|approx\.?|approximately|around)\b/g;
+
+function parseNum(raw){
+  if(raw === null || raw === undefined) return null;
+  let t = String(raw).toLowerCase().trim();
+  if(!t) return null;
+  t = t.replace(/[$,]/g,"").replace(/%/g,"").replace(UNIT_WORDS," ").replace(/\s+/g," ").trim();
+  let m = t.match(/^(-?\d+)\s+(\d+)\s*\/\s*(\d+)$/);            // mixed: 8 2/11
+  if(m) return parseInt(m[1],10) + parseInt(m[2],10)/parseInt(m[3],10);
+  m = t.match(/^(-?\d+)\s*\/\s*(\d+)$/);                         // fraction: 90/11
+  if(m) return parseInt(m[1],10)/parseInt(m[2],10);
+  m = t.match(/^-?\d*\.?\d+$/);                                  // plain
+  if(m) return parseFloat(t);
+  m = t.match(/-?\d*\.?\d+/);                                    // first number found
+  return m ? parseFloat(m[0]) : null;
+}
+
+function normText(raw){
+  return String(raw||"").toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×·]/g,"")
+    .replace(/[$,]/g,"")
+    .replace(/\.$/,"")
+    .replace(/\bto\b/g,"to");
+}
+
+function isCorrect(part, raw){
+  if(raw === null || raw === undefined || String(raw).trim() === "") return false;
+  if(part.type === "num"){
+    const v = parseNum(raw);
+    if(v === null) return false;
+    const tol = part.tol !== undefined ? part.tol : 0.005;
+    return Math.abs(v - part.correct) <= tol;
+  }
+  if(part.type === "choice") return String(raw) === part.correct;
+  if(part.type === "text"){
+    const n = normText(raw);
+    if(part.accept && part.accept.some(a => normText(a) === n)) return true;
+    if(part.re) return new RegExp(part.re,"i").test(String(raw).toLowerCase());
+    return false;
+  }
+  return false;
+}
+
+/* ===================================================================
+   RENDER
+   =================================================================== */
+const qRoot = document.getElementById("questions");
+let lastSet = null;
+
+QUESTIONS.forEach(q => {
+  if(q.set !== lastSet){
+    lastSet = q.set;
+    const sh = document.createElement("div");
+    sh.className = "setheader";
+    sh.innerHTML = `<h2>Set ${q.set} — ${q.setTitle}</h2><div class="std">${q.std}</div>`;
+    qRoot.appendChild(sh);
+  }
+
+  const card = document.createElement("section");
+  card.className = "q";
+  card.id = "q" + q.n;
+
+  let html = `<div class="qhead"><div class="qnum">${q.n}.</div><div class="prompt">${q.prompt}</div></div>`;
+  if(q.table) html += q.table;
+  html += `<div class="parts">`;
+
+  q.parts.forEach((p, i) => {
+    const fid = `f-${q.n}-${i}`;
+    fieldIds.push({fid, q, p, i});
+    const lab = (p.key ? `<span class="pk">(${p.key})</span> ` : "") + p.label;
+    if(p.type === "choice"){
+      html += `<div class="part"><div class="plabel">${lab}</div><div class="radios">` +
+        p.options.map(o => `<label><input type="radio" name="${fid}" value="${o}"> ${o}</label>`).join("") +
+        `</div></div>`;
+    } else if(p.type === "self"){
+      html += `<div class="part" style="flex-direction:column;align-items:stretch">
+                 <div class="plabel" style="padding-top:0">${lab}</div>
+                 <textarea class="ans" id="${fid}" placeholder="${p.placeholder||"Write your reasoning…"}"></textarea>
+                 <div class="explain-note">Written answer — you'll compare it to the model answer and mark yourself.</div>
+               </div>`;
+    } else {
+      html += `<div class="part"><div class="plabel">${lab}</div>
+                 <input class="ans" id="${fid}" type="text" autocomplete="off" inputmode="text"></div>`;
+    }
+  });
+  html += `</div>`;
+
+  if(q.hint){
+    html += `<button class="hintbtn" type="button" data-hint="${q.n}">Need a hint?</button>
+             <div class="hint" id="hint-${q.n}">${q.hint}</div>`;
+  }
+  html += `<div class="result" id="res-${q.n}"></div>`;
+
+  card.innerHTML = html;
+  qRoot.appendChild(card);
+});
+
+document.getElementById("totalCount").textContent = fieldIds.length;
+
+/* hints */
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-hint]");
+  if(!b) return;
+  const n = b.getAttribute("data-hint");
+  const h = document.getElementById("hint-" + n);
+  h.classList.toggle("show");
+  b.textContent = h.classList.contains("show") ? "Hide hint" : "Need a hint?";
+  if(h.classList.contains("show")) hintsUsed[n] = true;
+});
+
+/* ===================================================================
+   PROGRESS
+   =================================================================== */
+function readField(f){
+  if(f.p.type === "choice"){
+    const sel = document.querySelector(`input[name="${f.fid}"]:checked`);
+    return sel ? sel.value : "";
+  }
+  const el = document.getElementById(f.fid);
+  return el ? el.value : "";
+}
+
+function updateProgress(){
+  if(submitted) return;
+  const filled = fieldIds.filter(f => String(readField(f)).trim() !== "").length;
+  document.getElementById("answeredCount").textContent = filled;
+  document.getElementById("fill").style.width = (filled / fieldIds.length * 100) + "%";
+  const left = fieldIds.length - filled;
+  document.getElementById("progHint").textContent =
+    left === 0 ? "All filled — ready to check" : `${left} left`;
+}
+qRoot.addEventListener("input", updateProgress);
+qRoot.addEventListener("change", updateProgress);
+updateProgress();
+
+/* timer */
+const timerBadge = document.getElementById("timerBadge");
+setInterval(() => {
+  if(submitted) return;
+  const s = Math.floor((Date.now() - startedAt)/1000);
+  timerBadge.textContent = `Time: ${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
+}, 1000);
+
+/* ===================================================================
+   STORAGE
+   =================================================================== */
+const syncBadge = document.getElementById("syncBadge");
+const WIP_KEY  = "mathwip:" + DATE_KEY;
+const DONE_KEY = "mathlog:" + DATE_KEY;
+
+function setBadge(text, cls){
+  syncBadge.textContent = text;
+  syncBadge.className = "badge " + (cls || "");
+}
+
+/* Save work in progress, so she can close the tab and come back later. */
+let saveTimer = null;
+function saveProgress(){
+  if(submitted) return;
+  try{
+    localStorage.setItem(WIP_KEY, JSON.stringify({
+      date: DATE_KEY,
+      savedAt: new Date().toISOString(),
+      fields: fieldIds.map(readField)
+    }));
+    setBadge("Saved — you can close this and come back", "live");
+  }catch(e){
+    setBadge("Couldn't save on this computer", "local");
+  }
+}
+function queueSave(){
+  if(submitted) return;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveProgress, 600);
+}
+qRoot.addEventListener("input", queueSave);
+qRoot.addEventListener("change", queueSave);
+window.addEventListener("beforeunload", () => { clearTimeout(saveTimer); saveProgress(); });
+
+function restoreWip(rec){
+  if(!rec || !Array.isArray(rec.fields) || submitted) return 0;
+  let n = 0;
+  fieldIds.forEach((f, idx) => {
+    const v = rec.fields[idx];
+    if(v === undefined || v === null || v === "") return;
+    if(f.p.type === "choice"){
+      const el = document.querySelector(`input[name="${f.fid}"][value="${String(v).replace(/"/g,"")}"]`);
+      if(el){ el.checked = true; n++; }
+    } else {
+      const el = document.getElementById(f.fid);
+      if(el){ el.value = v; n++; }
+    }
+  });
+  if(n) updateProgress();
+  return n;
+}
+
+(function initStorage(){
+  let done = null, wip = null;
+  try{ done = JSON.parse(localStorage.getItem(DONE_KEY) || "null"); }catch(e){}
+  try{ wip  = JSON.parse(localStorage.getItem(WIP_KEY)  || "null"); }catch(e){}
+
+  if(done && Array.isArray(done.fields)){
+    restorePrior(done);
+    return;
+  }
+  const n = wip ? restoreWip(wip) : 0;
+  if(n){
+    setBadge(n + (n === 1 ? " answer" : " answers") + " picked back up", "live");
+  } else {
+    setBadge("Your answers save as you type", "");
+  }
+})();
+
+function restorePrior(rec){
+  if(!rec || !rec.fields || submitted) return;
+  fieldIds.forEach((f, idx) => {
+    const v = rec.fields[idx];
+    if(v === undefined || v === null) return;
+    if(f.p.type === "choice"){
+      const el = document.querySelector(`input[name="${f.fid}"][value="${String(v).replace(/"/g,"")}"]`);
+      if(el) el.checked = true;
+    } else {
+      const el = document.getElementById(f.fid);
+      if(el) el.value = v;
+    }
+  });
+  if(rec.selfMarks) Object.assign(selfMarks, rec.selfMarks);
+  updateProgress();
+  grade(true);
+  document.getElementById("barNote").textContent = "You already finished this one — this is your review.";
+}
+
+function persist(rec){
+  try{
+    localStorage.setItem(DONE_KEY, JSON.stringify(rec));
+    localStorage.removeItem(WIP_KEY);
+    setBadge("Finished and saved", "live");
+  }catch(e){
+    setBadge("Couldn't save on this computer", "local");
+  }
+}
+
+/* ===================================================================
+   GRADE & REVEAL
+   =================================================================== */
+function esc(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+function grade(isRestore){
+  submitted = true;
+  const fields = fieldIds.map(readField);
+  const perQ = [];
+
+  QUESTIONS.forEach(q => {
+    const mine = fieldIds.filter(f => f.q.n === q.n);
+    const res = document.getElementById("res-" + q.n);
+    let autoRight = 0, autoTotal = 0, selfTotal = 0;
+    let rows = "";
+
+    mine.forEach(f => {
+      const raw = readField(f);
+      const p = f.p;
+      if(p.type === "self"){
+        selfTotal++;
+        rows += `<div><span class="lab">Your answer</span><span class="mine">${raw.trim() ? esc(raw) : "—"}</span></div>
+                 <div><span class="lab">Model answer</span><span class="theirs">${p.show}</span></div>`;
+      } else {
+        autoTotal++;
+        const ok = isCorrect(p, raw);
+        if(ok) autoRight++;
+        const rowLab = p.label.length > 52 ? p.label.slice(0, 49) + "\u2026" : p.label;
+        rows += `<div><span class="lab">${esc(rowLab)}</span>
+                   <span class="mine ${ok?"right":"wrong"}">${raw.trim() ? esc(raw) : "(blank)"}</span>
+                   ${ok ? ` <span class="tick">&#10003;</span>`
+                        : ` <span class="cross">&#10007;</span> <span class="lab" style="min-width:0">correct answer:</span> <span class="theirs">${p.show}</span>`}</div>`;
+      }
+    });
+
+    let vclass = "ok", vtext = "Correct";
+    if(autoTotal === 0){ vclass = "self"; vtext = "Check yourself"; }
+    else if(autoRight === 0){ vclass = "no"; vtext = "Not yet"; }
+    else if(autoRight < autoTotal){ vclass = "no"; vtext = `${autoRight} of ${autoTotal} parts right`; }
+
+    let selfHtml = "";
+    mine.forEach((f, i) => {
+      if(f.p.type !== "self") return;
+      const pid = `${q.n}-${f.i}`;
+      const cur = selfMarks[pid];
+      selfHtml += `<div class="selfmark" data-pid="${pid}">
+          <p>Did your reasoning match the model answer?</p>
+          <div class="btns">
+            <button class="smbtn yes" type="button" data-mark="1" aria-pressed="${cur===true}">Yes, I had it</button>
+            <button class="smbtn no" type="button" data-mark="0" aria-pressed="${cur===false}">Not quite</button>
+          </div></div>`;
+    });
+
+    res.innerHTML = `<div class="verdict ${vclass}">${vtext}</div>
+                     <div class="cmp">${rows}</div>
+                     <div class="exp"><h4>Explanation</h4>${q.exp}</div>
+                     ${selfHtml}`;
+    res.classList.add("show");
+
+    perQ.push({n:q.n, set:q.set, autoRight, autoTotal, selfTotal, hint: !!hintsUsed[q.n]});
+  });
+
+  /* lock inputs */
+  document.querySelectorAll("input.ans, textarea.ans, select.ans").forEach(el => el.disabled = true);
+  document.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = true);
+  document.querySelectorAll(".hintbtn").forEach(el => el.style.display = "none");
+
+  const btn = document.getElementById("submitBtn");
+  btn.textContent = "Checked";
+  btn.disabled = true;
+  document.getElementById("barNote").textContent =
+    "Scroll through — every question now shows the worked explanation.";
+
+  const elapsed = isRestore ? null : Math.round((Date.now() - startedAt)/1000);
+  window.__elapsed = elapsed;
+
+  const rTot = perQ.reduce((a,p) => a + p.autoTotal, 0);
+  const rRight = perQ.reduce((a,p) => a + p.autoRight, 0);
+  document.querySelector(".progrow").innerHTML =
+    `<span>Submitted — <strong>${rRight} of ${rTot}</strong> auto-graded parts correct</span>
+     <span>Explanations unlocked</span>`;
+  const fillEl = document.getElementById("fill");
+  fillEl.style.width = "100%";
+  fillEl.style.background = rRight/rTot >= 0.85 ? "#1a7a4c" : rRight/rTot >= 0.65 ? "#3b4c9e" : "#b3261e";
+
+  renderScore(perQ);
+
+  const rec = {
+    date: DATE_KEY, topicDay: TOPIC_DAY, topic: TOPIC_NAME,
+    submittedAt: new Date().toISOString(),
+    seconds: elapsed,
+    fields, selfMarks, perQuestion: perQ,
+    autoScore: perQ.reduce((a,p) => a + p.autoRight, 0),
+    autoTotal: perQ.reduce((a,p) => a + p.autoTotal, 0),
+    hintsUsed: Object.keys(hintsUsed).length
+  };
+  if(!isRestore) persist(rec);
+  window.__rec = rec;
+}
+
+function renderScore(perQ){
+  const right = perQ.reduce((a,p) => a + p.autoRight, 0);
+  const total = perQ.reduce((a,p) => a + p.autoTotal, 0);
+  const pct = total ? Math.round(right/total*100) : 0;
+
+  document.getElementById("ringPct").textContent = pct + "%";
+  document.getElementById("ringRaw").textContent = right + "/" + total;
+  const circ = 2 * Math.PI * 41;
+  document.getElementById("ringArc").style.strokeDashoffset = circ * (1 - pct/100);
+  document.getElementById("ringArc").style.stroke =
+    pct >= 85 ? "#1a7a4c" : pct >= 65 ? "#3b4c9e" : "#b3261e";
+
+  let title, msg;
+  if(pct === 100){ title = "Every auto-graded part correct"; msg = "Clean sweep on the computed answers. Still read the explanations — the reasoning behind a right answer is the part that transfers to harder problems."; }
+  else if(pct >= 85){ title = "Strong work"; msg = "A couple of slips only. Read the explanations on the ones marked ✗ and note which step broke down — that's usually where the real lesson is."; }
+  else if(pct >= 65){ title = "Solid, with gaps to close"; msg = "The method is mostly there. Work carefully through the explanations below on the missed questions, then redo those problems on paper without looking."; }
+  else { title = "Worth a second pass"; msg = "Read every explanation below slowly — they show the setup step by step. Then try the missed questions again on paper. This topic repeats in the rotation, so you'll get another shot."; }
+  document.getElementById("scoreTitle").textContent = title;
+  document.getElementById("scoreMsg").textContent = msg;
+
+  const bySet = {};
+  perQ.forEach(p => {
+    if(!bySet[p.set]) bySet[p.set] = {r:0,t:0};
+    bySet[p.set].r += p.autoRight; bySet[p.set].t += p.autoTotal;
+  });
+  document.getElementById("breakdown").innerHTML =
+    Object.keys(bySet).sort().map(k =>
+      `<div class="bd"><div class="t">Set ${k} · ${SET_NAMES[k]||""}</div>
+        <div class="v">${bySet[k].t ? bySet[k].r + " / " + bySet[k].t : "self-check"}</div></div>`
+    ).join("");
+
+  const missed = perQ.filter(p => p.autoTotal && p.autoRight < p.autoTotal).map(p => p.n);
+  const written = QUESTIONS.filter(q => q.parts.some(p => p.type === "self")).map(q => q.n);
+  const rl = document.getElementById("reviewList");
+  rl.innerHTML = missed.length
+    ? `<b>Review these:</b> ` + missed.map(n => `<a href="#q${n}">Q${n}</a>`).join(" · ")
+    : `<b>Nothing flagged.</b>` + (written.length
+        ? ` Compare your written answers on ` + written.map(n => `<a href="#q${n}">Q${n}</a>`).join(" · ") + ` against the model answers before you close this.`
+        : ` Read the explanations before you close this.`);
+
+  buildSendBack(perQ, right, total, missed);
+  window.__rebuildSend = () => buildSendBack(perQ, right, total, missed);
+
+  document.getElementById("scorecard").classList.add("show");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* ---------- send results back by email (no account needed) ---------- */
+function buildSendBack(perQ, right, total, missed){
+  const el = window.__elapsed;
+  const timeStr = (el === null || el === undefined) ? null
+                : el < 60 ? `${el} sec` : `${Math.round(el/60)} min`;
+
+  const writtenBits = [];
+  QUESTIONS.forEach(q => {
+    q.parts.forEach((p, i) => {
+      if(p.type !== "self") return;
+      const mark = selfMarks[`${q.n}-${i}`];
+      writtenBits.push(`Q${q.n}${p.key || ""} — ` + (mark === true ? "got it" : mark === false ? "not quite" : "not marked"));
+    });
+  });
+
+  const lines = [
+    `Math — ${DATE_LABEL}`,
+    `Topic: ${TOPIC_NAME}`,
+    ``,
+    `Score: ${right} / ${total}`,
+    timeStr ? `Time: ${timeStr}` : null,
+    `Hints opened: ${Object.keys(hintsUsed).length}`,
+    missed.length ? `Missed: ${missed.map(n => "Q"+n).join(", ")}` : `Missed: none`,
+    writtenBits.length ? `Written answers: ${writtenBits.join("; ")}` : null,
+    ``,
+    `Per question: ` + perQ.map(p => `Q${p.n} ${p.autoTotal ? p.autoRight+"/"+p.autoTotal : "written"}`).join(", "),
+    ``,
+    `(Sent from the worksheet page)`
+  ].filter(x => x !== null);
+
+  const text = lines.join("\n");
+  document.getElementById("resultsText").value = text;
+
+  const subject = `Math results — ${DATE_LABEL} — ${right}/${total}`;
+  const href = `mailto:${encodeURIComponent(RESULTS_EMAIL)}`
+             + `?subject=${encodeURIComponent(subject)}`
+             + `&body=${encodeURIComponent(text)}`;
+
+  const done = document.getElementById("sendDone");
+
+  document.getElementById("emailResultsBtn").onclick = () => {
+    window.location.href = href;
+    done.textContent = `Your email app should be opening — just press send. If nothing happened, use "Copy instead".`;
+    done.classList.add("show");
+  };
+
+  document.getElementById("copyResultsBtn").onclick = async () => {
+    const ta = document.getElementById("resultsText");
+    ta.classList.add("show");
+    let ok = false;
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        await navigator.clipboard.writeText(text); ok = true;
+      }
+    }catch(e){}
+    if(!ok){ try{ ta.select(); ok = document.execCommand("copy"); }catch(e){} }
+    done.textContent = ok
+      ? `Copied. Reply to the email that sent you this worksheet and paste it in.`
+      : `Select the text below, copy it, and paste it into a reply to the worksheet email.`;
+    done.classList.add("show");
+  };
+}
+
+/* self-marking */
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-mark]");
+  if(!b) return;
+  const box = b.closest(".selfmark");
+  const pid = box.getAttribute("data-pid");
+  const val = b.getAttribute("data-mark") === "1";
+  selfMarks[pid] = val;
+  box.querySelectorAll(".smbtn").forEach(x => x.setAttribute("aria-pressed","false"));
+  b.setAttribute("aria-pressed","true");
+  if(window.__rec){ window.__rec.selfMarks = selfMarks; persist(window.__rec); }
+  if(window.__rebuildSend) window.__rebuildSend();
+});
+
+/* submit */
+document.getElementById("submitBtn").addEventListener("click", () => {
+  const blanks = fieldIds.filter(f => String(readField(f)).trim() === "").length;
+  const note = document.getElementById("barNote");
+  if(blanks > 0 && !note.dataset.warned){
+    note.dataset.warned = "1";
+    note.textContent = `${blanks} blank${blanks>1?"s":""} left. Press again to check anyway.`;
+    note.style.color = "#8a5a00";
+    return;
+  }
+  note.style.color = "";
+  grade(false);
+});
+
+document.getElementById("printBtn").addEventListener("click", () => window.print());
+</script>
+</body>
+</html>
