@@ -77,6 +77,13 @@
   .hint{display:none;margin-top:9px;font-size:14px;background:var(--accent-soft);border-left:3px solid var(--accent);
         padding:10px 13px;border-radius:0 7px 7px 0;color:#2c3870}
   .hint.show{display:block}
+  .skiprow{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:10px}
+  .skipbtn{background:none;border:none;color:var(--muted);font-size:13px;font-weight:600;
+           cursor:pointer;padding:4px 0;font-family:var(--sans);text-decoration:underline}
+  .q.skipped{background:#f7f5f0;border-style:dashed}
+  .q.skipped .parts{opacity:.45}
+  .verdict.skip{background:#f1eee6;color:#55524c}
+  .skipnote{font-size:13.5px;color:var(--muted);margin:0 0 12px;font-style:italic}
 
   /* ---------- results ---------- */
   .result{display:none;margin-top:17px;border-top:1px dashed var(--line);padding-top:15px}
@@ -455,6 +462,7 @@ let submitted = false;
 const startedAt = Date.now();
 const selfMarks = {};     // partId -> true/false
 const hintsUsed = {};     // qn -> true
+const skipped   = {};     // qn -> true ("I don't know this one")
 let fieldIds = [];
 
 /* ===================================================================
@@ -548,10 +556,11 @@ QUESTIONS.forEach(q => {
   });
   html += `</div>`;
 
-  if(q.hint){
-    html += `<button class="hintbtn" type="button" data-hint="${q.n}">Need a hint?</button>
-             <div class="hint" id="hint-${q.n}">${q.hint}</div>`;
-  }
+  html += `<div class="skiprow">`;
+  if(q.hint) html += `<button class="hintbtn" type="button" data-hint="${q.n}">Need a hint?</button>`;
+  html += `<button class="skipbtn" type="button" data-skip="${q.n}">I haven't learned this one &mdash; skip it</button>`;
+  html += `</div>`;
+  if(q.hint) html += `<div class="hint" id="hint-${q.n}">${q.hint}</div>`;
   html += `<div class="result" id="res-${q.n}"></div>`;
 
   card.innerHTML = html;
@@ -571,6 +580,27 @@ qRoot.addEventListener("click", e => {
   if(h.classList.contains("show")) hintsUsed[n] = true;
 });
 
+/* skipping — honest "I don't know", not a wrong answer */
+function applySkipUI(n){
+  const card = document.getElementById("q" + n);
+  if(!card) return;
+  const off = !!skipped[n];
+  card.classList.toggle("skipped", off);
+  card.querySelectorAll("input.ans, textarea.ans").forEach(el => el.disabled = off);
+  card.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = off);
+  const b = card.querySelector("[data-skip]");
+  if(b) b.innerHTML = off ? "Actually, let me try this one" : "I haven't learned this one &mdash; skip it";
+}
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-skip]");
+  if(!b || submitted) return;
+  const n = b.getAttribute("data-skip");
+  skipped[n] = !skipped[n];
+  applySkipUI(n);
+  updateProgress();
+  queueSave();
+});
+
 /* ===================================================================
    PROGRESS
    =================================================================== */
@@ -585,12 +615,12 @@ function readField(f){
 
 function updateProgress(){
   if(submitted) return;
-  const filled = fieldIds.filter(f => String(readField(f)).trim() !== "").length;
+  const filled = fieldIds.filter(f => skipped[f.q.n] || String(readField(f)).trim() !== "").length;
   document.getElementById("answeredCount").textContent = filled;
   document.getElementById("fill").style.width = (filled / fieldIds.length * 100) + "%";
   const left = fieldIds.length - filled;
   document.getElementById("progHint").textContent =
-    left === 0 ? "All filled — ready to check" : `${left} left`;
+    left === 0 ? "All done — ready to check" : `${left} left`;
 }
 qRoot.addEventListener("input", updateProgress);
 qRoot.addEventListener("change", updateProgress);
@@ -624,7 +654,8 @@ function saveProgress(){
     localStorage.setItem(WIP_KEY, JSON.stringify({
       date: DATE_KEY,
       savedAt: new Date().toISOString(),
-      fields: fieldIds.map(readField)
+      fields: fieldIds.map(readField),
+      skipped: Object.keys(skipped).filter(k => skipped[k])
     }));
     setBadge("Saved — you can close this and come back", "live");
   }catch(e){
@@ -654,6 +685,9 @@ function restoreWip(rec){
       if(el){ el.value = v; n++; }
     }
   });
+  if(Array.isArray(rec.skipped)){
+    rec.skipped.forEach(k => { skipped[k] = true; applySkipUI(k); n++; });
+  }
   if(n) updateProgress();
   return n;
 }
@@ -689,6 +723,7 @@ function restorePrior(rec){
     }
   });
   if(rec.selfMarks) Object.assign(selfMarks, rec.selfMarks);
+  if(Array.isArray(rec.skipped)) rec.skipped.forEach(k => { skipped[k] = true; });
   updateProgress();
   grade(true);
   document.getElementById("barNote").textContent = "You already finished this one — this is your review.";
@@ -720,6 +755,7 @@ function grade(isRestore){
     const mine = fieldIds.filter(f => f.q.n === q.n);
     const res = document.getElementById("res-" + q.n);
     let autoRight = 0, autoTotal = 0, selfTotal = 0;
+    const isSkip = !!skipped[q.n];
     let rows = "";
 
     mine.forEach(f => {
@@ -731,7 +767,7 @@ function grade(isRestore){
                  <div><span class="lab">Model answer</span><span class="theirs">${p.show}</span></div>`;
       } else {
         autoTotal++;
-        const ok = isCorrect(p, raw);
+        const ok = !isSkip && isCorrect(p, raw);
         if(ok) autoRight++;
         const rowLab = p.label.length > 52 ? p.label.slice(0, 49) + "\u2026" : p.label;
         rows += `<div><span class="lab">${esc(rowLab)}</span>
@@ -742,7 +778,8 @@ function grade(isRestore){
     });
 
     let vclass = "ok", vtext = "Correct";
-    if(autoTotal === 0){ vclass = "self"; vtext = "Check yourself"; }
+    if(isSkip){ vclass = "skip"; vtext = "Skipped — here's how it works"; }
+    else if(autoTotal === 0){ vclass = "self"; vtext = "Check yourself"; }
     else if(autoRight === 0){ vclass = "no"; vtext = "Not yet"; }
     else if(autoRight < autoTotal){ vclass = "no"; vtext = `${autoRight} of ${autoTotal} parts right`; }
 
@@ -760,12 +797,14 @@ function grade(isRestore){
     });
 
     res.innerHTML = `<div class="verdict ${vclass}">${vtext}</div>
+                     ${isSkip ? `<p class="skipnote">You said you hadn't learned this one, so it isn't counted against your score — but read it through, because it'll come back in a day or two.</p>` : ""}
                      <div class="cmp">${rows}</div>
                      <div class="exp"><h4>Explanation</h4>${q.exp}</div>
                      ${selfHtml}`;
     res.classList.add("show");
 
-    perQ.push({n:q.n, set:q.set, autoRight, autoTotal, selfTotal, hint: !!hintsUsed[q.n]});
+    perQ.push({n:q.n, set:q.set, setTitle:q.setTitle, std:q.std, autoRight, autoTotal,
+               selfTotal, skipped:isSkip, hint: !!hintsUsed[q.n]});
   });
 
   /* lock inputs */
@@ -782,24 +821,29 @@ function grade(isRestore){
   const elapsed = isRestore ? null : Math.round((Date.now() - startedAt)/1000);
   window.__elapsed = elapsed;
 
-  const rTot = perQ.reduce((a,p) => a + p.autoTotal, 0);
-  const rRight = perQ.reduce((a,p) => a + p.autoRight, 0);
+  const att = perQ.filter(p => !p.skipped);
+  const rTot = att.reduce((a,p) => a + p.autoTotal, 0);
+  const rRight = att.reduce((a,p) => a + p.autoRight, 0);
+  const nSkip = perQ.filter(p => p.skipped).length;
   document.querySelector(".progrow").innerHTML =
-    `<span>Submitted — <strong>${rRight} of ${rTot}</strong> auto-graded parts correct</span>
+    `<span>Submitted — <strong>${rRight} of ${rTot}</strong> correct${nSkip ? `, ${nSkip} skipped` : ""}</span>
      <span>Explanations unlocked</span>`;
   const fillEl = document.getElementById("fill");
   fillEl.style.width = "100%";
-  fillEl.style.background = rRight/rTot >= 0.85 ? "#1a7a4c" : rRight/rTot >= 0.65 ? "#3b4c9e" : "#b3261e";
+  const rPct = rTot ? rRight/rTot : 0;
+  fillEl.style.background = rPct >= 0.85 ? "#1a7a4c" : rPct >= 0.65 ? "#3b4c9e" : "#b3261e";
 
   renderScore(perQ);
 
   const rec = {
     date: DATE_KEY, topicDay: TOPIC_DAY, topic: TOPIC_NAME,
+    fieldsSkipped: Object.keys(skipped).filter(k => skipped[k]),
     submittedAt: new Date().toISOString(),
     seconds: elapsed,
     fields, selfMarks, perQuestion: perQ,
-    autoScore: perQ.reduce((a,p) => a + p.autoRight, 0),
-    autoTotal: perQ.reduce((a,p) => a + p.autoTotal, 0),
+    autoScore: rRight,
+    autoTotal: rTot,
+    skipped: perQ.filter(p => p.skipped).map(p => p.n),
     hintsUsed: Object.keys(hintsUsed).length
   };
   if(!isRestore) persist(rec);
@@ -807,8 +851,10 @@ function grade(isRestore){
 }
 
 function renderScore(perQ){
-  const right = perQ.reduce((a,p) => a + p.autoRight, 0);
-  const total = perQ.reduce((a,p) => a + p.autoTotal, 0);
+  const att = perQ.filter(p => !p.skipped);
+  const skippedQs = perQ.filter(p => p.skipped);
+  const right = att.reduce((a,p) => a + p.autoRight, 0);
+  const total = att.reduce((a,p) => a + p.autoTotal, 0);
   const pct = total ? Math.round(right/total*100) : 0;
 
   document.getElementById("ringPct").textContent = pct + "%";
@@ -819,15 +865,19 @@ function renderScore(perQ){
     pct >= 85 ? "#1a7a4c" : pct >= 65 ? "#3b4c9e" : "#b3261e";
 
   let title, msg;
-  if(pct === 100){ title = "Every auto-graded part correct"; msg = "Clean sweep on the computed answers. Still read the explanations — the reasoning behind a right answer is the part that transfers to harder problems."; }
+  if(total === 0){ title = "Nothing marked today"; msg = "You skipped every question, so there's no score — but every explanation is open below. Read them, and these topics will come back in your next few sets."; }
+  else if(pct === 100){ title = "Every auto-graded part correct"; msg = "Clean sweep on the computed answers. Still read the explanations — the reasoning behind a right answer is the part that transfers to harder problems."; }
   else if(pct >= 85){ title = "Strong work"; msg = "A couple of slips only. Read the explanations on the ones marked ✗ and note which step broke down — that's usually where the real lesson is."; }
   else if(pct >= 65){ title = "Solid, with gaps to close"; msg = "The method is mostly there. Work carefully through the explanations below on the missed questions, then redo those problems on paper without looking."; }
   else { title = "Worth a second pass"; msg = "Read every explanation below slowly — they show the setup step by step. Then try the missed questions again on paper. This topic repeats in the rotation, so you'll get another shot."; }
+  if(skippedQs.length && total > 0){
+    msg += ` You skipped ${skippedQs.length} ${skippedQs.length === 1 ? "question" : "questions"} — that's fine, and your score is out of the ${total} parts you did try. They'll come back in your next few sets.`;
+  }
   document.getElementById("scoreTitle").textContent = title;
   document.getElementById("scoreMsg").textContent = msg;
 
   const bySet = {};
-  perQ.forEach(p => {
+  att.forEach(p => {
     if(!bySet[p.set]) bySet[p.set] = {r:0,t:0};
     bySet[p.set].r += p.autoRight; bySet[p.set].t += p.autoTotal;
   });
@@ -837,24 +887,28 @@ function renderScore(perQ){
         <div class="v">${bySet[k].t ? bySet[k].r + " / " + bySet[k].t : "self-check"}</div></div>`
     ).join("");
 
-  const missed = perQ.filter(p => p.autoTotal && p.autoRight < p.autoTotal).map(p => p.n);
+  const missed = att.filter(p => p.autoTotal && p.autoRight < p.autoTotal).map(p => p.n);
   const written = QUESTIONS.filter(q => q.parts.some(p => p.type === "self")).map(q => q.n);
-  const rl = document.getElementById("reviewList");
-  rl.innerHTML = missed.length
-    ? `<b>Review these:</b> ` + missed.map(n => `<a href="#q${n}">Q${n}</a>`).join(" · ")
-    : `<b>Nothing flagged.</b>` + (written.length
-        ? ` Compare your written answers on ` + written.map(n => `<a href="#q${n}">Q${n}</a>`).join(" · ") + ` against the model answers before you close this.`
-        : ` Read the explanations before you close this.`);
+  const link = n => `<a href="#q${n}">Q${n}</a>`;
+  const bits = [];
+  if(missed.length) bits.push(`<b>Review these:</b> ` + missed.map(link).join(" · "));
+  if(skippedQs.length) bits.push(`<b>Skipped — read these too:</b> ` + skippedQs.map(p => link(p.n)).join(" · "));
+  if(!bits.length){
+    bits.push(`<b>Nothing flagged.</b>` + (written.length
+      ? ` Compare your written answers on ` + written.map(link).join(" · ") + ` against the model answers before you close this.`
+      : ` Read the explanations before you close this.`));
+  }
+  document.getElementById("reviewList").innerHTML = bits.join("<br>");
 
-  buildSendBack(perQ, right, total, missed);
-  window.__rebuildSend = () => buildSendBack(perQ, right, total, missed);
+  buildSendBack(perQ, right, total, missed, skippedQs);
+  window.__rebuildSend = () => buildSendBack(perQ, right, total, missed, skippedQs);
 
   document.getElementById("scorecard").classList.add("show");
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
 /* ---------- send results back by email (no account needed) ---------- */
-function buildSendBack(perQ, right, total, missed){
+function buildSendBack(perQ, right, total, missed, skippedQs){
   const el = window.__elapsed;
   const timeStr = (el === null || el === undefined) ? null
                 : el < 60 ? `${el} sec` : `${Math.round(el/60)} min`;
@@ -872,13 +926,16 @@ function buildSendBack(perQ, right, total, missed){
     `Math — ${DATE_LABEL}`,
     `Topic: ${TOPIC_NAME}`,
     ``,
-    `Score: ${right} / ${total}`,
+    `Score: ${right} / ${total}` + ((skippedQs && skippedQs.length) ? ` (out of what she attempted)` : ``),
     timeStr ? `Time: ${timeStr}` : null,
     `Hints opened: ${Object.keys(hintsUsed).length}`,
     missed.length ? `Missed: ${missed.map(n => "Q"+n).join(", ")}` : `Missed: none`,
+    (skippedQs && skippedQs.length)
+      ? `Skipped (hadn't learned yet): ${skippedQs.map(p => "Q" + p.n + " — " + (p.setTitle || "") + (p.std ? " [" + p.std + "]" : "")).join("; ")}`
+      : `Skipped: none`,
     writtenBits.length ? `Written answers: ${writtenBits.join("; ")}` : null,
     ``,
-    `Per question: ` + perQ.map(p => `Q${p.n} ${p.autoTotal ? p.autoRight+"/"+p.autoTotal : "written"}`).join(", "),
+    `Per question: ` + perQ.map(p => `Q${p.n} ` + (p.skipped ? "skipped" : (p.autoTotal ? p.autoRight+"/"+p.autoTotal : "written"))).join(", "),
     ``,
     `(Sent from the worksheet page)`
   ].filter(x => x !== null);
@@ -932,11 +989,11 @@ qRoot.addEventListener("click", e => {
 
 /* submit */
 document.getElementById("submitBtn").addEventListener("click", () => {
-  const blanks = fieldIds.filter(f => String(readField(f)).trim() === "").length;
+  const blanks = fieldIds.filter(f => !skipped[f.q.n] && String(readField(f)).trim() === "").length;
   const note = document.getElementById("barNote");
   if(blanks > 0 && !note.dataset.warned){
     note.dataset.warned = "1";
-    note.textContent = `${blanks} blank${blanks>1?"s":""} left. Press again to check anyway.`;
+    note.textContent = `${blanks} blank${blanks>1?"s":""} left. Fill them in, mark them "haven't learned this", or press again to check anyway.`;
     note.style.color = "#8a5a00";
     return;
   }
