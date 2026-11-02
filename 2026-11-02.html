@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Math Honors — Oct 29, 2026</title>
+<style>
+  :root{
+    --paper:#fdfbf7; --card:#ffffff; --ink:#1b1a17; --muted:#6b675f;
+    --line:#e5e0d6; --accent:#3b4c9e; --accent-soft:#eef1fb;
+    --ok:#1a7a4c; --ok-soft:#e8f5ee; --no:#b3261e; --no-soft:#fdecea;
+    --warn:#8a5a00; --warn-soft:#fdf3e0;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --serif:"Iowan Old Style",Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+       font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+  .wrap{max-width:780px;margin:0 auto;padding:28px 20px 120px}
+
+  /* ---------- header ---------- */
+  header{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:8px}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  h1{font-family:var(--serif);font-size:30px;line-height:1.2;margin:8px 0 6px;font-weight:600}
+  .topicline{font-size:15px;color:var(--accent);font-weight:600}
+  .meta{font-size:13px;color:var(--muted);margin-top:8px}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center}
+  .badge{font-size:12px;padding:4px 10px;border-radius:999px;background:#f1eee6;color:var(--muted);
+         border:1px solid var(--line);font-weight:600}
+  .badge.live{background:var(--ok-soft);color:var(--ok);border-color:#bfe3cf}
+  .badge.local{background:var(--warn-soft);color:var(--warn);border-color:#ebd9b0}
+
+  /* ---------- progress ---------- */
+  .progwrap{position:sticky;top:0;background:var(--paper);padding:14px 0 12px;z-index:20;
+            border-bottom:1px solid var(--line);margin-bottom:26px}
+  .progrow{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin-bottom:7px}
+  .progrow strong{color:var(--ink)}
+  .track{height:7px;background:#ece7dc;border-radius:999px;overflow:hidden}
+  .fill{height:100%;width:0%;background:var(--accent);border-radius:999px;transition:width .3s ease}
+
+  /* ---------- sets & questions ---------- */
+  .setheader{margin:38px 0 18px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+  .setheader:first-of-type{margin-top:8px}
+  .setheader h2{font-family:var(--serif);font-size:21px;margin:0;font-weight:600}
+  .setheader .std{font-size:12px;color:var(--muted);margin-top:3px;letter-spacing:.02em}
+
+  .q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 20px 18px;
+     margin-bottom:18px;position:relative;scroll-margin-top:96px}
+  .q.flagged{border-color:#d9d2c4}
+  .qhead{display:flex;gap:12px;align-items:baseline;margin-bottom:10px}
+  .qnum{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--accent);min-width:26px}
+  .prompt{font-family:var(--serif);font-size:17.5px;line-height:1.5}
+  .prompt em{font-style:italic}
+  table.data{border-collapse:collapse;margin:14px 0 4px;font-family:var(--sans);font-size:14px}
+  table.data th,table.data td{border:1px solid var(--line);padding:7px 14px;text-align:center}
+  table.data th{background:#f6f3ec;font-weight:600;text-align:left}
+
+  .parts{margin-top:14px;display:flex;flex-direction:column;gap:11px}
+  .part{display:flex;flex-direction:column;align-items:stretch;gap:7px}
+  .plabel{font-size:15.5px;line-height:1.5;color:#2e2b26;padding-top:0}
+  .plabel .pk{font-weight:700;color:var(--ink)}
+  input.ans,select.ans{font-family:var(--sans);font-size:15px;padding:9px 11px;border:1.5px solid var(--line);
+       border-radius:8px;background:#fff;color:var(--ink);width:100%;max-width:300px}
+  input.ans:focus,select.ans:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  input.ans[disabled],select.ans[disabled]{background:#f7f5f0;color:#55524c}
+  .radios{display:flex;gap:16px;padding-top:6px;flex-wrap:wrap}
+  .radios label{font-size:15px;display:flex;gap:6px;align-items:center;cursor:pointer}
+  .longans{width:100%;max-width:none}
+  textarea.ans{font-family:var(--sans);font-size:15px;padding:9px 11px;border:1.5px solid var(--line);
+       border-radius:8px;width:100%;min-height:72px;resize:vertical;line-height:1.5;color:var(--ink);background:#fff}
+  textarea.ans:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  textarea.ans[disabled]{background:#f7f5f0;color:#55524c}
+  .explain-note{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:-2px}
+
+  .hintbtn{background:none;border:none;color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;
+           padding:4px 0;margin-top:9px;font-family:var(--sans);text-decoration:underline}
+  .hint{display:none;margin-top:9px;font-size:14px;background:var(--accent-soft);border-left:3px solid var(--accent);
+        padding:10px 13px;border-radius:0 7px 7px 0;color:#2c3870}
+  .hint.show{display:block}
+  .skiprow{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:10px}
+  .skipbtn{background:none;border:none;color:var(--muted);font-size:13px;font-weight:600;
+           cursor:pointer;padding:4px 0;font-family:var(--sans);text-decoration:underline}
+  .q.skipped{background:#f7f5f0;border-style:dashed}
+  .q.skipped .parts{opacity:.45}
+  .verdict.skip{background:#f1eee6;color:#55524c}
+  .skipnote{font-size:13.5px;color:var(--muted);margin:0 0 12px;font-style:italic}
+
+  /* ---------- results ---------- */
+  .result{display:none;margin-top:17px;border-top:1px dashed var(--line);padding-top:15px}
+  .result.show{display:block}
+  .verdict{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;
+           padding:4px 11px;border-radius:999px;margin-bottom:12px}
+  .verdict.ok{background:var(--ok-soft);color:var(--ok)}
+  .verdict.no{background:var(--no-soft);color:var(--no)}
+  .verdict.self{background:var(--accent-soft);color:var(--accent)}
+  .cmp{font-size:14px;margin-bottom:13px;background:#faf8f3;border-radius:8px;padding:11px 13px}
+  .cmp div{margin:3px 0}
+  .cmp .lab{color:var(--muted);display:inline-block;min-width:118px;font-size:13px}
+  .cmp .mine.wrong{color:var(--no);font-weight:600}
+  .cmp .mine.right{color:var(--ok);font-weight:600}
+  .cmp .theirs{font-weight:700}
+  .cmp .tick{color:var(--ok);font-weight:700;margin-left:4px}
+  .cmp .cross{color:var(--no);font-weight:700;margin:0 6px 0 4px}
+  .exp{font-size:15px;line-height:1.62}
+  .exp h4{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+          margin:0 0 7px;font-weight:700}
+  .exp p{margin:0 0 10px}
+  .exp .step{margin:0 0 9px}
+  .exp .calc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;
+             background:#f4f1ea;padding:2px 6px;border-radius:4px;white-space:nowrap}
+  .exp .strategy{background:var(--accent-soft);border-radius:8px;padding:11px 13px;margin:12px 0 0;
+                 font-size:14.5px;color:#2c3870}
+  .exp .strategy b{color:var(--accent)}
+  .exp .mistake{background:var(--warn-soft);border-radius:8px;padding:11px 13px;margin:10px 0 0;
+                font-size:14.5px;color:#6d4800}
+  .exp .mistake b{color:var(--warn)}
+  .selfmark{margin-top:14px;background:#faf8f3;border:1px solid var(--line);border-radius:8px;padding:12px 13px}
+  .selfmark p{margin:0 0 9px;font-size:14px;font-weight:600}
+  .selfmark .btns{display:flex;gap:9px;flex-wrap:wrap}
+  .smbtn{font-family:var(--sans);font-size:13.5px;font-weight:600;padding:7px 14px;border-radius:7px;
+         border:1.5px solid var(--line);background:#fff;cursor:pointer;color:var(--ink)}
+  .smbtn[aria-pressed="true"].yes{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+  .smbtn[aria-pressed="true"].no{background:var(--no-soft);border-color:var(--no);color:var(--no)}
+
+  /* ---------- submit bar ---------- */
+  .submitbar{position:fixed;left:0;right:0;bottom:0;background:rgba(253,251,247,.96);
+             backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:13px 20px;z-index:30}
+  .submitinner{max-width:780px;margin:0 auto;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .submitnote{font-size:13px;color:var(--muted)}
+  .btn{font-family:var(--sans);font-size:15px;font-weight:600;padding:11px 22px;border-radius:9px;
+       border:none;background:var(--accent);color:#fff;cursor:pointer}
+  .btn:disabled{background:#b9b5ac;cursor:not-allowed}
+  .btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+
+  /* ---------- score card ---------- */
+  .scorecard{display:none;background:var(--card);border:2px solid var(--ink);border-radius:14px;
+             padding:24px;margin:8px 0 30px}
+  .scorecard.show{display:block}
+  .scoretop{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+  .ring{width:96px;height:96px;flex-shrink:0;position:relative}
+  .ring svg{transform:rotate(-90deg)}
+  .ringtext{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ringtext b{font-family:var(--serif);font-size:25px;line-height:1}
+  .ringtext span{font-size:11px;color:var(--muted);letter-spacing:.05em}
+  .scoremsg h3{font-family:var(--serif);font-size:21px;margin:0 0 5px;font-weight:600}
+  .scoremsg p{margin:0;font-size:14.5px;color:#46433c;max-width:420px}
+  .breakdown{margin-top:20px;border-top:1px solid var(--line);padding-top:16px;
+             display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px}
+  .bd{font-size:13.5px}
+  .bd .t{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+  .bd .v{font-family:var(--serif);font-size:17px;font-weight:600;margin-top:2px}
+  .review{margin-top:16px;font-size:14px;color:#46433c}
+  .review b{color:var(--ink)}
+
+  /* ---------- send results back ---------- */
+  .sendback{margin-top:20px;border-top:1px solid var(--line);padding-top:18px}
+  .sendback h4{font-family:var(--serif);font-size:17px;margin:0 0 5px;font-weight:600}
+  .sendback p{margin:0 0 13px;font-size:14.5px;color:#46433c}
+  .sendback .btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .sendback .big{font-size:15px;font-weight:600;padding:11px 20px;border-radius:9px;border:none;
+                 background:var(--ok);color:#fff;cursor:pointer;font-family:var(--sans)}
+  .sendback .alt{font-size:14px;font-weight:600;padding:10px 16px;border-radius:9px;
+                 border:1.5px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;font-family:var(--sans)}
+  .sendback .done{margin-top:11px;font-size:13.5px;color:var(--ok);font-weight:600;display:none}
+  .sendback .done.show{display:block}
+  .sendback textarea{margin-top:12px;width:100%;min-height:120px;font-family:ui-monospace,Menlo,Consolas,monospace;
+                     font-size:12.5px;border:1.5px solid var(--line);border-radius:8px;padding:10px;
+                     display:none;background:#faf8f3;color:var(--ink)}
+  .sendback textarea.show{display:block}
+
+  @media (max-width:560px){
+    .wrap{padding:20px 14px 130px}
+    h1{font-size:25px}
+    input.ans,select.ans{max-width:none;width:100%}
+    .qhead{gap:8px}
+    .prompt{font-size:16.5px}
+  }
+  @media print{
+    .submitbar,.hintbtn,.progwrap,.badges{display:none!important}
+    body{background:#fff}
+    .q{break-inside:avoid;border-color:#ccc}
+    .wrap{padding-bottom:20px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">NJ Middle School Math Honors · Daily Set</div>
+    <h1 id="hDate"></h1>
+    <div class="topicline" id="hTopic"></div>
+    <div class="meta" id="hMeta"></div>
+    <div class="badges">
+      <span class="badge" id="syncBadge">Your answers save as you type</span>
+      <span class="badge" id="timerBadge">Time: 0:00</span>
+    </div>
+  </header>
+
+  <div class="progwrap">
+    <div class="progrow">
+      <span><strong id="answeredCount">0</strong> of <strong id="totalCount">0</strong> blanks filled</span>
+      <span id="progHint">Answer everything, then check your work</span>
+    </div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+  </div>
+
+  <div class="scorecard" id="scorecard">
+    <div class="scoretop">
+      <div class="ring">
+        <svg width="96" height="96" viewBox="0 0 96 96">
+          <circle cx="48" cy="48" r="41" fill="none" stroke="#ece7dc" stroke-width="10"></circle>
+          <circle id="ringArc" cx="48" cy="48" r="41" fill="none" stroke="#3b4c9e" stroke-width="10"
+                  stroke-linecap="round" stroke-dasharray="257.6" stroke-dashoffset="257.6"></circle>
+        </svg>
+        <div class="ringtext"><b id="ringPct">0%</b><span id="ringRaw">0/0</span></div>
+      </div>
+      <div class="scoremsg">
+        <h3 id="scoreTitle">Work checked</h3>
+        <p id="scoreMsg"></p>
+      </div>
+    </div>
+    <div class="breakdown" id="breakdown"></div>
+    <div class="review" id="reviewList"></div>
+    <div class="sendback" id="sendback">
+      <h4>Last step — send your results</h4>
+      <p>Tap the button and your email app opens with everything filled in. Just press send.</p>
+      <div class="btns">
+        <button class="big" id="emailResultsBtn" type="button">Email my results</button>
+        <button class="alt" id="copyResultsBtn" type="button">Copy instead</button>
+      </div>
+      <div class="done" id="sendDone"></div>
+      <textarea id="resultsText" readonly></textarea>
+    </div>
+  </div>
+
+  <main id="questions"></main>
+
+</div>
+
+<div class="submitbar">
+  <div class="submitinner">
+    <span class="submitnote" id="barNote">Explanations unlock after you check your work.</span>
+    <div style="display:flex;gap:9px">
+      <button class="btn ghost" id="printBtn" type="button">Print</button>
+      <button class="btn" id="submitBtn" type="button">Check my work</button>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ===== BEGIN DAILY DATA — replace everything down to END DAILY DATA =====
+   Each run swaps only this block. Nothing below it changes.
+   EVERY `label` MUST BE A COMPLETE QUESTION SENTENCE ENDING IN "?", not a
+   field name. She is 11 and reads the label as the question.
+     BAD  -> label:"What is the car's unit rate, in miles per gallon?"
+     GOOD -> label:"What is the car's unit rate, in miles per gallon?"
+   The `prompt` sets up the situation in full; each part then asks one clear
+   question about it that makes sense on its own.
+
+   part types:
+     num    -> {type:"num", correct:<number>, tol:<optional>, show:"display answer"}
+     text   -> {type:"text", accept:["normalized","variants"], re:"optional regex", show:"..."}
+     choice -> {type:"choice", options:["A","B"], correct:"B", show:"B"}
+     self   -> {type:"self", placeholder:"...", show:"model answer HTML"}  (student self-marks)
+   =========================================================================== */
+const DATE_KEY   = "2026-11-02";
+const DATE_LABEL = "Monday, November 2, 2026";
+const TOPIC_DAY  = 2;
+const TOPIC_NAME = "Fractions & Decimals — Operations and Division";
+const STANDARDS  = "NJSLS 6.NS.1–3, 7.NS.2–3, 7.RP.1–3";
+const SET_NAMES  = {A:"Fractions & Decimals: Four Operations", B:"Dividing Fractions",
+                    C:"Rates, Tables & Relationships", D:"Challenge"};
+
+const QUESTIONS = [
+{
+  n:1, set:"A", setTitle:"Fractions & Decimals: Four Operations", std:"NJSLS 6.NS.1, 5.NF.1",
+  prompt:"Suhani is baking muffins. The batter needs 3/4 of a cup of milk, and the glaze she brushes on top needs 2/3 of a cup of milk. She measures both amounts out of the same carton.",
+  hint:"Fourths and thirds aren't the same size, so you can't add them as they stand — rewrite both with a denominator of 12 first.",
+  parts:[
+    {key:"a", label:"How many cups of milk does Suhani need altogether for the batter and the glaze? Give your answer as a fraction or a mixed number.", type:"text",
+     accept:["17/12","1 5/12","17/12 cups","1 5/12 cups","17/12 cup","1 5/12 cup","17/12 of a cup","1 5/12 of a cup","1.4167","1.417","1.42","1.42 cups","1.4166667"],
+     re:"^\\s*(17\\s*/\\s*12|1\\s+5\\s*/\\s*12|1\\.4(1[0-9]*|2[0-9]*))\\s*(cups?|of\\s+a\\s+cup)?\\s*$", show:"17/12 cups = 1 5/12 cups"},
+    {key:"b", label:"How much more milk does the batter use than the glaze? Give your answer in cups, as a fraction.", type:"text",
+     accept:["1/12","1/12 cup","1/12 cups","1/12 of a cup","0.083","0.0833",".0833","0.08333"],
+     re:"^\\s*(1\\s*/\\s*12|0?\\.08[0-9]*)\\s*(cups?|of\\s+a\\s+cup)?\\s*$", show:"1/12 of a cup"}
+  ],
+  exp:`<p class="step"><b>(a) The answer is 17/12 cups, which is 1 5/12 cups.</b></p>
+       <p class="step">You can only add fractions when the pieces are the same size, and fourths and thirds are not. The smallest number that both 4 and 3 divide into is <b>12</b>, so rewrite both fractions in twelfths:<br>
+       <span class="calc">3/4 = 9/12</span> (multiply top and bottom by 3) &nbsp;·&nbsp; <span class="calc">2/3 = 8/12</span> (multiply top and bottom by 4)</p>
+       <p class="step">Now the pieces match, so just count them: <span class="calc">9/12 + 8/12 = 17/12</span>. Since 12/12 is one whole, 17/12 = <b>1 5/12 cups</b> — a little under a cup and a half, which makes sense for three-quarters plus two-thirds.</p>
+       <p class="step"><b>(b) The answer is 1/12 of a cup.</b> Same common denominator, but subtract: <span class="calc">9/12 &minus; 8/12 = 1/12</span>.</p>
+       <div class="strategy"><b>Strategy:</b> adding or subtracting fractions is always the same two moves — make the denominators match, then add or subtract only the numerators. The denominator names the size of the piece, so it does not change.</div>
+       <div class="mistake"><b>Common mistake:</b> adding across the top and bottom to get 5/7. That would say 3/4 + 2/3 is less than 1, when both fractions are already more than half a cup. Always ask whether the answer is a sensible size.</div>
+       <p class="step"><em>ALEKS note:</em> it will want 17/12 written as the mixed number 1 5/12, in lowest terms.</p>`
+},
+{
+  n:2, set:"A", setTitle:"Fractions & Decimals: Four Operations", std:"NJSLS 6.NS.1, 6.RP.3",
+  prompt:"Suhani is reading a book that is 320 pages long. On Saturday she read 3/8 of the whole book. On Sunday she read 1/4 of the pages that were still left.",
+  hint:"\"Of\" means multiply. For Sunday, be careful about what the 1/4 is a quarter OF — it is not a quarter of the whole book.",
+  parts:[
+    {key:"a", label:"How many pages did Suhani read on Saturday, if she read 3/8 of the 320-page book?", type:"num", correct:120, show:"120 pages"},
+    {key:"b", label:"After Saturday, how many pages of the 320-page book were still left to read?", type:"num", correct:200, show:"200 pages"},
+    {key:"c", label:"On Sunday she read 1/4 of those remaining pages. How many pages did she read on Sunday?", type:"num", correct:50, show:"50 pages"},
+    {key:"d", label:"By the end of Sunday, what fraction of the whole 320-page book had Suhani read? Give your answer in simplest form.", type:"text", accept:["17/32","17/32ofthebook","17/32 of the book","0.53125","53.125%","53.125"], show:"17/32 of the book"}
+  ],
+  exp:`<p class="step"><b>(a) 120 pages.</b> "3/8 of 320" means multiply: <span class="calc">320 &divide; 8 = 40</span>, so one eighth is 40 pages, and <span class="calc">3 &times; 40 = 120</span>.</p>
+       <p class="step"><b>(b) 200 pages.</b> <span class="calc">320 &minus; 120 = 200</span>. (Check it another way: she had 5/8 of the book left, and 5 &times; 40 = 200. &#10003;)</p>
+       <p class="step"><b>(c) 50 pages.</b> This is the part worth slowing down on. The 1/4 is a quarter of what was <em>left</em>, not a quarter of the whole book: <span class="calc">1/4 &times; 200 = 50</span> pages. A quarter of the whole book would have been 80 — quite different.</p>
+       <p class="step"><b>(d) 17/32 of the book.</b> Add the two days: <span class="calc">120 + 50 = 170</span> pages read out of 320. Now make that a <em>part-to-whole</em> fraction — pages read on top, the whole book on the bottom: <span class="calc">170/320</span>. Divide top and bottom by 10 to get 17/32, and 17 is prime so that is as simple as it gets. As a decimal it is 0.53125, so she is just past halfway.</p>
+       <div class="strategy"><b>Strategy:</b> whenever a problem says "a fraction <em>of</em>" something, stop and name exactly what the whole is. Here Saturday's whole was the book; Sunday's whole was only the leftover. Writing "170 out of 320" with the whole on the bottom is the part-to-whole move, and it is the one to reach for whenever a question asks "what fraction of the total".</div>
+       <div class="mistake"><b>Common mistake:</b> adding 3/8 + 1/4 = 5/8 and stopping. That treats both fractions as if they were slices of the same whole, but Sunday's quarter was a quarter of the <em>remainder</em>. Notice 17/32 is smaller than 5/8 = 20/32, exactly as it should be.</div>`
+},
+{
+  n:3, set:"A", setTitle:"Fractions & Decimals: Four Operations", std:"NJSLS 6.NS.3",
+  prompt:"A deli sells sliced turkey at a steady price of $8.40 per pound. (This is a money question, so a calculator is fine.)",
+  hint:"\"Per pound\" is a unit rate: multiply by it to go from pounds to dollars, and divide by it to go from dollars back to pounds.",
+  parts:[
+    {key:"a", label:"How much does 2.5 pounds of turkey cost at $8.40 per pound? Give your answer in dollars and cents.", type:"num", correct:21.00, tol:0.005, show:"$21.00"},
+    {key:"b", label:"If you spend exactly $12.60 on turkey at $8.40 per pound, how many pounds do you get?", type:"num", correct:1.5, show:"1.5 pounds"}
+  ],
+  exp:`<p class="step"><b>(a) $21.00.</b> <span class="calc">8.40 &times; 2.5 = 21.00</span>. A nice mental route: 2.5 is 2 + 0.5, so that's 16.80 + 4.20 = $21.00. Or notice 2.5 = 5/2, so the cost is half of 8.40 &times; 5 = 42.00.</p>
+       <p class="step"><b>(b) 1.5 pounds.</b> Here you know the dollars and want the pounds, so divide: <span class="calc">12.60 &divide; 8.40 = 1.5</span>. To divide decimals, shift both numbers by the same amount until the divisor is a whole number: 12.60 &divide; 8.40 becomes 126 &divide; 84 = 1.5.</p>
+       <div class="strategy"><b>Strategy:</b> let the units tell you which operation to use. pounds &times; (dollars per pound) = dollars, so going the other way — dollars &divide; (dollars per pound) = pounds — must be division.</div>
+       <div class="mistake"><b>Common mistake:</b> when dividing decimals, moving the decimal point in only one of the two numbers. Both have to shift by the same number of places or the answer comes out ten times too big or too small. A quick sanity check catches it: $12.60 is less than $16.80 (two pounds), so the answer has to be under 2 pounds.</div>`
+},
+{
+  n:4, set:"A", setTitle:"Fractions & Decimals: Four Operations", std:"NJSLS 6.NS.2–3, 7.NS.2d",
+  prompt:"Fractions and decimals are two ways of writing the same number, and being able to flip between them quickly makes comparing numbers much easier.",
+  hint:"A fraction bar means \"divide.\" To turn a decimal into a fraction, read its place value out loud — 0.24 is \"twenty-four hundredths.\"",
+  parts:[
+    {key:"a", label:"Write 7/8 as a decimal.", type:"text",
+     accept:["0.875",".875","7/8=0.875","7/8 = 0.875","0.875 as a decimal"],
+     re:"^\\s*(7\\s*/\\s*8\\s*=\\s*)?0?\\.8750*\\s*$", show:"0.875"},
+    {key:"b", label:"Write 0.24 as a fraction in simplest form.", type:"text", accept:["6/25","24/100","12/50"], show:"6/25"},
+    {key:"c", label:"Which is larger, 5/6 or 0.8? Explain how you can tell without using a calculator.", type:"self", placeholder:"Which one is larger, and how can you tell?",
+     show:`<b>5/6 is larger.</b> Turn 5/6 into a decimal by dividing: 5 &divide; 6 = 0.8333… Since 0.8333… is greater than 0.8000, 5/6 is the larger number. You could also compare without dividing: 0.8 = 4/5, and putting both over 30 gives 5/6 = 25/30 while 4/5 = 24/30 — so 5/6 wins by one thirtieth.`}
+  ],
+  exp:`<p class="step"><b>(a) 0.875.</b> The fraction bar means divide: <span class="calc">7 &divide; 8 = 0.875</span>. Worth memorising the eighths, since they come up constantly: 1/8 = 0.125, so 7/8 is seven of those, 7 &times; 0.125 = 0.875.</p>
+       <p class="step"><b>(b) 6/25.</b> Say the decimal out loud using place value: 0.24 is "twenty-four hundredths," which is <span class="calc">24/100</span>. Now simplify by dividing top and bottom by the GCF, 4: <span class="calc">24 &divide; 4 = 6</span> and <span class="calc">100 &divide; 4 = 25</span>, giving <b>6/25</b>.</p>
+       <p class="step"><b>(c) 5/6 is larger.</b> <span class="calc">5 &divide; 6 = 0.8333…</span>, and 0.8333… &gt; 0.8. The repeating 3s go on forever, which is the signature of a fraction whose denominator has a factor other than 2 or 5.</p>
+       <div class="strategy"><b>Strategy:</b> to compare a fraction with a decimal, convert <em>one</em> of them so both are in the same form — usually turning the fraction into a decimal by dividing. Comparing like with like removes all the guesswork.</div>
+       <div class="mistake"><b>Common mistake:</b> thinking 0.8 must be bigger because "8 is bigger than 5 and 6 is small." Place value doesn't work that way: 0.8 is eight tenths, and 5/6 is more than eight tenths. Converting settles it.</div>
+       <p class="step"><em>ALEKS note:</em> it will reject 24/100 for part (b) — it wants fractions fully reduced, so 6/25.</p>`
+},
+{
+  n:5, set:"B", setTitle:"Dividing Fractions", std:"NJSLS 6.NS.1",
+  prompt:"Suhani is portioning out food in the kitchen. She has 6 cups of granola and wants to put 3/4 of a cup into each small bag. Later she has a container holding 2 1/4 cups of yogurt, which she wants to split into servings of 3/8 of a cup each.",
+  hint:"\"How many 3/4-cup scoops fit inside 6 cups?\" is a division question: 6 ÷ 3/4. Dividing by a fraction is the same as multiplying by its reciprocal.",
+  parts:[
+    {key:"a", label:"How many 3/4-cup bags can Suhani fill from 6 cups of granola?", type:"num", correct:8, show:"8 bags"},
+    {key:"b", label:"How many 3/8-cup servings can she get from 2 1/4 cups of yogurt?", type:"num", correct:6, show:"6 servings"},
+    {key:"c", label:"Dividing 6 by 3/4 gave an answer bigger than 6. Why does that make sense in this situation?", type:"self", placeholder:"Why is the answer bigger than 6?",
+     show:`Because each bag holds <em>less</em> than a whole cup, so it takes more than 6 bags to use up 6 cups — in fact 8. Whenever you divide by a number smaller than 1, you are asking "how many of these little pieces fit?", and the answer is more than you started with. Dividing by a number bigger than 1 makes the answer smaller instead.`}
+  ],
+  exp:`<p class="step"><b>(a) 8 bags.</b> "How many 3/4-cup bags fit in 6 cups?" is <span class="calc">6 &divide; 3/4</span>. Flip the divisor and multiply: <span class="calc">6 &times; 4/3 = 24/3 = 8</span>.<br>
+       You can also see it without any rule at all: each cup holds four quarter-cups, so 6 cups hold 24 quarter-cups, and every bag uses up 3 of them — 24 &divide; 3 = 8 bags.</p>
+       <p class="step"><b>(b) 6 servings.</b> First turn the mixed number into a single fraction: <span class="calc">2 1/4 = 9/4</span>. Then <span class="calc">9/4 &divide; 3/8 = 9/4 &times; 8/3</span>. Cancel before multiplying — 8 and 4 share a 4, and 9 and 3 share a 3: <span class="calc">(9/3) &times; (8/4) = 3 &times; 2 = 6</span> servings.</p>
+       <p class="step"><b>(c)</b> The bags are smaller than a cup, so there are more of them than there are cups. Dividing by a number less than 1 always gives an answer larger than what you started with.</p>
+       <div class="strategy"><b>Strategy:</b> "keep, flip, multiply" — keep the first fraction, flip the second one upside down, multiply. And always convert a mixed number to a single fraction <em>before</em> dividing; you cannot divide the whole part and the fraction part separately.</div>
+       <div class="mistake"><b>Common mistake:</b> flipping the wrong fraction, or flipping both. Only the number you are dividing <em>by</em> gets turned upside down. The size check in part (c) is your safety net: if the answer came out smaller than 6, something went the wrong way.</div>`
+},
+{
+  n:6, set:"B", setTitle:"Dividing Fractions", std:"NJSLS 6.NS.1, 7.NS.2",
+  prompt:"Suhani is cutting ribbon for a craft project. One ribbon is 7 1/2 inches long, and she cuts it into pieces that are each 5/6 of an inch long, with nothing left over. A second ribbon is 4 2/3 inches long, and she cuts that one into 7 equal pieces.",
+  hint:"These are two different kinds of division. In the first you know the size of each piece; in the second you know how many pieces there are.",
+  parts:[
+    {key:"a", label:"How many 5/6-inch pieces can Suhani cut from the 7 1/2-inch ribbon?", type:"num", correct:9, show:"9 pieces"},
+    {key:"b", label:"If the 4 2/3-inch ribbon is cut into 7 equal pieces, how long is each piece, in inches?", type:"text",
+     accept:["2/3","2/3 inch","2/3 inches","2/3 of an inch","2/3 of a inch","0.667","0.6667",".667","0.67","0.666667"],
+     re:"^\\s*(2\\s*/\\s*3|0?\\.6[67][0-9]*)\\s*(inch(es)?|of\\s+an?\\s+inch)?\\s*$", show:"2/3 of an inch"}
+  ],
+  exp:`<p class="step"><b>(a) 9 pieces.</b> Convert first: <span class="calc">7 1/2 = 15/2</span>. Then <span class="calc">15/2 &divide; 5/6 = 15/2 &times; 6/5</span>. Cancel the 5 into the 15 and the 2 into the 6: <span class="calc">3 &times; 3 = 9</span> pieces.</p>
+       <p class="step"><b>(b) 2/3 of an inch.</b> Convert: <span class="calc">4 2/3 = 14/3</span>. Dividing by the whole number 7 is the same as multiplying by 1/7: <span class="calc">14/3 &times; 1/7 = 14/21 = 2/3</span>.</p>
+       <p class="step">Notice the two questions are mirror images. In (a) you knew the <em>piece size</em> and found how many pieces. In (b) you knew the <em>number of pieces</em> and found the size of each. Both are division — just with different things missing.</p>
+       <div class="strategy"><b>Strategy:</b> cancel common factors before you multiply. 15/2 &times; 6/5 worked out to 9 in one line, while multiplying first would have meant simplifying 90/10 afterwards. Less arithmetic means fewer chances to slip.</div>
+       <div class="mistake"><b>Common mistake:</b> in part (b), dividing only the whole number and getting "4 &divide; 7 and then 2/3." A mixed number has to become a single fraction before it can be divided.</div>
+       <p class="step"><em>Sanity check:</em> 7 pieces of 2/3 of an inch come to 14/3 = 4 2/3 inches, exactly the ribbon you started with. &#10003;</p>`
+},
+{
+  n:7, set:"B", setTitle:"Dividing Fractions", std:"NJSLS 7.NS.3, 7.RP.1",
+  prompt:"A hiker walks at a steady pace and covers 2 1/4 miles in 3/4 of an hour.",
+  hint:"Speed in miles per hour means the distance covered in ONE whole hour, so divide the miles by the hours — even though the hours are a fraction.",
+  parts:[
+    {key:"a", label:"What is the hiker's speed, in miles per hour?", type:"num", correct:3, show:"3 miles per hour"},
+    {key:"b", label:"Walking at that same speed, how far does the hiker travel in 2 1/3 hours?", type:"num", correct:7, show:"7 miles"}
+  ],
+  exp:`<p class="step"><b>(a) 3 miles per hour.</b> A rate "per hour" always comes from dividing by the number of hours: <span class="calc">2 1/4 &divide; 3/4 = 9/4 &divide; 3/4 = 9/4 &times; 4/3 = 3</span>.<br>
+       There is a neat shortcut here: when the two fractions already share the denominator 4, you can just divide the numerators — 9 &divide; 3 = 3.</p>
+       <p class="step"><b>(b) 7 miles.</b> Now the unit rate works as a multiplier: <span class="calc">3 &times; 2 1/3 = 3 &times; 7/3 = 7</span> miles.</p>
+       <div class="strategy"><b>Strategy:</b> a fraction divided by a fraction like this is called a <em>complex fraction</em>, and finding a unit rate from one is pure grade-7 work (7.RP.1). The pattern is always the same: divide to get the "per one" rate, then multiply by that rate for any amount you like.</div>
+       <div class="mistake"><b>Common mistake:</b> expecting the speed to be less than 2 1/4 because 3/4 is "small." Think about it in real terms: she covered 2 1/4 miles in only three-quarters of an hour, so in a full hour she would go further — the answer must be bigger than 2 1/4.</div>`
+},
+{
+  n:8, set:"B", setTitle:"Dividing Fractions", std:"NJSLS 6.NS.1, 7.NS.3",
+  prompt:"A pitcher holds 4 1/2 cups of lemonade. Suhani is pouring it into glasses that each hold 2/3 of a cup, and she only counts a glass if she can fill it completely.",
+  hint:"Divide first to see how many glasses' worth of lemonade there is — then think carefully about what the part after the decimal point actually means.",
+  parts:[
+    {key:"a", label:"How many glasses can Suhani fill completely from the 4 1/2 cups?", type:"num", correct:6, show:"6 full glasses"},
+    {key:"b", label:"After filling those full glasses, how much lemonade is left in the pitcher, in cups?", type:"text",
+     accept:["1/2","1/2 cup","1/2 cups","1/2 of a cup","0.5","0.50",".5","0.5 cups","one half","half a cup","half of a cup"],
+     re:"^\\s*(1\\s*/\\s*2|0?\\.50*|one\\s+half|half)\\s*(cups?|of\\s+a\\s+cup|a\\s+cup)?\\s*$", show:"1/2 of a cup"}
+  ],
+  exp:`<p class="step"><b>(a) 6 full glasses.</b> Start with the division: <span class="calc">4 1/2 &divide; 2/3 = 9/2 &times; 3/2 = 27/4 = 6 3/4</span>.</p>
+       <p class="step">So there is enough lemonade for 6 glasses and three-quarters of a seventh glass. Since a glass only counts when it is completely full, the answer is <b>6</b>. The 3/4 does not round up — three-quarters of a glass is not a full glass.</p>
+       <p class="step"><b>(b) 1/2 of a cup.</b> This is the step people rush. The leftover is <em>3/4 of a glass</em>, and a glass is 2/3 of a cup, so in cups the leftover is <span class="calc">3/4 &times; 2/3 = 6/12 = 1/2</span> of a cup.<br>
+       The safer route is to work in cups the whole way: 6 glasses use <span class="calc">6 &times; 2/3 = 4</span> cups, and <span class="calc">4 1/2 &minus; 4 = 1/2</span> of a cup is left. Same answer, fewer traps.</p>
+       <div class="strategy"><b>Strategy:</b> when a division comes out with a remainder, always ask what the leftover piece is measuring. Here 27/4 = 6 3/4 means "6 glasses and 3/4 of a glass" — the 3/4 counts glasses, not cups. Naming the unit of the remainder is the whole skill.</div>
+       <div class="mistake"><b>Common mistake:</b> answering "3/4 of a cup is left" because 3/4 appeared in the answer. The 3/4 is three-quarters of a <em>glass</em>, and a glass is smaller than a cup — so the leftover in cups has to be less than 3/4. It is 1/2.</div>`
+},
+{
+  n:9, set:"C", setTitle:"Rates, Tables & Relationships", std:"NJSLS 7.RP.1–2",
+  prompt:"A machine at a bottling plant fills water bottles at a steady rate. A worker recorded how many bottles were finished after various numbers of minutes.",
+  table:`<table class="data"><tr><th>Time (minutes)</th><td>2</td><td>4</td><td>7</td></tr>
+         <tr><th>Bottles filled</th><td>8</td><td>16</td><td>28</td></tr></table>`,
+  hint:"Divide the bottles by the minutes in each column. If you get the same number every time, that number is the constant of proportionality.",
+  parts:[
+    {key:"a", label:"How many bottles does the machine fill in 1 minute? (This number is the constant of proportionality.)", type:"num", correct:4, show:"4 bottles per minute"},
+    {key:"b", label:"Write an equation linking the number of bottles b to the number of minutes m.", type:"text", accept:["b=4m","4m","b=4m bottles","y=4x","bottles=4m","b=m4","b=4timesm","b=4xm","4m=b","b=4.m"], show:"b = 4m"},
+    {key:"c", label:"How can you tell from the table that this relationship is proportional? Say what you checked.", type:"self", placeholder:"What did you check, and what did you find?",
+     show:`I divided bottles by minutes in every column: 8 &divide; 2 = 4, 16 &divide; 4 = 4, and 28 &divide; 7 = 4. All three gave the same answer, 4, so the ratio of bottles to minutes is constant — and a constant ratio is exactly what makes a relationship proportional. (Another tell: at 0 minutes, 0 bottles are filled, so the graph passes through the origin.)`}
+  ],
+  exp:`<p class="step"><b>(a) 4 bottles per minute.</b> Here is the whole method, from the start. A relationship is <em>proportional</em> when one quantity is always the same multiple of the other. To test it, divide one row by the other, column by column:<br>
+       <span class="calc">8 &divide; 2 = 4</span> &nbsp;·&nbsp; <span class="calc">16 &divide; 4 = 4</span> &nbsp;·&nbsp; <span class="calc">28 &divide; 7 = 4</span></p>
+       <p class="step">All three ratios are the same, so the relationship <b>is</b> proportional, and that shared value is called the <b>constant of proportionality</b>, written <b>k</b>. Here k = 4. Notice that k is just the unit rate — the number of bottles in <em>one</em> minute — wearing a fancier name.</p>
+       <p class="step"><b>(b) b = 4m.</b> Every proportional relationship can be written as <span class="calc">y = kx</span>: the output equals k times the input. With bottles as the output and minutes as the input, that is <b>b = 4m</b>. Test it against the table: m = 7 gives b = 4 &times; 7 = 28. &#10003;</p>
+       <p class="step"><b>(c)</b> You check whether every ratio is the same. All three were 4, so it is proportional.</p>
+       <div class="strategy"><b>Strategy:</b> these four descriptions are one single idea in different clothes — a constant ratio in a table, a unit rate, an equation <em>y = kx</em>, and a straight-line graph through the origin. If you can spot any one of them, you have all four. Finding k is nearly always the first move.</div>
+       <div class="mistake"><b>Common mistake:</b> checking only one column. One matching ratio proves nothing; a table is only proportional if <em>every</em> column gives the same k.</div>
+       <p class="step"><em>Why the origin matters:</em> 0 minutes means 0 bottles. Every proportional relationship must contain the point (0, 0) — if it does not, it is not proportional, which is exactly what the next question is about.</p>`
+},
+{
+  n:10, set:"C", setTitle:"Rates, Tables & Relationships", std:"NJSLS 7.RP.2, 7.EE.4",
+  prompt:"A skating rink charges a one-time fee to rent skates, plus a set amount for every hour you spend on the ice. The table shows the total cost of three different visits.",
+  table:`<table class="data"><tr><th>Hours on the ice</th><td>1</td><td>2</td><td>4</td></tr>
+         <tr><th>Total cost ($)</th><td>8</td><td>11</td><td>17</td></tr></table>`,
+  hint:"Look at what happens to the cost between columns: from 2 hours to 4 hours the cost rises by $6. Work out the cost of one hour first, then ask what you would still owe for 0 hours.",
+  parts:[
+    {key:"a", label:"How many dollars does each extra hour on the ice add to the total cost?", type:"num", correct:3, show:"$3 per hour"},
+    {key:"b", label:"How much would a visit cost for 0 hours on the ice — that is, what is the one-time skate rental fee?", type:"num", correct:5, show:"$5"},
+    {key:"c", label:"Write a rule for the total cost C of a visit lasting h hours.", type:"text", accept:["c=3h+5","c=5+3h","cost=3h+5","y=3x+5","c=3h+5dollars","totalcost=3h+5","total=3h+5","c=(3h)+5","c=3×h+5","c=3xh+5","3h+5","c=5+3xh","c=h3+5"], show:"C = 3h + 5"},
+    {key:"d", label:"Is the total cost proportional to the number of hours on the ice?", type:"choice", options:["Yes, it is proportional","No, it is not proportional"], correct:"No, it is not proportional", show:"No, it is not proportional"}
+  ],
+  exp:`<p class="step"><b>(a) $3 per hour.</b> Compare two columns. Going from 1 hour to 2 hours, the cost goes from $8 to $11 — up <span class="calc">$3</span>. Going from 2 hours to 4 hours, it goes from $11 to $17 — up <span class="calc">$6 for 2 hours</span>, which is $3 each. So the hourly rate is <b>$3</b>.</p>
+       <p class="step"><b>(b) $5.</b> Now work backwards from the 1-hour visit. One hour cost $8, and $3 of that was for the ice time, so the rest is the fixed fee: <span class="calc">8 &minus; 3 = $5</span>. That $5 is what you would pay even for 0 hours — the skate rental.</p>
+       <p class="step"><b>(c) C = 3h + 5.</b> Put the two pieces together: $3 for each of the h hours, plus the $5 fee that you pay once no matter what. Test it on the whole table: h = 1 &rarr; 3 + 5 = 8 &#10003;, h = 2 &rarr; 6 + 5 = 11 &#10003;, h = 4 &rarr; 12 + 5 = 17 &#10003;.</p>
+       <p class="step"><b>(d) No, it is not proportional.</b> Check the ratios the way you did in question 9: <span class="calc">8/1 = 8</span>, <span class="calc">11/2 = 5.5</span>, <span class="calc">17/4 = 4.25</span>. They are not equal, so it fails the test. The clearer reason is part (b): at 0 hours the cost is $5, not $0, so the graph does not pass through the origin.</p>
+       <div class="strategy"><b>Strategy:</b> this is the difference between <em>y = kx</em> and <em>y = mx + b</em>, and it is one of the most important distinctions in middle-school math. A steady rate on its own is not enough for proportionality — a fixed starting amount breaks it. In <b>C = 3h + 5</b>, the <b>3</b> is the rate per hour and the <b>5</b> is the one-time fee. Reading a table for "what each step adds" (the rate) and "what you'd pay for zero" (the fee) will unlock every problem of this type.</div>
+       <div class="mistake"><b>Common mistake:</b> dividing 8 &divide; 1 = 8 and calling $8 the hourly rate. That lumps the one-time fee in with the first hour. The rate is what each <em>extra</em> hour adds, which is why you compare columns rather than dividing a single one.</div>
+       <p class="step"><em>Looking ahead:</em> in 8th grade you'll call the 3 the <em>slope</em> and the 5 the <em>y-intercept</em>. Same two numbers, new names.</p>`
+},
+{
+  n:11, set:"C", setTitle:"Rates, Tables & Relationships", std:"NJSLS 7.RP.3",
+  prompt:"Maya puts $500 into a savings account that pays simple interest. After 2 years the account has earned $40 in interest. (This is a money question, so a calculator is fine.)",
+  hint:"With simple interest the account earns the same amount every year, so start by finding one year's worth of interest.",
+  parts:[
+    {key:"a", label:"How much interest does Maya's account earn in ONE year?", type:"num", correct:20, show:"$20 per year"},
+    {key:"b", label:"What is the account's annual interest rate, as a percent?", type:"num", correct:4, show:"4%"}
+  ],
+  exp:`<p class="step"><b>(a) $20.</b> "Simple" interest means the same amount is earned every year, because it is always calculated on the original $500 and never on the interest already earned. So split the total evenly: <span class="calc">40 &divide; 2 = $20</span> per year.</p>
+       <p class="step"><b>(b) 4%.</b> An interest rate answers the question "the interest is what percent <em>of</em> the money you put in?" Compare one year's interest to the principal: <span class="calc">20 &divide; 500 = 0.04</span>, and 0.04 as a percent is <b>4%</b>.</p>
+       <p class="step">To turn a decimal into a percent, multiply by 100 — because "percent" literally means "per hundred." 0.04 &times; 100 = 4%.</p>
+       <p class="step"><em>The formula version:</em> simple interest is <span class="calc">I = P &middot; r &middot; t</span>, where I is interest, P is the principal, r is the rate as a decimal, and t is years. Fill in what you know and leave r as the unknown: <span class="calc">40 = 500 &middot; r &middot; 2</span>, so <span class="calc">40 = 1000r</span>, so <span class="calc">r = 40 &divide; 1000 = 0.04 = 4%</span>. Same answer — the two-step route in (a) and (b) is just this formula taken slowly.</p>
+       <div class="strategy"><b>Strategy:</b> any percent question is a comparison with a denominator, and the denominator is the amount you are taking a percent <em>of</em>. For an interest rate that is always the principal — the money you started with.</div>
+       <div class="mistake"><b>Common mistake:</b> dividing by the total interest or by the number of years instead of by the principal, or forgetting that the $40 covers two years rather than one. Always ask "percent of what?" before you divide.</div>`
+},
+{
+  n:12, set:"D", setTitle:"Challenge", std:"NJSLS 6.NS.1, 6.NS.3, 7.RP.3 · multi-step",
+  prompt:"Suhani's class is making trail mix for a bake sale. One batch uses 2 1/2 cups of oats, 3/4 of a cup of raisins, and 1 1/4 cups of almonds. They are going to make 6 batches. Oats cost $0.40 per cup, raisins cost $1.20 per cup, and almonds cost $2.00 per cup. New Jersey sales tax of 6.625% is added to the ingredient total at the register. (A calculator is fine for the money parts.)",
+  hint:"Work out the cups of each ingredient for all 6 batches first, then cost them one ingredient at a time. Don't try to do it all in one line.",
+  parts:[
+    {key:"a", label:"How many cups of trail mix does one batch make, if it uses 2 1/2 cups of oats, 3/4 of a cup of raisins and 1 1/4 cups of almonds?", type:"text",
+     accept:["4.5","4.50","4 1/2","9/2","4.5 cups","4 1/2 cups","4 1/2 of a cup","4.5cup"],
+     re:"^\\s*(4\\.50*|4\\s+1\\s*/\\s*2|9\\s*/\\s*2)\\s*(cups?|of\\s+a\\s+cup)?\\s*$", show:"4 1/2 cups"},
+    {key:"b", label:"What is the total cost of the ingredients for all 6 batches, before tax?", type:"num", correct:26.40, tol:0.005, show:"$26.40"},
+    {key:"c", label:"What is the total paid at the register once 6.625% New Jersey sales tax is added? Give your answer to the nearest cent.", type:"num", correct:28.15, tol:0.015, show:"$28.15"},
+    {key:"d", label:"The finished trail mix from all 6 batches is packed into bags holding 3/4 of a cup each. How many bags can they fill?", type:"num", correct:36, show:"36 bags"}
+  ],
+  exp:`<p class="step"><b>(a) 4 1/2 cups.</b> Add the three amounts. Halves and quarters are easiest in quarters: <span class="calc">2 1/2 = 10/4</span>, <span class="calc">3/4 = 3/4</span>, <span class="calc">1 1/4 = 5/4</span>. Then <span class="calc">10/4 + 3/4 + 5/4 = 18/4 = 9/2 = 4 1/2</span> cups.</p>
+       <p class="step"><b>(b) $26.40.</b> Scale up to 6 batches one ingredient at a time, then cost each one:</p>
+       <p class="step">Oats: <span class="calc">6 &times; 2 1/2 = 15</span> cups, at $0.40 &rarr; <span class="calc">15 &times; 0.40 = $6.00</span><br>
+       Raisins: <span class="calc">6 &times; 3/4 = 18/4 = 4.5</span> cups, at $1.20 &rarr; <span class="calc">4.5 &times; 1.20 = $5.40</span><br>
+       Almonds: <span class="calc">6 &times; 1 1/4 = 7.5</span> cups, at $2.00 &rarr; <span class="calc">7.5 &times; 2.00 = $15.00</span><br>
+       Total: <span class="calc">6.00 + 5.40 + 15.00 = $26.40</span></p>
+       <p class="step"><b>(c) $28.15.</b> The tax is 6.625% of $26.40: <span class="calc">26.40 &times; 0.06625 = 1.749</span>, which is <b>$1.75</b> to the nearest cent. Then <span class="calc">26.40 + 1.75 = $28.15</span>.<br>
+       The one-step version: paying the price plus 6.625% tax means paying 106.625% of it, so <span class="calc">26.40 &times; 1.06625 = 28.149 &rarr; $28.15</span>. Both routes land on the same cent.</p>
+       <p class="step"><b>(d) 36 bags.</b> All 6 batches make <span class="calc">6 &times; 4 1/2 = 27</span> cups. Each bag holds 3/4 of a cup, so <span class="calc">27 &divide; 3/4 = 27 &times; 4/3 = 36</span> bags — and it comes out exact, with nothing left over.</p>
+       <div class="strategy"><b>Strategy:</b> a long problem like this is really four short ones. Scale, then cost, then tax, then divide — and write down the units at every step (cups, dollars, bags), because the units are what tell you whether to multiply or divide next. Solving it in one giant expression is how answers get lost.</div>
+       <div class="mistake"><b>Common mistake:</b> multiplying the price per cup by the number of <em>batches</em> instead of the number of <em>cups</em>, and applying the tax before the ingredient total is complete. Tax goes on the finished subtotal, at the very end.</div>
+       <p class="step"><em>Sanity check:</em> 27 cups of mix for $28.15 is a little over a dollar a cup. Almonds at $2.00 a cup are the pricey part and oats at $0.40 are cheap, so about a dollar a cup sits right in between — the answer is the right size. &#10003;</p>`
+}
+];
+/* ===== END DAILY DATA ===== */
+
+/* ===== PROGRAM CONFIG — stable across days, do not change per run ===== */
+const RESULTS_EMAIL = "patadiakd@gmail.com";   // where "Email my results" sends
+const RESULTS_TO_LABEL = "Dad";
+
+/* header */
+document.getElementById("hDate").textContent  = DATE_LABEL;
+document.getElementById("hTopic").textContent = `Topic Day ${TOPIC_DAY} — ${TOPIC_NAME}`;
+document.getElementById("hMeta").textContent  =
+  `${QUESTIONS.length} questions · ${STANDARDS} · No calculator except the money problems`;
+document.title = `Math Honors — ${DATE_LABEL}`;
+
+/* ===================================================================
+   STATE
+   =================================================================== */
+let submitted = false;
+const startedAt = Date.now();
+const selfMarks = {};     // partId -> true/false
+const hintsUsed = {};     // qn -> true
+const skipped   = {};     // qn -> true ("I don't know this one")
+let fieldIds = [];
+
+/* ===================================================================
+   ANSWER CHECKING
+   =================================================================== */
+const UNIT_WORDS = /\b(cups?|cup|miles?|mph|mpg|miles per gallon|per gallon|gallons?|inches|inch|in\b|hours?|hrs?|hr|minutes?|mins?|min|students?|boys?|girls?|people|persons?|dollars?|dollar|cents?|percent|each|rooms?|posters?|notebooks?|apiece|about|approx\.?|approximately|around)\b/g;
+
+function parseNum(raw){
+  if(raw === null || raw === undefined) return null;
+  let t = String(raw).toLowerCase().trim();
+  if(!t) return null;
+  t = t.replace(/[$,]/g,"").replace(/%/g,"").replace(UNIT_WORDS," ").replace(/\s+/g," ").trim();
+  let m = t.match(/^(-?\d+)\s+(\d+)\s*\/\s*(\d+)$/);            // mixed: 8 2/11
+  if(m) return parseInt(m[1],10) + parseInt(m[2],10)/parseInt(m[3],10);
+  m = t.match(/^(-?\d+)\s*\/\s*(\d+)$/);                         // fraction: 90/11
+  if(m) return parseInt(m[1],10)/parseInt(m[2],10);
+  m = t.match(/^-?\d*\.?\d+$/);                                  // plain
+  if(m) return parseFloat(t);
+  m = t.match(/-?\d*\.?\d+/);                                    // first number found
+  return m ? parseFloat(m[0]) : null;
+}
+
+function normText(raw){
+  return String(raw||"").toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×·]/g,"")
+    .replace(/[$,]/g,"")
+    .replace(/\.$/,"")
+    .replace(/\bto\b/g,"to");
+}
+
+function isCorrect(part, raw){
+  if(raw === null || raw === undefined || String(raw).trim() === "") return false;
+  if(part.type === "num"){
+    const v = parseNum(raw);
+    if(v === null) return false;
+    const tol = part.tol !== undefined ? part.tol : 0.005;
+    return Math.abs(v - part.correct) <= tol;
+  }
+  if(part.type === "choice") return String(raw) === part.correct;
+  if(part.type === "text"){
+    const n = normText(raw);
+    if(part.accept && part.accept.some(a => normText(a) === n)) return true;
+    if(part.re) return new RegExp(part.re,"i").test(String(raw).toLowerCase());
+    return false;
+  }
+  return false;
+}
+
+/* ===================================================================
+   RENDER
+   =================================================================== */
+const qRoot = document.getElementById("questions");
+let lastSet = null;
+
+QUESTIONS.forEach(q => {
+  if(q.set !== lastSet){
+    lastSet = q.set;
+    const sh = document.createElement("div");
+    sh.className = "setheader";
+    sh.innerHTML = `<h2>Set ${q.set} — ${q.setTitle}</h2><div class="std">${q.std}</div>`;
+    qRoot.appendChild(sh);
+  }
+
+  const card = document.createElement("section");
+  card.className = "q";
+  card.id = "q" + q.n;
+
+  let html = `<div class="qhead"><div class="qnum">${q.n}.</div><div class="prompt">${q.prompt}</div></div>`;
+  if(q.table) html += q.table;
+  html += `<div class="parts">`;
+
+  q.parts.forEach((p, i) => {
+    const fid = `f-${q.n}-${i}`;
+    fieldIds.push({fid, q, p, i});
+    const lab = (p.key ? `<span class="pk">(${p.key})</span> ` : "") + p.label;
+    if(p.type === "choice"){
+      html += `<div class="part"><div class="plabel">${lab}</div><div class="radios">` +
+        p.options.map(o => `<label><input type="radio" name="${fid}" value="${o}"> ${o}</label>`).join("") +
+        `</div></div>`;
+    } else if(p.type === "self"){
+      html += `<div class="part" style="flex-direction:column;align-items:stretch">
+                 <div class="plabel" style="padding-top:0">${lab}</div>
+                 <textarea class="ans" id="${fid}" placeholder="${p.placeholder||"Write your reasoning…"}"></textarea>
+                 <div class="explain-note">Written answer — you'll compare it to the model answer and mark yourself.</div>
+               </div>`;
+    } else {
+      html += `<div class="part"><div class="plabel">${lab}</div>
+                 <input class="ans" id="${fid}" type="text" autocomplete="off" inputmode="text"></div>`;
+    }
+  });
+  html += `</div>`;
+
+  html += `<div class="skiprow">`;
+  if(q.hint) html += `<button class="hintbtn" type="button" data-hint="${q.n}">Need a hint?</button>`;
+  html += `<button class="skipbtn" type="button" data-skip="${q.n}">I haven't learned this one &mdash; skip it</button>`;
+  html += `</div>`;
+  if(q.hint) html += `<div class="hint" id="hint-${q.n}">${q.hint}</div>`;
+  html += `<div class="result" id="res-${q.n}"></div>`;
+
+  card.innerHTML = html;
+  qRoot.appendChild(card);
+});
+
+document.getElementById("totalCount").textContent = fieldIds.length;
+
+/* hints */
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-hint]");
+  if(!b) return;
+  const n = b.getAttribute("data-hint");
+  const h = document.getElementById("hint-" + n);
+  h.classList.toggle("show");
+  b.textContent = h.classList.contains("show") ? "Hide hint" : "Need a hint?";
+  if(h.classList.contains("show")) hintsUsed[n] = true;
+});
+
+/* skipping — honest "I don't know", not a wrong answer */
+function applySkipUI(n){
+  const card = document.getElementById("q" + n);
+  if(!card) return;
+  const off = !!skipped[n];
+  card.classList.toggle("skipped", off);
+  card.querySelectorAll("input.ans, textarea.ans").forEach(el => el.disabled = off);
+  card.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = off);
+  const b = card.querySelector("[data-skip]");
+  if(b) b.innerHTML = off ? "Actually, let me try this one" : "I haven't learned this one &mdash; skip it";
+}
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-skip]");
+  if(!b || submitted) return;
+  const n = b.getAttribute("data-skip");
+  skipped[n] = !skipped[n];
+  applySkipUI(n);
+  updateProgress();
+  queueSave();
+});
+
+/* ===================================================================
+   PROGRESS
+   =================================================================== */
+function readField(f){
+  if(f.p.type === "choice"){
+    const sel = document.querySelector(`input[name="${f.fid}"]:checked`);
+    return sel ? sel.value : "";
+  }
+  const el = document.getElementById(f.fid);
+  return el ? el.value : "";
+}
+
+function updateProgress(){
+  if(submitted) return;
+  const filled = fieldIds.filter(f => skipped[f.q.n] || String(readField(f)).trim() !== "").length;
+  document.getElementById("answeredCount").textContent = filled;
+  document.getElementById("fill").style.width = (filled / fieldIds.length * 100) + "%";
+  const left = fieldIds.length - filled;
+  document.getElementById("progHint").textContent =
+    left === 0 ? "All done — ready to check" : `${left} left`;
+}
+qRoot.addEventListener("input", updateProgress);
+qRoot.addEventListener("change", updateProgress);
+updateProgress();
+
+/* timer */
+const timerBadge = document.getElementById("timerBadge");
+setInterval(() => {
+  if(submitted) return;
+  const s = Math.floor((Date.now() - startedAt)/1000);
+  timerBadge.textContent = `Time: ${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
+}, 1000);
+
+/* ===================================================================
+   STORAGE
+   =================================================================== */
+const syncBadge = document.getElementById("syncBadge");
+const WIP_KEY  = "mathwip:" + DATE_KEY;
+const DONE_KEY = "mathlog:" + DATE_KEY;
+
+function setBadge(text, cls){
+  syncBadge.textContent = text;
+  syncBadge.className = "badge " + (cls || "");
+}
+
+/* Save work in progress, so she can close the tab and come back later. */
+let saveTimer = null;
+function saveProgress(){
+  if(submitted) return;
+  try{
+    localStorage.setItem(WIP_KEY, JSON.stringify({
+      date: DATE_KEY,
+      savedAt: new Date().toISOString(),
+      fields: fieldIds.map(readField),
+      skipped: Object.keys(skipped).filter(k => skipped[k])
+    }));
+    setBadge("Saved — you can close this and come back", "live");
+  }catch(e){
+    setBadge("Couldn't save on this computer", "local");
+  }
+}
+function queueSave(){
+  if(submitted) return;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveProgress, 600);
+}
+qRoot.addEventListener("input", queueSave);
+qRoot.addEventListener("change", queueSave);
+window.addEventListener("beforeunload", () => { clearTimeout(saveTimer); saveProgress(); });
+
+function restoreWip(rec){
+  if(!rec || !Array.isArray(rec.fields) || submitted) return 0;
+  let n = 0;
+  fieldIds.forEach((f, idx) => {
+    const v = rec.fields[idx];
+    if(v === undefined || v === null || v === "") return;
+    if(f.p.type === "choice"){
+      const el = document.querySelector(`input[name="${f.fid}"][value="${String(v).replace(/"/g,"")}"]`);
+      if(el){ el.checked = true; n++; }
+    } else {
+      const el = document.getElementById(f.fid);
+      if(el){ el.value = v; n++; }
+    }
+  });
+  if(Array.isArray(rec.skipped)){
+    rec.skipped.forEach(k => { skipped[k] = true; applySkipUI(k); n++; });
+  }
+  if(n) updateProgress();
+  return n;
+}
+
+(function initStorage(){
+  let done = null, wip = null;
+  try{ done = JSON.parse(localStorage.getItem(DONE_KEY) || "null"); }catch(e){}
+  try{ wip  = JSON.parse(localStorage.getItem(WIP_KEY)  || "null"); }catch(e){}
+
+  if(done && Array.isArray(done.fields)){
+    restorePrior(done);
+    return;
+  }
+  const n = wip ? restoreWip(wip) : 0;
+  if(n){
+    setBadge(n + (n === 1 ? " answer" : " answers") + " picked back up", "live");
+  } else {
+    setBadge("Your answers save as you type", "");
+  }
+})();
+
+function restorePrior(rec){
+  if(!rec || !rec.fields || submitted) return;
+  fieldIds.forEach((f, idx) => {
+    const v = rec.fields[idx];
+    if(v === undefined || v === null) return;
+    if(f.p.type === "choice"){
+      const el = document.querySelector(`input[name="${f.fid}"][value="${String(v).replace(/"/g,"")}"]`);
+      if(el) el.checked = true;
+    } else {
+      const el = document.getElementById(f.fid);
+      if(el) el.value = v;
+    }
+  });
+  if(rec.selfMarks) Object.assign(selfMarks, rec.selfMarks);
+  if(Array.isArray(rec.skipped)) rec.skipped.forEach(k => { skipped[k] = true; });
+  updateProgress();
+  grade(true);
+  document.getElementById("barNote").textContent = "You already finished this one — this is your review.";
+}
+
+function persist(rec){
+  try{
+    localStorage.setItem(DONE_KEY, JSON.stringify(rec));
+    localStorage.removeItem(WIP_KEY);
+    setBadge("Finished and saved", "live");
+  }catch(e){
+    setBadge("Couldn't save on this computer", "local");
+  }
+}
+
+/* ===================================================================
+   GRADE & REVEAL
+   =================================================================== */
+function esc(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+function grade(isRestore){
+  submitted = true;
+  const fields = fieldIds.map(readField);
+  const perQ = [];
+
+  QUESTIONS.forEach(q => {
+    const mine = fieldIds.filter(f => f.q.n === q.n);
+    const res = document.getElementById("res-" + q.n);
+    let autoRight = 0, autoTotal = 0, selfTotal = 0;
+    const isSkip = !!skipped[q.n];
+    let rows = "";
+
+    mine.forEach(f => {
+      const raw = readField(f);
+      const p = f.p;
+      if(p.type === "self"){
+        selfTotal++;
+        rows += `<div><span class="lab">Your answer</span><span class="mine">${raw.trim() ? esc(raw) : "—"}</span></div>
+                 <div><span class="lab">Model answer</span><span class="theirs">${p.show}</span></div>`;
+      } else {
+        autoTotal++;
+        const ok = !isSkip && isCorrect(p, raw);
+        if(ok) autoRight++;
+        const rowLab = p.label.length > 52 ? p.label.slice(0, 49) + "\u2026" : p.label;
+        rows += `<div><span class="lab">${esc(rowLab)}</span>
+                   <span class="mine ${ok?"right":"wrong"}">${raw.trim() ? esc(raw) : "(blank)"}</span>
+                   ${ok ? ` <span class="tick">&#10003;</span>`
+                        : ` <span class="cross">&#10007;</span> <span class="lab" style="min-width:0">correct answer:</span> <span class="theirs">${p.show}</span>`}</div>`;
+      }
+    });
+
+    let vclass = "ok", vtext = "Correct";
+    if(isSkip){ vclass = "skip"; vtext = "Skipped — here's how it works"; }
+    else if(autoTotal === 0){ vclass = "self"; vtext = "Check yourself"; }
+    else if(autoRight === 0){ vclass = "no"; vtext = "Not yet"; }
+    else if(autoRight < autoTotal){ vclass = "no"; vtext = `${autoRight} of ${autoTotal} parts right`; }
+
+    let selfHtml = "";
+    mine.forEach((f, i) => {
+      if(f.p.type !== "self") return;
+      const pid = `${q.n}-${f.i}`;
+      const cur = selfMarks[pid];
+      selfHtml += `<div class="selfmark" data-pid="${pid}">
+          <p>Did your reasoning match the model answer?</p>
+          <div class="btns">
+            <button class="smbtn yes" type="button" data-mark="1" aria-pressed="${cur===true}">Yes, I had it</button>
+            <button class="smbtn no" type="button" data-mark="0" aria-pressed="${cur===false}">Not quite</button>
+          </div></div>`;
+    });
+
+    res.innerHTML = `<div class="verdict ${vclass}">${vtext}</div>
+                     ${isSkip ? `<p class="skipnote">You said you hadn't learned this one, so it isn't counted against your score — but read it through, because it'll come back in a day or two.</p>` : ""}
+                     <div class="cmp">${rows}</div>
+                     <div class="exp"><h4>Explanation</h4>${q.exp}</div>
+                     ${selfHtml}`;
+    res.classList.add("show");
+
+    perQ.push({n:q.n, set:q.set, setTitle:q.setTitle, std:q.std, autoRight, autoTotal,
+               selfTotal, skipped:isSkip, hint: !!hintsUsed[q.n]});
+  });
+
+  /* lock inputs */
+  document.querySelectorAll("input.ans, textarea.ans, select.ans").forEach(el => el.disabled = true);
+  document.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = true);
+  document.querySelectorAll(".hintbtn").forEach(el => el.style.display = "none");
+
+  const btn = document.getElementById("submitBtn");
+  btn.textContent = "Checked";
+  btn.disabled = true;
+  document.getElementById("barNote").textContent =
+    "Scroll through — every question now shows the worked explanation.";
+
+  const elapsed = isRestore ? null : Math.round((Date.now() - startedAt)/1000);
+  window.__elapsed = elapsed;
+
+  const att = perQ.filter(p => !p.skipped);
+  const rTot = att.reduce((a,p) => a + p.autoTotal, 0);
+  const rRight = att.reduce((a,p) => a + p.autoRight, 0);
+  const nSkip = perQ.filter(p => p.skipped).length;
+  document.querySelector(".progrow").innerHTML =
+    `<span>Submitted — <strong>${rRight} of ${rTot}</strong> correct${nSkip ? `, ${nSkip} skipped` : ""}</span>
+     <span>Explanations unlocked</span>`;
+  const fillEl = document.getElementById("fill");
+  fillEl.style.width = "100%";
+  const rPct = rTot ? rRight/rTot : 0;
+  fillEl.style.background = rPct >= 0.85 ? "#1a7a4c" : rPct >= 0.65 ? "#3b4c9e" : "#b3261e";
+
+  renderScore(perQ);
+
+  const rec = {
+    date: DATE_KEY, topicDay: TOPIC_DAY, topic: TOPIC_NAME,
+    fieldsSkipped: Object.keys(skipped).filter(k => skipped[k]),
+    submittedAt: new Date().toISOString(),
+    seconds: elapsed,
+    fields, selfMarks, perQuestion: perQ,
+    autoScore: rRight,
+    autoTotal: rTot,
+    skipped: perQ.filter(p => p.skipped).map(p => p.n),
+    hintsUsed: Object.keys(hintsUsed).length
+  };
+  if(!isRestore) persist(rec);
+  window.__rec = rec;
+}
+
+function renderScore(perQ){
+  const att = perQ.filter(p => !p.skipped);
+  const skippedQs = perQ.filter(p => p.skipped);
+  const right = att.reduce((a,p) => a + p.autoRight, 0);
+  const total = att.reduce((a,p) => a + p.autoTotal, 0);
+  const pct = total ? Math.round(right/total*100) : 0;
+
+  document.getElementById("ringPct").textContent = pct + "%";
+  document.getElementById("ringRaw").textContent = right + "/" + total;
+  const circ = 2 * Math.PI * 41;
+  document.getElementById("ringArc").style.strokeDashoffset = circ * (1 - pct/100);
+  document.getElementById("ringArc").style.stroke =
+    pct >= 85 ? "#1a7a4c" : pct >= 65 ? "#3b4c9e" : "#b3261e";
+
+  let title, msg;
+  if(total === 0){ title = "Nothing marked today"; msg = "You skipped every question, so there's no score — but every explanation is open below. Read them, and these topics will come back in your next few sets."; }
+  else if(pct === 100){ title = "Every auto-graded part correct"; msg = "Clean sweep on the computed answers. Still read the explanations — the reasoning behind a right answer is the part that transfers to harder problems."; }
+  else if(pct >= 85){ title = "Strong work"; msg = "A couple of slips only. Read the explanations on the ones marked ✗ and note which step broke down — that's usually where the real lesson is."; }
+  else if(pct >= 65){ title = "Solid, with gaps to close"; msg = "The method is mostly there. Work carefully through the explanations below on the missed questions, then redo those problems on paper without looking."; }
+  else { title = "Worth a second pass"; msg = "Read every explanation below slowly — they show the setup step by step. Then try the missed questions again on paper. This topic repeats in the rotation, so you'll get another shot."; }
+  if(skippedQs.length && total > 0){
+    msg += ` You skipped ${skippedQs.length} ${skippedQs.length === 1 ? "question" : "questions"} — that's fine, and your score is out of the ${total} parts you did try. They'll come back in your next few sets.`;
+  }
+  document.getElementById("scoreTitle").textContent = title;
+  document.getElementById("scoreMsg").textContent = msg;
+
+  const bySet = {};
+  att.forEach(p => {
+    if(!bySet[p.set]) bySet[p.set] = {r:0,t:0};
+    bySet[p.set].r += p.autoRight; bySet[p.set].t += p.autoTotal;
+  });
+  document.getElementById("breakdown").innerHTML =
+    Object.keys(bySet).sort().map(k =>
+      `<div class="bd"><div class="t">Set ${k} · ${SET_NAMES[k]||""}</div>
+        <div class="v">${bySet[k].t ? bySet[k].r + " / " + bySet[k].t : "self-check"}</div></div>`
+    ).join("");
+
+  const missed = att.filter(p => p.autoTotal && p.autoRight < p.autoTotal).map(p => p.n);
+  const written = QUESTIONS.filter(q => q.parts.some(p => p.type === "self")).map(q => q.n);
+  const link = n => `<a href="#q${n}">Q${n}</a>`;
+  const bits = [];
+  if(missed.length) bits.push(`<b>Review these:</b> ` + missed.map(link).join(" · "));
+  if(skippedQs.length) bits.push(`<b>Skipped — read these too:</b> ` + skippedQs.map(p => link(p.n)).join(" · "));
+  if(!bits.length){
+    bits.push(`<b>Nothing flagged.</b>` + (written.length
+      ? ` Compare your written answers on ` + written.map(link).join(" · ") + ` against the model answers before you close this.`
+      : ` Read the explanations before you close this.`));
+  }
+  document.getElementById("reviewList").innerHTML = bits.join("<br>");
+
+  buildSendBack(perQ, right, total, missed, skippedQs);
+  window.__rebuildSend = () => buildSendBack(perQ, right, total, missed, skippedQs);
+
+  document.getElementById("scorecard").classList.add("show");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* ---------- send results back by email (no account needed) ---------- */
+function buildSendBack(perQ, right, total, missed, skippedQs){
+  const el = window.__elapsed;
+  const timeStr = (el === null || el === undefined) ? null
+                : el < 60 ? `${el} sec` : `${Math.round(el/60)} min`;
+
+  const writtenBits = [];
+  QUESTIONS.forEach(q => {
+    q.parts.forEach((p, i) => {
+      if(p.type !== "self") return;
+      const mark = selfMarks[`${q.n}-${i}`];
+      writtenBits.push(`Q${q.n}${p.key || ""} — ` + (mark === true ? "got it" : mark === false ? "not quite" : "not marked"));
+    });
+  });
+
+  const lines = [
+    `Math — ${DATE_LABEL}`,
+    `Topic: ${TOPIC_NAME}`,
+    ``,
+    `Score: ${right} / ${total}` + ((skippedQs && skippedQs.length) ? ` (out of what she attempted)` : ``),
+    timeStr ? `Time: ${timeStr}` : null,
+    `Hints opened: ${Object.keys(hintsUsed).length}`,
+    missed.length ? `Missed: ${missed.map(n => "Q"+n).join(", ")}` : `Missed: none`,
+    (skippedQs && skippedQs.length)
+      ? `Skipped (hadn't learned yet): ${skippedQs.map(p => "Q" + p.n + " — " + (p.setTitle || "") + (p.std ? " [" + p.std + "]" : "")).join("; ")}`
+      : `Skipped: none`,
+    writtenBits.length ? `Written answers: ${writtenBits.join("; ")}` : null,
+    ``,
+    `Per question: ` + perQ.map(p => `Q${p.n} ` + (p.skipped ? "skipped" : (p.autoTotal ? p.autoRight+"/"+p.autoTotal : "written"))).join(", "),
+    ``,
+    `(Sent from the worksheet page)`
+  ].filter(x => x !== null);
+
+  const text = lines.join("\n");
+  document.getElementById("resultsText").value = text;
+
+  const subject = `Math results — ${DATE_LABEL} — ${right}/${total}`;
+  const href = `mailto:${encodeURIComponent(RESULTS_EMAIL)}`
+             + `?subject=${encodeURIComponent(subject)}`
+             + `&body=${encodeURIComponent(text)}`;
+
+  const done = document.getElementById("sendDone");
+
+  document.getElementById("emailResultsBtn").onclick = () => {
+    window.location.href = href;
+    done.textContent = `Your email app should be opening — just press send. If nothing happened, use "Copy instead".`;
+    done.classList.add("show");
+  };
+
+  document.getElementById("copyResultsBtn").onclick = async () => {
+    const ta = document.getElementById("resultsText");
+    ta.classList.add("show");
+    let ok = false;
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        await navigator.clipboard.writeText(text); ok = true;
+      }
+    }catch(e){}
+    if(!ok){ try{ ta.select(); ok = document.execCommand("copy"); }catch(e){} }
+    done.textContent = ok
+      ? `Copied. Reply to the email that sent you this worksheet and paste it in.`
+      : `Select the text below, copy it, and paste it into a reply to the worksheet email.`;
+    done.classList.add("show");
+  };
+}
+
+/* self-marking */
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-mark]");
+  if(!b) return;
+  const box = b.closest(".selfmark");
+  const pid = box.getAttribute("data-pid");
+  const val = b.getAttribute("data-mark") === "1";
+  selfMarks[pid] = val;
+  box.querySelectorAll(".smbtn").forEach(x => x.setAttribute("aria-pressed","false"));
+  b.setAttribute("aria-pressed","true");
+  if(window.__rec){ window.__rec.selfMarks = selfMarks; persist(window.__rec); }
+  if(window.__rebuildSend) window.__rebuildSend();
+});
+
+/* submit */
+document.getElementById("submitBtn").addEventListener("click", () => {
+  const blanks = fieldIds.filter(f => !skipped[f.q.n] && String(readField(f)).trim() === "").length;
+  const note = document.getElementById("barNote");
+  if(blanks > 0 && !note.dataset.warned){
+    note.dataset.warned = "1";
+    note.textContent = `${blanks} blank${blanks>1?"s":""} left. Fill them in, mark them "haven't learned this", or press again to check anyway.`;
+    note.style.color = "#8a5a00";
+    return;
+  }
+  note.style.color = "";
+  grade(false);
+});
+
+document.getElementById("printBtn").addEventListener("click", () => window.print());
+</script>
+</body>
+</html>
