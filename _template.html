@@ -459,11 +459,17 @@ document.title = `Math Honors — ${DATE_LABEL}`;
    STATE
    =================================================================== */
 let submitted = false;
-const startedAt = Date.now();
+const sessionStart = Date.now();
+let priorSeconds = 0;     // time banked in earlier sittings, restored from storage
 const selfMarks = {};     // partId -> true/false
-const hintsUsed = {};     // qn -> true
+const hintsUsed = {};     // qn -> true  (persisted: promotion rule 3 depends on this)
 const skipped   = {};     // qn -> true ("I don't know this one")
 let fieldIds = [];
+
+/* Total time across every sitting, not just this one. */
+function elapsedSeconds(){
+  return priorSeconds + Math.round((Date.now() - sessionStart)/1000);
+}
 
 /* ===================================================================
    ANSWER CHECKING
@@ -630,7 +636,7 @@ updateProgress();
 const timerBadge = document.getElementById("timerBadge");
 setInterval(() => {
   if(submitted) return;
-  const s = Math.floor((Date.now() - startedAt)/1000);
+  const s = elapsedSeconds();
   timerBadge.textContent = `Time: ${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
 }, 1000);
 
@@ -655,7 +661,9 @@ function saveProgress(){
       date: DATE_KEY,
       savedAt: new Date().toISOString(),
       fields: fieldIds.map(readField),
-      skipped: Object.keys(skipped).filter(k => skipped[k])
+      skipped: Object.keys(skipped).filter(k => skipped[k]),
+      hints: Object.keys(hintsUsed).filter(k => hintsUsed[k]),
+      secs: elapsedSeconds()
     }));
     setBadge("Saved — you can close this and come back", "live");
   }catch(e){
@@ -688,6 +696,9 @@ function restoreWip(rec){
   if(Array.isArray(rec.skipped)){
     rec.skipped.forEach(k => { skipped[k] = true; applySkipUI(k); n++; });
   }
+  /* Hints and banked time survive the tab closing — they don't count as answers. */
+  if(Array.isArray(rec.hints)) rec.hints.forEach(k => { hintsUsed[k] = true; });
+  if(typeof rec.secs === "number" && isFinite(rec.secs) && rec.secs > 0) priorSeconds = rec.secs;
   if(n) updateProgress();
   return n;
 }
@@ -724,6 +735,10 @@ function restorePrior(rec){
   });
   if(rec.selfMarks) Object.assign(selfMarks, rec.selfMarks);
   if(Array.isArray(rec.skipped)) rec.skipped.forEach(k => { skipped[k] = true; });
+  /* Carry the hint record and the original time into review mode, so results
+     emailed from a later sitting still report them instead of 0 and "no time". */
+  if(Array.isArray(rec.hintQs)) rec.hintQs.forEach(k => { hintsUsed[k] = true; });
+  if(typeof rec.seconds === "number" && isFinite(rec.seconds) && rec.seconds > 0) priorSeconds = rec.seconds;
   updateProgress();
   grade(true);
   document.getElementById("barNote").textContent = "You already finished this one — this is your review.";
@@ -818,7 +833,9 @@ function grade(isRestore){
   document.getElementById("barNote").textContent =
     "Scroll through — every question now shows the worked explanation.";
 
-  const elapsed = isRestore ? null : Math.round((Date.now() - startedAt)/1000);
+  /* On a review-mode reopen, report the time banked when she actually worked,
+     not nothing — priorSeconds was restored from the saved record. */
+  const elapsed = isRestore ? (priorSeconds > 0 ? priorSeconds : null) : elapsedSeconds();
   window.__elapsed = elapsed;
 
   const att = perQ.filter(p => !p.skipped);
@@ -844,7 +861,8 @@ function grade(isRestore){
     autoScore: rRight,
     autoTotal: rTot,
     skipped: perQ.filter(p => p.skipped).map(p => p.n),
-    hintsUsed: Object.keys(hintsUsed).length
+    hintsUsed: Object.keys(hintsUsed).filter(k => hintsUsed[k]).length,
+    hintQs: perQ.filter(p => p.hint).map(p => p.n)
   };
   if(!isRestore) persist(rec);
   window.__rec = rec;
@@ -922,20 +940,38 @@ function buildSendBack(perQ, right, total, missed, skippedQs){
     });
   });
 
+  /* Independence: which questions needed a hint, and how many she carried
+     unaided. A score built on hints is a different thing from one without. */
+  const attempted  = perQ.filter(p => !p.skipped);
+  const hintQs     = attempted.filter(p => p.hint).map(p => p.n);
+  const autoQs     = attempted.filter(p => p.autoTotal > 0);
+  const cleanQs    = autoQs.filter(p => !p.hint && p.autoRight === p.autoTotal).length;
+
+  /* The final question is the multi-step challenge — tracked on its own
+     because it's the best transfer signal and vanishes inside a percentage. */
+  const lastQ = perQ.length ? perQ[perQ.length - 1] : null;
+  const challengeStr = !lastQ ? null
+    : lastQ.skipped ? `Challenge question (Q${lastQ.n}): skipped`
+    : lastQ.autoTotal ? `Challenge question (Q${lastQ.n}): ${lastQ.autoRight}/${lastQ.autoTotal}${lastQ.hint ? " (used the hint)" : " (no hint)"}`
+    : `Challenge question (Q${lastQ.n}): written answer`;
+
   const lines = [
     `Math — ${DATE_LABEL}`,
     `Topic: ${TOPIC_NAME}`,
     ``,
     `Score: ${right} / ${total}` + ((skippedQs && skippedQs.length) ? ` (out of what she attempted)` : ``),
     timeStr ? `Time: ${timeStr}` : null,
-    `Hints opened: ${Object.keys(hintsUsed).length}`,
+    `Hints opened: ${hintQs.length}` + (hintQs.length ? ` — on ${hintQs.map(n => "Q"+n).join(", ")}` : ``),
+    autoQs.length ? `Unaided: ${cleanQs} of ${autoQs.length} graded questions fully right with no hint` : null,
+    challengeStr,
     missed.length ? `Missed: ${missed.map(n => "Q"+n).join(", ")}` : `Missed: none`,
     (skippedQs && skippedQs.length)
       ? `Skipped (hadn't learned yet): ${skippedQs.map(p => "Q" + p.n + " — " + (p.setTitle || "") + (p.std ? " [" + p.std + "]" : "")).join("; ")}`
       : `Skipped: none`,
     writtenBits.length ? `Written answers: ${writtenBits.join("; ")}` : null,
     ``,
-    `Per question: ` + perQ.map(p => `Q${p.n} ` + (p.skipped ? "skipped" : (p.autoTotal ? p.autoRight+"/"+p.autoTotal : "written"))).join(", "),
+    `Per question: ` + perQ.map(p => `Q${p.n} ` + (p.skipped ? "skipped" : (p.autoTotal ? p.autoRight+"/"+p.autoTotal : "written")) + (p.hint && !p.skipped ? " (hint)" : "")).join(", "),
+    `Standards: ` + perQ.map(p => `Q${p.n} ${p.std || "—"}`).join(", "),
     ``,
     `(Sent from the worksheet page)`
   ].filter(x => x !== null);
