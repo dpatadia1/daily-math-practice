@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Math Honors — Oct 29, 2026</title>
+<style>
+  :root{
+    --paper:#fdfbf7; --card:#ffffff; --ink:#1b1a17; --muted:#6b675f;
+    --line:#e5e0d6; --accent:#3b4c9e; --accent-soft:#eef1fb;
+    --ok:#1a7a4c; --ok-soft:#e8f5ee; --no:#b3261e; --no-soft:#fdecea;
+    --warn:#8a5a00; --warn-soft:#fdf3e0;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --serif:"Iowan Old Style",Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+       font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+  .wrap{max-width:780px;margin:0 auto;padding:28px 20px 120px}
+
+  /* ---------- header ---------- */
+  header{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:8px}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  h1{font-family:var(--serif);font-size:30px;line-height:1.2;margin:8px 0 6px;font-weight:600}
+  .topicline{font-size:15px;color:var(--accent);font-weight:600}
+  .meta{font-size:13px;color:var(--muted);margin-top:8px}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center}
+  .badge{font-size:12px;padding:4px 10px;border-radius:999px;background:#f1eee6;color:var(--muted);
+         border:1px solid var(--line);font-weight:600}
+  .badge.live{background:var(--ok-soft);color:var(--ok);border-color:#bfe3cf}
+  .badge.local{background:var(--warn-soft);color:var(--warn);border-color:#ebd9b0}
+
+  /* ---------- progress ---------- */
+  .progwrap{position:sticky;top:0;background:var(--paper);padding:14px 0 12px;z-index:20;
+            border-bottom:1px solid var(--line);margin-bottom:26px}
+  .progrow{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin-bottom:7px}
+  .progrow strong{color:var(--ink)}
+  .track{height:7px;background:#ece7dc;border-radius:999px;overflow:hidden}
+  .fill{height:100%;width:0%;background:var(--accent);border-radius:999px;transition:width .3s ease}
+
+  /* ---------- sets & questions ---------- */
+  .setheader{margin:38px 0 18px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+  .setheader:first-of-type{margin-top:8px}
+  .setheader h2{font-family:var(--serif);font-size:21px;margin:0;font-weight:600}
+  .setheader .std{font-size:12px;color:var(--muted);margin-top:3px;letter-spacing:.02em}
+
+  .q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 20px 18px;
+     margin-bottom:18px;position:relative;scroll-margin-top:96px}
+  .q.flagged{border-color:#d9d2c4}
+  .qhead{display:flex;gap:12px;align-items:baseline;margin-bottom:10px}
+  .qnum{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--accent);min-width:26px}
+  .prompt{font-family:var(--serif);font-size:17.5px;line-height:1.5}
+  .prompt em{font-style:italic}
+  table.data{border-collapse:collapse;margin:14px 0 4px;font-family:var(--sans);font-size:14px}
+  table.data th,table.data td{border:1px solid var(--line);padding:7px 14px;text-align:center}
+  table.data th{background:#f6f3ec;font-weight:600;text-align:left}
+
+  .parts{margin-top:14px;display:flex;flex-direction:column;gap:11px}
+  .part{display:flex;flex-direction:column;align-items:stretch;gap:7px}
+  .plabel{font-size:15.5px;line-height:1.5;color:#2e2b26;padding-top:0}
+  .plabel .pk{font-weight:700;color:var(--ink)}
+  input.ans,select.ans{font-family:var(--sans);font-size:15px;padding:9px 11px;border:1.5px solid var(--line);
+       border-radius:8px;background:#fff;color:var(--ink);width:100%;max-width:300px}
+  input.ans:focus,select.ans:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  input.ans[disabled],select.ans[disabled]{background:#f7f5f0;color:#55524c}
+  .radios{display:flex;gap:16px;padding-top:6px;flex-wrap:wrap}
+  .radios label{font-size:15px;display:flex;gap:6px;align-items:center;cursor:pointer}
+  .longans{width:100%;max-width:none}
+  textarea.ans{font-family:var(--sans);font-size:15px;padding:9px 11px;border:1.5px solid var(--line);
+       border-radius:8px;width:100%;min-height:72px;resize:vertical;line-height:1.5;color:var(--ink);background:#fff}
+  textarea.ans:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  textarea.ans[disabled]{background:#f7f5f0;color:#55524c}
+  .explain-note{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:-2px}
+
+  .hintbtn{background:none;border:none;color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;
+           padding:4px 0;margin-top:9px;font-family:var(--sans);text-decoration:underline}
+  .hint{display:none;margin-top:9px;font-size:14px;background:var(--accent-soft);border-left:3px solid var(--accent);
+        padding:10px 13px;border-radius:0 7px 7px 0;color:#2c3870}
+  .hint.show{display:block}
+  .skiprow{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:10px}
+  .skipbtn{background:none;border:none;color:var(--muted);font-size:13px;font-weight:600;
+           cursor:pointer;padding:4px 0;font-family:var(--sans);text-decoration:underline}
+  .q.skipped{background:#f7f5f0;border-style:dashed}
+  .q.skipped .parts{opacity:.45}
+  .verdict.skip{background:#f1eee6;color:#55524c}
+  .skipnote{font-size:13.5px;color:var(--muted);margin:0 0 12px;font-style:italic}
+
+  /* ---------- results ---------- */
+  .result{display:none;margin-top:17px;border-top:1px dashed var(--line);padding-top:15px}
+  .result.show{display:block}
+  .verdict{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;
+           padding:4px 11px;border-radius:999px;margin-bottom:12px}
+  .verdict.ok{background:var(--ok-soft);color:var(--ok)}
+  .verdict.no{background:var(--no-soft);color:var(--no)}
+  .verdict.self{background:var(--accent-soft);color:var(--accent)}
+  .cmp{font-size:14px;margin-bottom:13px;background:#faf8f3;border-radius:8px;padding:11px 13px}
+  .cmp div{margin:3px 0}
+  .cmp .lab{color:var(--muted);display:inline-block;min-width:118px;font-size:13px}
+  .cmp .mine.wrong{color:var(--no);font-weight:600}
+  .cmp .mine.right{color:var(--ok);font-weight:600}
+  .cmp .theirs{font-weight:700}
+  .cmp .tick{color:var(--ok);font-weight:700;margin-left:4px}
+  .cmp .cross{color:var(--no);font-weight:700;margin:0 6px 0 4px}
+  .exp{font-size:15px;line-height:1.62}
+  .exp h4{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+          margin:0 0 7px;font-weight:700}
+  .exp p{margin:0 0 10px}
+  .exp .step{margin:0 0 9px}
+  .exp .calc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;
+             background:#f4f1ea;padding:2px 6px;border-radius:4px;white-space:nowrap}
+  .exp .strategy{background:var(--accent-soft);border-radius:8px;padding:11px 13px;margin:12px 0 0;
+                 font-size:14.5px;color:#2c3870}
+  .exp .strategy b{color:var(--accent)}
+  .exp .mistake{background:var(--warn-soft);border-radius:8px;padding:11px 13px;margin:10px 0 0;
+                font-size:14.5px;color:#6d4800}
+  .exp .mistake b{color:var(--warn)}
+  .selfmark{margin-top:14px;background:#faf8f3;border:1px solid var(--line);border-radius:8px;padding:12px 13px}
+  .selfmark p{margin:0 0 9px;font-size:14px;font-weight:600}
+  .selfmark .btns{display:flex;gap:9px;flex-wrap:wrap}
+  .smbtn{font-family:var(--sans);font-size:13.5px;font-weight:600;padding:7px 14px;border-radius:7px;
+         border:1.5px solid var(--line);background:#fff;cursor:pointer;color:var(--ink)}
+  .smbtn[aria-pressed="true"].yes{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+  .smbtn[aria-pressed="true"].no{background:var(--no-soft);border-color:var(--no);color:var(--no)}
+
+  /* ---------- submit bar ---------- */
+  .submitbar{position:fixed;left:0;right:0;bottom:0;background:rgba(253,251,247,.96);
+             backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:13px 20px;z-index:30}
+  .submitinner{max-width:780px;margin:0 auto;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .submitnote{font-size:13px;color:var(--muted)}
+  .btn{font-family:var(--sans);font-size:15px;font-weight:600;padding:11px 22px;border-radius:9px;
+       border:none;background:var(--accent);color:#fff;cursor:pointer}
+  .btn:disabled{background:#b9b5ac;cursor:not-allowed}
+  .btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+
+  /* ---------- score card ---------- */
+  .scorecard{display:none;background:var(--card);border:2px solid var(--ink);border-radius:14px;
+             padding:24px;margin:8px 0 30px}
+  .scorecard.show{display:block}
+  .scoretop{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+  .ring{width:96px;height:96px;flex-shrink:0;position:relative}
+  .ring svg{transform:rotate(-90deg)}
+  .ringtext{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ringtext b{font-family:var(--serif);font-size:25px;line-height:1}
+  .ringtext span{font-size:11px;color:var(--muted);letter-spacing:.05em}
+  .scoremsg h3{font-family:var(--serif);font-size:21px;margin:0 0 5px;font-weight:600}
+  .scoremsg p{margin:0;font-size:14.5px;color:#46433c;max-width:420px}
+  .breakdown{margin-top:20px;border-top:1px solid var(--line);padding-top:16px;
+             display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px}
+  .bd{font-size:13.5px}
+  .bd .t{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+  .bd .v{font-family:var(--serif);font-size:17px;font-weight:600;margin-top:2px}
+  .review{margin-top:16px;font-size:14px;color:#46433c}
+  .review b{color:var(--ink)}
+
+  /* ---------- send results back ---------- */
+  .sendback{margin-top:20px;border-top:1px solid var(--line);padding-top:18px}
+  .sendback h4{font-family:var(--serif);font-size:17px;margin:0 0 5px;font-weight:600}
+  .sendback p{margin:0 0 13px;font-size:14.5px;color:#46433c}
+  .sendback .btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .sendback .big{font-size:15px;font-weight:600;padding:11px 20px;border-radius:9px;border:none;
+                 background:var(--ok);color:#fff;cursor:pointer;font-family:var(--sans)}
+  .sendback .alt{font-size:14px;font-weight:600;padding:10px 16px;border-radius:9px;
+                 border:1.5px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;font-family:var(--sans)}
+  .sendback .done{margin-top:11px;font-size:13.5px;color:var(--ok);font-weight:600;display:none}
+  .sendback .done.show{display:block}
+  .sendback textarea{margin-top:12px;width:100%;min-height:120px;font-family:ui-monospace,Menlo,Consolas,monospace;
+                     font-size:12.5px;border:1.5px solid var(--line);border-radius:8px;padding:10px;
+                     display:none;background:#faf8f3;color:var(--ink)}
+  .sendback textarea.show{display:block}
+
+  @media (max-width:560px){
+    .wrap{padding:20px 14px 130px}
+    h1{font-size:25px}
+    input.ans,select.ans{max-width:none;width:100%}
+    .qhead{gap:8px}
+    .prompt{font-size:16.5px}
+  }
+  @media print{
+    .submitbar,.hintbtn,.progwrap,.badges{display:none!important}
+    body{background:#fff}
+    .q{break-inside:avoid;border-color:#ccc}
+    .wrap{padding-bottom:20px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">NJ Middle School Math Honors · Daily Set</div>
+    <h1 id="hDate"></h1>
+    <div class="topicline" id="hTopic"></div>
+    <div class="meta" id="hMeta"></div>
+    <div class="badges">
+      <span class="badge" id="syncBadge">Your answers save as you type</span>
+      <span class="badge" id="timerBadge">Time: 0:00</span>
+    </div>
+  </header>
+
+  <div class="progwrap">
+    <div class="progrow">
+      <span><strong id="answeredCount">0</strong> of <strong id="totalCount">0</strong> blanks filled</span>
+      <span id="progHint">Answer everything, then check your work</span>
+    </div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+  </div>
+
+  <div class="scorecard" id="scorecard">
+    <div class="scoretop">
+      <div class="ring">
+        <svg width="96" height="96" viewBox="0 0 96 96">
+          <circle cx="48" cy="48" r="41" fill="none" stroke="#ece7dc" stroke-width="10"></circle>
+          <circle id="ringArc" cx="48" cy="48" r="41" fill="none" stroke="#3b4c9e" stroke-width="10"
+                  stroke-linecap="round" stroke-dasharray="257.6" stroke-dashoffset="257.6"></circle>
+        </svg>
+        <div class="ringtext"><b id="ringPct">0%</b><span id="ringRaw">0/0</span></div>
+      </div>
+      <div class="scoremsg">
+        <h3 id="scoreTitle">Work checked</h3>
+        <p id="scoreMsg"></p>
+      </div>
+    </div>
+    <div class="breakdown" id="breakdown"></div>
+    <div class="review" id="reviewList"></div>
+    <div class="sendback" id="sendback">
+      <h4>Last step — send your results</h4>
+      <p>Tap the button and your email app opens with everything filled in. Just press send.</p>
+      <div class="btns">
+        <button class="big" id="emailResultsBtn" type="button">Email my results</button>
+        <button class="alt" id="copyResultsBtn" type="button">Copy instead</button>
+      </div>
+      <div class="done" id="sendDone"></div>
+      <textarea id="resultsText" readonly></textarea>
+    </div>
+  </div>
+
+  <main id="questions"></main>
+
+</div>
+
+<div class="submitbar">
+  <div class="submitinner">
+    <span class="submitnote" id="barNote">Explanations unlock after you check your work.</span>
+    <div style="display:flex;gap:9px">
+      <button class="btn ghost" id="printBtn" type="button">Print</button>
+      <button class="btn" id="submitBtn" type="button">Check my work</button>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ===== BEGIN DAILY DATA — replace everything down to END DAILY DATA =====
+   Each run swaps only this block. Nothing below it changes.
+   EVERY `label` MUST BE A COMPLETE QUESTION SENTENCE ENDING IN "?", not a
+   field name. She is 11 and reads the label as the question.
+     BAD  -> label:"Unit rate (miles per gallon)"
+     GOOD -> label:"What is the car's unit rate, in miles per gallon?"
+   The `prompt` sets up the situation in full; each part then asks one clear
+   question about it that makes sense on its own.
+
+   part types:
+     num    -> {type:"num", correct:<number>, tol:<optional>, show:"display answer"}
+     text   -> {type:"text", accept:["normalized","variants"], re:"optional regex", show:"..."}
+     choice -> {type:"choice", options:["A","B"], correct:"B", show:"B"}
+     self   -> {type:"self", placeholder:"...", show:"model answer HTML"}  (student self-marks)
+   =========================================================================== */
+const DATE_KEY   = "2026-11-03";
+const DATE_LABEL = "Tuesday, November 3, 2026";
+const TOPIC_DAY  = 3;
+const TOPIC_NAME = "Integers, Absolute Value, Rational Numbers & the Coordinate Plane";
+const STANDARDS  = "NJSLS 6.NS.5–8, 7.NS.1, 7.RP.2–3";
+const SET_NAMES  = {A:"Integers & Absolute Value", B:"Rational Numbers & the Coordinate Plane",
+                    C:"Rates, Tables & Interest", D:"Challenge"};
+
+const QUESTIONS = [
+{
+  n:1, set:"A", setTitle:"Integers & Absolute Value", std:"NJSLS 6.NS.5–7",
+  prompt:"One cold January morning, five New Jersey towns reported their temperatures in degrees Fahrenheit: Montville &minus;4&deg;, Boonton 3&deg;, Denville &minus;9&deg;, Kinnelon 0&deg;, and Butler &minus;7&deg;.",
+  hint:"On a number line the colder temperature is always the one further to the LEFT — and &minus;9 sits further left than &minus;7.",
+  parts:[
+    {key:"a", label:"Which of these towns recorded the coldest temperature that morning?", type:"choice",
+     options:["Montville (−4°)","Boonton (3°)","Denville (−9°)","Butler (−7°)"],
+     correct:"Denville (−9°)", show:"Denville (&minus;9&deg;)"},
+    {key:"b", label:"How many degrees warmer was Boonton at 3° than Denville at −9°?", type:"num", correct:12, show:"12 degrees"}
+  ],
+  exp:`<p class="step"><b>(a) Denville, at &minus;9&deg;.</b> With negative numbers it is easy to be tricked by the digits: 9 is a bigger digit than 7 or 4, but &minus;9 is a <em>smaller number</em>. Picture the number line: &minus;9 is nine steps to the left of zero, further left than &minus;7, &minus;4, 0 and 3. Furthest left means coldest.</p>
+       <p class="step">Coldest to warmest: <span class="calc">&minus;9 &lt; &minus;7 &lt; &minus;4 &lt; 0 &lt; 3</span>.</p>
+       <p class="step"><b>(b) 12 degrees.</b> "How many degrees warmer" is asking for the <em>distance</em> between the two temperatures on the number line, which you find by subtracting: <span class="calc">3 &minus; (&minus;9) = 3 + 9 = 12</span>.</p>
+       <p class="step">Subtracting a negative number adds, because taking away a debt leaves you better off. You can also count it out: from &minus;9 up to 0 is 9 steps, and from 0 up to 3 is 3 more — that is 12 steps in all.</p>
+       <div class="strategy"><b>Strategy:</b> to compare integers, put them on a number line and read left to right. To find the gap between two of them, subtract the smaller from the larger — the answer is a distance, so it is always positive.</div>
+       <div class="mistake"><b>Common mistake:</b> computing 3 &minus; 9 = &minus;6, by dropping the minus sign in front of the 9. The number is &minus;9, so the subtraction is 3 &minus; (&minus;9).</div>`
+},
+{
+  n:2, set:"A", setTitle:"Integers & Absolute Value", std:"NJSLS 6.NS.7c",
+  prompt:"<b>Absolute value</b> measures how far a number is from zero, in either direction, and it is written with two straight bars: |&minus;6| = 6 and |6| = 6. One afternoon a submarine sits at a depth of &minus;120 feet, which means 120 feet below sea level, and a scuba diver floats at &minus;35 feet.",
+  hint:"Absolute value throws the sign away and keeps only the distance from zero, so |&minus;120| = 120.",
+  parts:[
+    {key:"a", label:"What is the value of |−120|?", type:"text",
+     accept:["120","+120","120feet"],
+     re:"^\\s*\\+?\\s*120\\s*(feet|ft)?\\s*$",
+     show:"120"},
+    {key:"b", label:"Which is further from sea level — the diver at −35 feet, or the submarine at −120 feet?", type:"choice",
+     options:["The diver at −35 feet","The submarine at −120 feet"], correct:"The submarine at −120 feet",
+     show:"The submarine at &minus;120 feet"},
+    {key:"c", label:"Nina says that because −35 is greater than −120, the diver must be further from sea level than the submarine. Explain what Nina has mixed up.", type:"self",
+     placeholder:"Explain what Nina has mixed up…",
+     show:`Nina is right that &minus;35 &gt; &minus;120 — &minus;35 really is the greater number, because it sits further right on the number line. But "greater" and "further from sea level" are two different questions. Distance from sea level is <em>absolute value</em>, and |&minus;120| = 120 is much bigger than |&minus;35| = 35, so the submarine is further from the surface. Nina compared the numbers when she should have compared their distances from zero.`}
+  ],
+  exp:`<p class="step"><b>(a) 120.</b> The bars mean "distance from zero," and &minus;120 is 120 units away from zero. Distance is never negative, so |&minus;120| = 120.</p>
+       <p class="step"><b>(b) The submarine.</b> Sea level is zero, so "further from sea level" means "further from zero" — that is exactly absolute value. <span class="calc">|&minus;120| = 120</span> and <span class="calc">|&minus;35| = 35</span>, and 120 &gt; 35, so the submarine is further from the surface. That matches common sense: 120 feet down is deeper than 35 feet down.</p>
+       <p class="step"><b>(c)</b> Nina mixed up <em>which number is greater</em> with <em>which number is further from zero</em>. Both can be true at once: &minus;35 &gt; &minus;120 (it is the greater number), and yet |&minus;120| &gt; |&minus;35| (it is the further one). For negative numbers, the greater number is always the one <em>closer</em> to zero.</p>
+       <div class="strategy"><b>Strategy:</b> ask yourself which question you are really being asked. "Bigger / smaller / warmer / higher" is a comparison — use the number line, left to right. "How far / how deep / how much error" is a distance — use absolute value.</div>
+       <div class="mistake"><b>Common mistake:</b> believing |&minus;120| = &minus;120, or writing |&minus;120| = &minus;20. The bars remove the sign; they do not change the digits.</div>`
+},
+{
+  n:3, set:"A", setTitle:"Integers & Absolute Value", std:"NJSLS 7.NS.1",
+  prompt:"A checking account has $42 in it on Monday morning. During the week, $65 is withdrawn on Monday, $30 is deposited on Wednesday, and $18 is withdrawn on Friday. When more money is taken out than the account holds, the balance becomes negative and the account is said to be <em>overdrawn</em>. (Money question — a calculator is fine.)",
+  hint:"Treat each withdrawal as adding a negative number and each deposit as adding a positive one, then work through the week one day at a time.",
+  parts:[
+    {key:"a", label:"Starting from $42, what is the account's balance in dollars right after Monday's $65 withdrawal? Give your answer as a negative number.", type:"text",
+     accept:["-23","−23","-$23","−$23","-23dollars","−23dollars","minus23"],
+     re:"([-−–—]\\s*\\$?\\s*23\\b|\\bminus\\s*\\$?\\s*23\\b|23\\s*(dollars?)?\\s*(overdrawn|in\\s*the\\s*red|below\\s*zero))",
+     show:"&minus;$23 (the account is $23 overdrawn)"},
+    {key:"b", label:"What is the balance at the end of the week, after the $30 deposit on Wednesday and the $18 withdrawal on Friday? Give your answer as a negative number.", type:"text",
+     accept:["-11","−11","-$11","−$11","-11dollars","−11dollars","minus11"],
+     re:"([-−–—]\\s*\\$?\\s*11\\b|\\bminus\\s*\\$?\\s*11\\b|11\\s*(dollars?)?\\s*(overdrawn|in\\s*the\\s*red|below\\s*zero))",
+     show:"&minus;$11"},
+    {key:"c", label:"The account ends the week at −$11. How many dollars would have to be deposited to bring the balance up to exactly $0?", type:"num", correct:11, show:"$11"}
+  ],
+  exp:`<p class="step"><b>(a) &minus;$23.</b> A withdrawal is a negative change, so Monday is <span class="calc">42 + (&minus;65)</span>. Because 65 is bigger than 42, you run past zero. One safe way: $42 of the $65 empties the account, and the remaining <span class="calc">65 &minus; 42 = 23</span> dollars comes out of nothing — so the balance lands 23 below zero, at <b>&minus;$23</b>.</p>
+       <p class="step"><b>(b) &minus;$11.</b> Keep going from &minus;23, one transaction at a time.<br>
+       Wednesday deposit: <span class="calc">&minus;23 + 30 = 7</span> — the $30 first fills the $23 hole, and the $7 left over is a positive balance.<br>
+       Friday withdrawal: <span class="calc">7 + (&minus;18) = &minus;11</span> — $7 covers part of it, and the other $11 overdraws the account again.</p>
+       <p class="step"><b>(c) $11.</b> The balance is 11 below zero, so a deposit of exactly $11 brings it to 0: <span class="calc">&minus;11 + 11 = 0</span>. A number and its opposite always add to zero — they are called <em>additive inverses</em>.</p>
+       <div class="strategy"><b>Strategy:</b> never try to do a whole week in one line. Keep a running balance and apply one signed number at a time — deposits positive, withdrawals negative. It is slower to write and far harder to get wrong.</div>
+       <div class="mistake"><b>Common mistake:</b> answering 23 instead of &minus;23. The sign is part of the answer here: $23 means you have money, and &minus;$23 means you owe it. ALEKS will mark a missing minus sign wrong.</div>`
+},
+{
+  n:4, set:"B", setTitle:"Rational Numbers & the Coordinate Plane", std:"NJSLS 6.NS.6–7, 7.NS.1",
+  prompt:"Four numbers are going to be placed on the same number line: &minus;7/4, 1.25, &minus;0.5, and 3/8. A <b>rational number</b> is any number that can be written as a fraction, and that includes negatives, decimals and whole numbers — so all four of these belong on one number line together.",
+  hint:"Turn each fraction into a decimal first; once everything is a decimal, they are easy to line up.",
+  parts:[
+    {key:"a", label:"Which of the four numbers − −7/4, 1.25, −0.5, or 3/8 − is the least?", type:"choice",
+     options:["−7/4","−0.5","3/8","1.25"], correct:"−7/4", show:"&minus;7/4 (which is &minus;1.75)"},
+    {key:"b", label:"Write −7/4 as a decimal.", type:"text",
+     accept:["-1.75","−1.75","-1 3/4","−1 3/4","-13/4","−13/4","-1.750"],
+     re:"^\\s*[-−–—]\\s*1\\s*(\\.75|3\\s*/\\s*4)\\s*$",
+     show:"&minus;1.75"},
+    {key:"c", label:"Which is greater, −7/4 or −0.5?", type:"choice",
+     options:["−7/4","−0.5"], correct:"−0.5", show:"&minus;0.5"}
+  ],
+  exp:`<p class="step"><b>(a) &minus;7/4 is the least.</b> Written as decimals the four numbers are <span class="calc">&minus;7/4 = &minus;1.75</span>, <span class="calc">&minus;0.5</span>, <span class="calc">3/8 = 0.375</span> and <span class="calc">1.25</span>. In order: <span class="calc">&minus;1.75 &lt; &minus;0.5 &lt; 0.375 &lt; 1.25</span>. The least is the one furthest to the left, &minus;7/4.</p>
+       <p class="step"><b>(b) &minus;1.75.</b> A fraction bar means divide, so 7/4 = 7 &divide; 4 = 1.75, and the minus sign carries along: <b>&minus;1.75</b>. It also helps to read 7/4 as "seven quarters," and seven quarters is one whole (4/4) plus 3/4 more, which is 1 3/4 = 1.75.</p>
+       <p class="step"><b>(c) &minus;0.5 is greater.</b> Negatives work backwards from what the digits suggest: &minus;0.5 is only half a step left of zero, while &minus;1.75 is nearly two steps left. Further right means greater, so <span class="calc">&minus;0.5 &gt; &minus;1.75</span>.</p>
+       <div class="strategy"><b>Strategy:</b> to compare a mixed bag of fractions, decimals and negatives, convert everything to one form — usually decimals — and then read them off a number line. Converting first turns a confusing comparison into an easy one.</div>
+       <div class="mistake"><b>Common mistake:</b> deciding that &minus;7/4 is greater than &minus;0.5 "because 1.75 is bigger than 0.5." That reasoning compares the distances from zero, not the numbers themselves. Among two negatives, the one closer to zero is always the greater.</div>`
+},
+{
+  n:5, set:"B", setTitle:"Rational Numbers & the Coordinate Plane", std:"NJSLS 6.NS.6b, 6.NS.8",
+  prompt:"On a coordinate grid, point P is at (&minus;4, 3), point Q is at (&minus;4, &minus;5), and point R is at (6, 3). Remember that in a pair like (&minus;4, 3), the first number is the x-coordinate (left or right) and the second is the y-coordinate (up or down).",
+  hint:"Two points sharing an x-coordinate sit on the same vertical line, and two sharing a y-coordinate sit on the same horizontal line — so only the other coordinate matters for the distance.",
+  parts:[
+    {key:"a", label:"What is the distance from P(−4, 3) to Q(−4, −5), in units?", type:"num", correct:8, show:"8 units"},
+    {key:"b", label:"What is the distance from P(−4, 3) to R(6, 3), in units?", type:"num", correct:10, show:"10 units"},
+    {key:"c", label:"Point P is at (−4, 3). What are the coordinates of the point you get by reflecting P across the y-axis?", type:"text",
+     accept:["(4,3)","4,3","(+4,3)","x=4,y=3","(4|3)"],
+     re:"^\\s*\\(?\\s*\\+?\\s*4\\s*[,;]\\s*\\+?\\s*3\\s*\\)?\\s*$",
+     show:"(4, 3)"},
+    {key:"d", label:"Points P(−4, 3) and Q(−4, −5) both have an x-coordinate of −4. Explain how you can work out the distance between two points like these without drawing the grid.", type:"self",
+     placeholder:"Explain how you would find the distance…",
+     show:`Because both points have the same x-coordinate, they sit on the same vertical line, so the only thing that changes between them is the y-coordinate. The distance is therefore just how far apart the two y-values are, which you can get by subtracting the smaller from the larger: 3 &minus; (&minus;5) = 8. Another way to say it: one point is 3 units above the x-axis and the other is 5 units below it, so together that is 3 + 5 = 8 units. In general, the distance is |y&#8321; &minus; y&#8322;|.`}
+  ],
+  exp:`<p class="step"><b>(a) 8 units.</b> P and Q share the x-coordinate &minus;4, so they lie on the same vertical line and only the height changes. Subtract the y-values: <span class="calc">3 &minus; (&minus;5) = 3 + 5 = 8</span>. Sanity check by counting: P is 3 above the x-axis, Q is 5 below it, and 3 + 5 = 8.</p>
+       <p class="step"><b>(b) 10 units.</b> P and R share the y-coordinate 3, so they lie on the same horizontal line and only the left-right position changes. Subtract the x-values: <span class="calc">6 &minus; (&minus;4) = 6 + 4 = 10</span>. Counting again: from &minus;4 across to 0 is 4 units, and 0 across to 6 is 6 more — 10 in all.</p>
+       <p class="step"><b>(c) (4, 3).</b> Reflecting across the <em>y</em>-axis is like folding the paper along the vertical axis. The point keeps its height, so y stays 3, and it flips to the other side, so x = &minus;4 becomes x = +4. The answer is <b>(4, 3)</b>. (If it had been a reflection across the <em>x</em>-axis instead, x would stay &minus;4 and y would flip to &minus;3.)</p>
+       <p class="step"><b>(d)</b> Same x-coordinate means a vertical line, so the gap is the difference in the y-coordinates: |3 &minus; (&minus;5)| = 8. No grid needed.</p>
+       <div class="strategy"><b>Strategy:</b> for two points on a vertical or horizontal line, the distance is the absolute value of the difference of the coordinates that change. Reflections are quicker still — reflecting across the y-axis flips the sign of x, and across the x-axis flips the sign of y. ALEKS wants the answer written as an ordered pair in parentheses, like (4, 3).</div>
+       <div class="mistake"><b>Common mistake:</b> computing 3 &minus; 5 = &minus;2 for part (a) by ignoring the minus sign on Q's &minus;5 — and then reporting a negative distance. A distance is never negative, so that is a useful warning sign to watch for.</div>`
+},
+{
+  n:6, set:"C", setTitle:"Rates, Tables & Interest", std:"NJSLS 7.RP.2, 7.EE.4",
+  prompt:"A go-kart track charges a $4 entry fee to get in, and then $2 for every lap you drive. The $4 entry fee is paid once on the way in, no matter how many laps you end up driving. (Money question — a calculator is fine.)",
+  hint:"Work out what the laps cost first, then add the one-time $4 entry fee on top.",
+  parts:[
+    {key:"a", label:"How much does a visitor pay altogether for 3 laps, including the $4 entry fee?", type:"num", correct:10, show:"$10"},
+    {key:"b", label:"How much does a visitor pay altogether if they pay the entry fee but then drive 0 laps?", type:"num", correct:4, show:"$4"}
+  ],
+  exp:`<p class="step"><b>(a) $10.</b> Three laps at $2 each is <span class="calc">3 &times; 2 = $6</span> of lap charges. The entry fee is charged once, not once per lap, so add a single $4: <span class="calc">6 + 4 = $10</span>.</p>
+       <p class="step"><b>(b) $4.</b> Zero laps cost <span class="calc">0 &times; 2 = $0</span>, but the entry fee was already paid at the gate, so the visitor still pays <b>$4</b>.</p>
+       <p class="step">Part (b) is worth pausing on. Most rates start at nothing — buy 0 apples and you pay $0. Here, 0 laps still costs $4, and that $4 is the fingerprint of a <em>fixed fee</em>. It is the whole reason this situation behaves differently from the proportional ones.</p>
+       <div class="strategy"><b>Strategy:</b> separate a cost into the part that changes and the part that does not. Here the changing part is $2 per lap, and the unchanging part is the $4 entry fee. Always ask "what would 0 cost?" — the answer tells you the size of the fixed fee.</div>
+       <div class="mistake"><b>Common mistake:</b> adding $4 for every lap, giving 3 &times; (2 + 4) = $18. Read carefully: the entry fee is paid once, so it is added once at the end.</div>`
+},
+{
+  n:7, set:"C", setTitle:"Rates, Tables & Interest", std:"NJSLS 7.RP.2, 7.EE.4",
+  prompt:"At that same go-kart track, entry costs $4 and each lap costs $2. Let <b>L</b> stand for the number of laps a visitor drives, and let <b>T</b> stand for the total number of dollars they pay.",
+  hint:"Each lap adds $2, so L laps cost 2 &times; L — and then the one-time $4 is added on at the end.",
+  parts:[
+    {key:"a", label:"Write an equation that gives the total cost T, in dollars, for a visitor who drives L laps.", type:"text",
+     accept:["t=2l+4","t=4+2l","t=2(l)+4","t=(2l)+4","2l+4","4+2l","total=2l+4","totalcost=2l+4","y=2x+4","y=4+2x","c=2l+4","t=2l+4dollars"],
+     re:"^\\s*(t|c|y|total(\\s*cost)?)?\\s*=?\\s*\\(?\\s*(2\\s*[*×·x]?\\s*[lx]\\s*\\)?\\s*\\+\\s*\\$?4|\\$?4\\s*\\+\\s*2\\s*[*×·x]?\\s*[lx])\\s*\\)?\\s*(dollars?)?\\s*$",
+     show:"T = 2L + 4"},
+    {key:"b", label:"Is the total amount a visitor pays proportional to the number of laps they drive?", type:"choice",
+     options:["Yes, it is proportional","No, it is not proportional"], correct:"No, it is not proportional",
+     show:"No, it is not proportional"},
+    {key:"c", label:"Every lap at the track costs the same $2, and yet the total cost is not proportional to the number of laps. Explain why the $4 entry fee is what breaks the proportionality.", type:"self",
+     placeholder:"Explain why the $4 entry fee breaks it…",
+     show:`In a proportional relationship the ratio total &divide; laps has to be the SAME for every number of laps, and the cost of 0 has to be 0. Here 3 laps cost $10, so the ratio is 10/3 &asymp; 3.33, while 1 lap costs $6, a ratio of 6. The ratios do not match, so it is not proportional. The reason is the $4: it is added once, so it gets spread over more and more laps and makes each lap <em>seem</em> cheaper the longer you stay. It also means 0 laps costs $4 rather than $0, so the graph crosses the y-axis at 4 instead of passing through the origin. The relationship is still a straight line — just y = mx + b with b = 4, not y = kx.`}
+  ],
+  exp:`<p class="step"><b>(a) T = 2L + 4.</b> Build the rule one piece at a time. Each lap costs $2, so L laps cost <span class="calc">2L</span> — the part that grows. The entry fee is $4 once, whatever L is — the part that stays put. Add them: <span class="calc">T = 2L + 4</span>.</p>
+       <p class="step">Test it against question 6: <span class="calc">L = 3 &rarr; T = 2(3) + 4 = 10</span> &#10003; and <span class="calc">L = 0 &rarr; T = 2(0) + 4 = 4</span> &#10003;. Both match, so the rule is right. Always test a rule you have just written on numbers you already know.</p>
+       <p class="step"><b>(b) No, it is not proportional.</b> Two checks, either one enough:<br>
+       &bull; The ratios are not constant: 1 lap costs $6 (ratio 6), 3 laps cost $10 (ratio 10/3 &asymp; 3.33).<br>
+       &bull; Zero laps costs $4, not $0, so the graph does not pass through the origin.</p>
+       <p class="step"><b>(c)</b> The $4 is added once rather than per lap, so it does not scale with L. That single fixed piece is what pushes the line off the origin and stops the ratios being equal.</p>
+       <div class="strategy"><b>Strategy:</b> there are two shapes of straight-line relationship, and telling them apart is the whole idea here. <span class="calc">y = kx</span> is <b>proportional</b> — constant ratio, starts at 0, graph through the origin. <span class="calc">y = mx + b</span> with b &ne; 0 is <b>not</b> proportional — steady rate m, but a head start of b. Checking "what does 0 cost?" sorts them instantly. This is the bridge into 8th-grade linear functions, so it is worth getting comfortable with.</div>
+       <div class="mistake"><b>Common mistake:</b> calling it proportional because the per-lap price never changes. A constant rate is necessary but not sufficient — any fixed starting amount, however small, breaks proportionality.</div>`
+},
+{
+  n:8, set:"C", setTitle:"Rates, Tables & Interest", std:"NJSLS 7.RP.3",
+  prompt:"Dev puts $200 into a savings account that pays <b>simple interest</b>. Simple interest means the account earns exactly the same amount of money each year — it is always figured on the original $200. After 3 years, the account has earned $24 in interest altogether. (Money question — a calculator is fine.)",
+  hint:"The same amount is earned every year, so split the $24 evenly across the 3 years.",
+  parts:[
+    {key:"a", label:"How much interest did Dev's account earn in ONE year, if it earned $24 over 3 years with the same amount each year?", type:"num", correct:8, show:"$8"},
+    {key:"b", label:"How much money is in Dev's account altogether after those 3 years, if he started with $200 and earned $24 in interest?", type:"num", correct:224, show:"$224"}
+  ],
+  exp:`<p class="step"><b>(a) $8.</b> The words "simple interest" are doing real work here: they promise that every year earns the same amount. So the $24 splits evenly across 3 years: <span class="calc">24 &divide; 3 = $8</span> per year. Check by going forwards: 8 + 8 + 8 = $24 &#10003;.</p>
+       <p class="step"><b>(b) $224.</b> The interest is <em>added to</em> the money he started with, not instead of it: <span class="calc">200 + 24 = $224</span>.</p>
+       <p class="step">It is worth knowing why "simple" matters. With <em>compound</em> interest the second year would earn interest on $208 rather than on $200, so the yearly amounts would creep upward and you could not just divide by 3. Simple interest keeps every year identical, which is what makes part (a) a single division.</p>
+       <div class="strategy"><b>Strategy:</b> with simple interest, interest per year = total interest &divide; number of years, and it never changes. Finding the one-year amount first turns almost every simple-interest question into easy arithmetic.</div>
+       <div class="mistake"><b>Common mistake:</b> answering $24 for part (b) — that is the interest earned, not the money in the account. Read whether the question wants the interest or the balance.</div>`
+},
+{
+  n:9, set:"C", setTitle:"Rates, Tables & Interest", std:"NJSLS 7.RP.3",
+  prompt:"Dev's savings account holds $200 and earns $8 in interest in one year. An <b>interest rate</b> is that one year's interest written as a percent of the money invested — in other words, you ask what part of the $200 the $8 is, and then write that as a percent. (Money question — a calculator is fine.)",
+  hint:"Divide one year's interest by the money invested, then turn that decimal into a percent by multiplying by 100.",
+  parts:[
+    {key:"a", label:"What is 8 ÷ 200? Give your answer as a decimal.", type:"num", correct:0.04, tol:0.0005, show:"0.04"},
+    {key:"b", label:"Write the decimal 0.04 as a percent. This percent is the account's annual interest rate.", type:"num", correct:4, show:"4%"},
+    {key:"c", label:"A different savings account holds $300 and earns $21 in interest in one year. What is that account's annual interest rate, as a percent?", type:"num", correct:7, show:"7%"}
+  ],
+  exp:`<p class="step"><b>(a) 0.04.</b> "What part of 200 is 8?" is a division: <span class="calc">8 &divide; 200 = 0.04</span>. If the long division feels awkward, scale both numbers: 8/200 = 4/100 = 0.04.</p>
+       <p class="step"><b>(b) 4%.</b> "Percent" means "per hundred," so to turn a decimal into a percent you multiply by 100 and attach the % sign: <span class="calc">0.04 &times; 100 = 4</span>, giving <b>4%</b>. Read it as a sentence to check it makes sense: the account earns 4% — four dollars for every hundred — and on $200 that is $8 a year. &#10003;</p>
+       <p class="step"><b>(c) 7%.</b> Exactly the same two steps on new numbers. Divide the one-year interest by the amount invested: <span class="calc">21 &divide; 300 = 0.07</span>. Then multiply by 100: <b>7%</b>. Check it: 7% of $300 = 0.07 &times; 300 = $21 &#10003;.</p>
+       <p class="step">There is a formula for this, <span class="calc">I = P &middot; r &middot; t</span> — interest = principal &times; rate &times; time. For part (c): 21 = 300 &times; r &times; 1, so r = 21/300 = 0.07 = 7%. The formula and the two steps above are the same reasoning written two ways; use whichever you can remember under pressure.</p>
+       <div class="strategy"><b>Strategy:</b> a rate as a percent is always <em>the part &divide; the whole, then &times; 100</em>. The tricky bit is knowing which number is the whole — with interest it is the money invested (the principal), never the interest. Make sure you use ONE year's interest, not the total across several years.</div>
+       <div class="mistake"><b>Common mistake:</b> using the 3-year total of $24 instead of one year's $8, which gives 12% instead of 4%. An interest rate is always per year, so the interest you divide must be one year's worth. ALEKS usually wants the rate written as a percent, like 4%, rather than as the decimal 0.04.</div>`
+},
+{
+  n:10, set:"D", setTitle:"Challenge", std:"NJSLS 6.NS.5–7, 7.NS.1 · multi-step",
+  prompt:"A research submarine starts at the surface, where the depth is 0 feet. It dives at a steady 25 feet per minute for 6 minutes. It then rises 40 feet to look at something on a rock wall, and after that it dives again at the same steady 25 feet per minute for 4 more minutes. Depths below the surface are written as negative numbers, so diving makes the depth go down and rising makes it go up.",
+  hint:"Find the change in depth for each stage first — a dive is a negative change, a rise is a positive one — then add each change to the depth you were already at.",
+  parts:[
+    {key:"a", label:"What is the submarine's depth, in feet, after the first 6 minutes of diving at 25 feet per minute? Give your answer as a negative integer.", type:"text",
+     accept:["-150","−150","-150feet","−150feet","-150ft","−150ft","minus150"],
+     re:"([-−–—]\\s*150\\b|\\bminus\\s*150\\b|150\\s*(feet|ft)?\\s*(below|down|deep))",
+     show:"&minus;150 feet"},
+    {key:"b", label:"From that depth, the submarine rises 40 feet. What is its new depth, in feet? Give your answer as a negative integer.", type:"text",
+     accept:["-110","−110","-110feet","−110feet","-110ft","−110ft","minus110"],
+     re:"([-−–—]\\s*110\\b|\\bminus\\s*110\\b|110\\s*(feet|ft)?\\s*(below|down|deep))",
+     show:"&minus;110 feet"},
+    {key:"c", label:"The submarine then dives for 4 more minutes at 25 feet per minute. What is its depth, in feet, at the end of that dive? Give your answer as a negative integer.", type:"text",
+     accept:["-210","−210","-210feet","−210feet","-210ft","−210ft","minus210"],
+     re:"([-−–—]\\s*210\\b|\\bminus\\s*210\\b|210\\s*(feet|ft)?\\s*(below|down|deep))",
+     show:"&minus;210 feet"},
+    {key:"d", label:"The submarine's deepest point is −210 feet and the sea floor is at −260 feet. How many feet above the sea floor is the submarine at its deepest point?", type:"num", correct:50, show:"50 feet"},
+    {key:"e", label:"Starting from −210 feet, the submarine rises at a steady 35 feet per minute. How many minutes does it take to reach the surface?", type:"num", correct:6, show:"6 minutes"}
+  ],
+  exp:`<p class="step"><b>(a) &minus;150 feet.</b> A rate times a time gives a total change: <span class="calc">25 &times; 6 = 150</span> feet of diving. Diving goes <em>down</em>, so the change is &minus;150, and starting from 0: <span class="calc">0 + (&minus;150) = &minus;150</span> feet.</p>
+       <p class="step"><b>(b) &minus;110 feet.</b> Rising is a positive change, so add 40 to the depth: <span class="calc">&minus;150 + 40 = &minus;110</span> feet. It helps to picture it — the submarine is still below the surface, just 40 feet less deep than before, so the answer must be a negative number closer to zero than &minus;150. It is.</p>
+       <p class="step"><b>(c) &minus;210 feet.</b> Four more minutes of diving is <span class="calc">25 &times; 4 = 100</span> feet down, so the change is &minus;100: <span class="calc">&minus;110 + (&minus;100) = &minus;210</span> feet.</p>
+       <p class="step"><b>(d) 50 feet.</b> "How far above" is a distance, so subtract the lower depth from the higher one: <span class="calc">&minus;210 &minus; (&minus;260) = &minus;210 + 260 = 50</span> feet. Check it the easy way: the floor is 260 feet down and the submarine is 210 feet down, so there are <span class="calc">260 &minus; 210 = 50</span> feet of water beneath it.</p>
+       <p class="step"><b>(e) 6 minutes.</b> It has 210 feet to climb (that is |&minus;210|, the distance to the surface) at 35 feet each minute: <span class="calc">210 &divide; 35 = 6</span> minutes. Check: 35 &times; 6 = 210 &#10003;.</p>
+       <p class="step"><b>Looking back at the whole trip.</b> The three stages changed the depth by &minus;150, +40 and &minus;100, and those add to <span class="calc">&minus;150 + 40 &minus; 100 = &minus;210</span> — the same final depth as working stage by stage. Totalling the changes and tracking the position step by step must always agree, which makes it a good way to check a long multi-step problem.</p>
+       <div class="strategy"><b>Strategy:</b> in a problem with several moves, separate <em>position</em> (where you are: &minus;150 feet) from <em>change</em> (what just happened: &minus;100 feet). Work out each change from its rate and time, give it a sign, then add it to the current position. Distances and "how far apart" questions are absolute values, so they come out positive even when the positions are negative.</div>
+       <div class="mistake"><b>Sanity check:</b> if any depth comes out positive while the submarine is still underwater, a sign has gone astray — most often by subtracting the rise instead of adding it. And in part (d), answering &minus;50 means the subtraction was done the wrong way round: a distance cannot be negative.</div>`
+}
+];
+/* ===== END DAILY DATA ===== */
+
+/* ===== PROGRAM CONFIG — stable across days, do not change per run ===== */
+const RESULTS_EMAIL = "patadiakd@gmail.com";   // where "Email my results" sends
+const RESULTS_TO_LABEL = "Dad";
+
+/* header */
+document.getElementById("hDate").textContent  = DATE_LABEL;
+document.getElementById("hTopic").textContent = `Topic Day ${TOPIC_DAY} — ${TOPIC_NAME}`;
+document.getElementById("hMeta").textContent  =
+  `${QUESTIONS.length} questions · ${STANDARDS} · No calculator except the money problems`;
+document.title = `Math Honors — ${DATE_LABEL}`;
+
+/* ===================================================================
+   STATE
+   =================================================================== */
+let submitted = false;
+const sessionStart = Date.now();
+let priorSeconds = 0;     // time banked in earlier sittings, restored from storage
+const selfMarks = {};     // partId -> true/false
+const hintsUsed = {};     // qn -> true  (persisted: promotion rule 3 depends on this)
+const skipped   = {};     // qn -> true ("I don't know this one")
+let fieldIds = [];
+
+/* Total time across every sitting, not just this one. */
+function elapsedSeconds(){
+  return priorSeconds + Math.round((Date.now() - sessionStart)/1000);
+}
+
+/* ===================================================================
+   ANSWER CHECKING
+   =================================================================== */
+const UNIT_WORDS = /\b(cups?|cup|miles?|mph|mpg|miles per gallon|per gallon|gallons?|inches|inch|in\b|hours?|hrs?|hr|minutes?|mins?|min|students?|boys?|girls?|people|persons?|dollars?|dollar|cents?|percent|each|rooms?|posters?|notebooks?|apiece|about|approx\.?|approximately|around)\b/g;
+
+function parseNum(raw){
+  if(raw === null || raw === undefined) return null;
+  let t = String(raw).toLowerCase().trim();
+  if(!t) return null;
+  t = t.replace(/[$,]/g,"").replace(/%/g,"").replace(UNIT_WORDS," ").replace(/\s+/g," ").trim();
+  let m = t.match(/^(-?\d+)\s+(\d+)\s*\/\s*(\d+)$/);            // mixed: 8 2/11
+  if(m) return parseInt(m[1],10) + parseInt(m[2],10)/parseInt(m[3],10);
+  m = t.match(/^(-?\d+)\s*\/\s*(\d+)$/);                         // fraction: 90/11
+  if(m) return parseInt(m[1],10)/parseInt(m[2],10);
+  m = t.match(/^-?\d*\.?\d+$/);                                  // plain
+  if(m) return parseFloat(t);
+  m = t.match(/-?\d*\.?\d+/);                                    // first number found
+  return m ? parseFloat(m[0]) : null;
+}
+
+function normText(raw){
+  return String(raw||"").toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×·]/g,"")
+    .replace(/[$,]/g,"")
+    .replace(/\.$/,"")
+    .replace(/\bto\b/g,"to");
+}
+
+function isCorrect(part, raw){
+  if(raw === null || raw === undefined || String(raw).trim() === "") return false;
+  if(part.type === "num"){
+    const v = parseNum(raw);
+    if(v === null) return false;
+    const tol = part.tol !== undefined ? part.tol : 0.005;
+    return Math.abs(v - part.correct) <= tol;
+  }
+  if(part.type === "choice") return String(raw) === part.correct;
+  if(part.type === "text"){
+    const n = normText(raw);
+    if(part.accept && part.accept.some(a => normText(a) === n)) return true;
+    if(part.re) return new RegExp(part.re,"i").test(String(raw).toLowerCase());
+    return false;
+  }
+  return false;
+}
+
+/* ===================================================================
+   RENDER
+   =================================================================== */
+const qRoot = document.getElementById("questions");
+let lastSet = null;
+
+QUESTIONS.forEach(q => {
+  if(q.set !== lastSet){
+    lastSet = q.set;
+    const sh = document.createElement("div");
+    sh.className = "setheader";
+    sh.innerHTML = `<h2>Set ${q.set} — ${q.setTitle}</h2><div class="std">${q.std}</div>`;
+    qRoot.appendChild(sh);
+  }
+
+  const card = document.createElement("section");
+  card.className = "q";
+  card.id = "q" + q.n;
+
+  let html = `<div class="qhead"><div class="qnum">${q.n}.</div><div class="prompt">${q.prompt}</div></div>`;
+  if(q.table) html += q.table;
+  html += `<div class="parts">`;
+
+  q.parts.forEach((p, i) => {
+    const fid = `f-${q.n}-${i}`;
+    fieldIds.push({fid, q, p, i});
+    const lab = (p.key ? `<span class="pk">(${p.key})</span> ` : "") + p.label;
+    if(p.type === "choice"){
+      html += `<div class="part"><div class="plabel">${lab}</div><div class="radios">` +
+        p.options.map(o => `<label><input type="radio" name="${fid}" value="${o}"> ${o}</label>`).join("") +
+        `</div></div>`;
+    } else if(p.type === "self"){
+      html += `<div class="part" style="flex-direction:column;align-items:stretch">
+                 <div class="plabel" style="padding-top:0">${lab}</div>
+                 <textarea class="ans" id="${fid}" placeholder="${p.placeholder||"Write your reasoning…"}"></textarea>
+                 <div class="explain-note">Written answer — you'll compare it to the model answer and mark yourself.</div>
+               </div>`;
+    } else {
+      html += `<div class="part"><div class="plabel">${lab}</div>
+                 <input class="ans" id="${fid}" type="text" autocomplete="off" inputmode="text"></div>`;
+    }
+  });
+  html += `</div>`;
+
+  html += `<div class="skiprow">`;
+  if(q.hint) html += `<button class="hintbtn" type="button" data-hint="${q.n}">Need a hint?</button>`;
+  html += `<button class="skipbtn" type="button" data-skip="${q.n}">I haven't learned this one &mdash; skip it</button>`;
+  html += `</div>`;
+  if(q.hint) html += `<div class="hint" id="hint-${q.n}">${q.hint}</div>`;
+  html += `<div class="result" id="res-${q.n}"></div>`;
+
+  card.innerHTML = html;
+  qRoot.appendChild(card);
+});
+
+document.getElementById("totalCount").textContent = fieldIds.length;
+
+/* hints */
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-hint]");
+  if(!b) return;
+  const n = b.getAttribute("data-hint");
+  const h = document.getElementById("hint-" + n);
+  h.classList.toggle("show");
+  b.textContent = h.classList.contains("show") ? "Hide hint" : "Need a hint?";
+  if(h.classList.contains("show")) hintsUsed[n] = true;
+});
+
+/* skipping — honest "I don't know", not a wrong answer */
+function applySkipUI(n){
+  const card = document.getElementById("q" + n);
+  if(!card) return;
+  const off = !!skipped[n];
+  card.classList.toggle("skipped", off);
+  card.querySelectorAll("input.ans, textarea.ans").forEach(el => el.disabled = off);
+  card.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = off);
+  const b = card.querySelector("[data-skip]");
+  if(b) b.innerHTML = off ? "Actually, let me try this one" : "I haven't learned this one &mdash; skip it";
+}
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-skip]");
+  if(!b || submitted) return;
+  const n = b.getAttribute("data-skip");
+  skipped[n] = !skipped[n];
+  applySkipUI(n);
+  updateProgress();
+  queueSave();
+});
+
+/* ===================================================================
+   PROGRESS
+   =================================================================== */
+function readField(f){
+  if(f.p.type === "choice"){
+    const sel = document.querySelector(`input[name="${f.fid}"]:checked`);
+    return sel ? sel.value : "";
+  }
+  const el = document.getElementById(f.fid);
+  return el ? el.value : "";
+}
+
+function updateProgress(){
+  if(submitted) return;
+  const filled = fieldIds.filter(f => skipped[f.q.n] || String(readField(f)).trim() !== "").length;
+  document.getElementById("answeredCount").textContent = filled;
+  document.getElementById("fill").style.width = (filled / fieldIds.length * 100) + "%";
+  const left = fieldIds.length - filled;
+  document.getElementById("progHint").textContent =
+    left === 0 ? "All done — ready to check" : `${left} left`;
+}
+qRoot.addEventListener("input", updateProgress);
+qRoot.addEventListener("change", updateProgress);
+updateProgress();
+
+/* timer */
+const timerBadge = document.getElementById("timerBadge");
+setInterval(() => {
+  if(submitted) return;
+  const s = elapsedSeconds();
+  timerBadge.textContent = `Time: ${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
+}, 1000);
+
+/* ===================================================================
+   STORAGE
+   =================================================================== */
+const syncBadge = document.getElementById("syncBadge");
+const WIP_KEY  = "mathwip:" + DATE_KEY;
+const DONE_KEY = "mathlog:" + DATE_KEY;
+
+function setBadge(text, cls){
+  syncBadge.textContent = text;
+  syncBadge.className = "badge " + (cls || "");
+}
+
+/* Save work in progress, so she can close the tab and come back later. */
+let saveTimer = null;
+function saveProgress(){
+  if(submitted) return;
+  try{
+    localStorage.setItem(WIP_KEY, JSON.stringify({
+      date: DATE_KEY,
+      savedAt: new Date().toISOString(),
+      fields: fieldIds.map(readField),
+      skipped: Object.keys(skipped).filter(k => skipped[k]),
+      hints: Object.keys(hintsUsed).filter(k => hintsUsed[k]),
+      secs: elapsedSeconds()
+    }));
+    setBadge("Saved — you can close this and come back", "live");
+  }catch(e){
+    setBadge("Couldn't save on this computer", "local");
+  }
+}
+function queueSave(){
+  if(submitted) return;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveProgress, 600);
+}
+qRoot.addEventListener("input", queueSave);
+qRoot.addEventListener("change", queueSave);
+window.addEventListener("beforeunload", () => { clearTimeout(saveTimer); saveProgress(); });
+
+function restoreWip(rec){
+  if(!rec || !Array.isArray(rec.fields) || submitted) return 0;
+  let n = 0;
+  fieldIds.forEach((f, idx) => {
+    const v = rec.fields[idx];
+    if(v === undefined || v === null || v === "") return;
+    if(f.p.type === "choice"){
+      const el = document.querySelector(`input[name="${f.fid}"][value="${String(v).replace(/"/g,"")}"]`);
+      if(el){ el.checked = true; n++; }
+    } else {
+      const el = document.getElementById(f.fid);
+      if(el){ el.value = v; n++; }
+    }
+  });
+  if(Array.isArray(rec.skipped)){
+    rec.skipped.forEach(k => { skipped[k] = true; applySkipUI(k); n++; });
+  }
+  /* Hints and banked time survive the tab closing — they don't count as answers. */
+  if(Array.isArray(rec.hints)) rec.hints.forEach(k => { hintsUsed[k] = true; });
+  if(typeof rec.secs === "number" && isFinite(rec.secs) && rec.secs > 0) priorSeconds = rec.secs;
+  if(n) updateProgress();
+  return n;
+}
+
+(function initStorage(){
+  let done = null, wip = null;
+  try{ done = JSON.parse(localStorage.getItem(DONE_KEY) || "null"); }catch(e){}
+  try{ wip  = JSON.parse(localStorage.getItem(WIP_KEY)  || "null"); }catch(e){}
+
+  if(done && Array.isArray(done.fields)){
+    restorePrior(done);
+    return;
+  }
+  const n = wip ? restoreWip(wip) : 0;
+  if(n){
+    setBadge(n + (n === 1 ? " answer" : " answers") + " picked back up", "live");
+  } else {
+    setBadge("Your answers save as you type", "");
+  }
+})();
+
+function restorePrior(rec){
+  if(!rec || !rec.fields || submitted) return;
+  fieldIds.forEach((f, idx) => {
+    const v = rec.fields[idx];
+    if(v === undefined || v === null) return;
+    if(f.p.type === "choice"){
+      const el = document.querySelector(`input[name="${f.fid}"][value="${String(v).replace(/"/g,"")}"]`);
+      if(el) el.checked = true;
+    } else {
+      const el = document.getElementById(f.fid);
+      if(el) el.value = v;
+    }
+  });
+  if(rec.selfMarks) Object.assign(selfMarks, rec.selfMarks);
+  if(Array.isArray(rec.skipped)) rec.skipped.forEach(k => { skipped[k] = true; });
+  /* Carry the hint record and the original time into review mode, so results
+     emailed from a later sitting still report them instead of 0 and "no time". */
+  if(Array.isArray(rec.hintQs)) rec.hintQs.forEach(k => { hintsUsed[k] = true; });
+  if(typeof rec.seconds === "number" && isFinite(rec.seconds) && rec.seconds > 0) priorSeconds = rec.seconds;
+  updateProgress();
+  grade(true);
+  document.getElementById("barNote").textContent = "You already finished this one — this is your review.";
+}
+
+function persist(rec){
+  try{
+    localStorage.setItem(DONE_KEY, JSON.stringify(rec));
+    localStorage.removeItem(WIP_KEY);
+    setBadge("Finished and saved", "live");
+  }catch(e){
+    setBadge("Couldn't save on this computer", "local");
+  }
+}
+
+/* ===================================================================
+   GRADE & REVEAL
+   =================================================================== */
+function esc(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+function grade(isRestore){
+  submitted = true;
+  const fields = fieldIds.map(readField);
+  const perQ = [];
+
+  QUESTIONS.forEach(q => {
+    const mine = fieldIds.filter(f => f.q.n === q.n);
+    const res = document.getElementById("res-" + q.n);
+    let autoRight = 0, autoTotal = 0, selfTotal = 0;
+    const isSkip = !!skipped[q.n];
+    let rows = "";
+
+    mine.forEach(f => {
+      const raw = readField(f);
+      const p = f.p;
+      if(p.type === "self"){
+        selfTotal++;
+        rows += `<div><span class="lab">Your answer</span><span class="mine">${raw.trim() ? esc(raw) : "—"}</span></div>
+                 <div><span class="lab">Model answer</span><span class="theirs">${p.show}</span></div>`;
+      } else {
+        autoTotal++;
+        const ok = !isSkip && isCorrect(p, raw);
+        if(ok) autoRight++;
+        const rowLab = p.label.length > 52 ? p.label.slice(0, 49) + "\u2026" : p.label;
+        rows += `<div><span class="lab">${esc(rowLab)}</span>
+                   <span class="mine ${ok?"right":"wrong"}">${raw.trim() ? esc(raw) : "(blank)"}</span>
+                   ${ok ? ` <span class="tick">&#10003;</span>`
+                        : ` <span class="cross">&#10007;</span> <span class="lab" style="min-width:0">correct answer:</span> <span class="theirs">${p.show}</span>`}</div>`;
+      }
+    });
+
+    let vclass = "ok", vtext = "Correct";
+    if(isSkip){ vclass = "skip"; vtext = "Skipped — here's how it works"; }
+    else if(autoTotal === 0){ vclass = "self"; vtext = "Check yourself"; }
+    else if(autoRight === 0){ vclass = "no"; vtext = "Not yet"; }
+    else if(autoRight < autoTotal){ vclass = "no"; vtext = `${autoRight} of ${autoTotal} parts right`; }
+
+    let selfHtml = "";
+    mine.forEach((f, i) => {
+      if(f.p.type !== "self") return;
+      const pid = `${q.n}-${f.i}`;
+      const cur = selfMarks[pid];
+      selfHtml += `<div class="selfmark" data-pid="${pid}">
+          <p>Did your reasoning match the model answer?</p>
+          <div class="btns">
+            <button class="smbtn yes" type="button" data-mark="1" aria-pressed="${cur===true}">Yes, I had it</button>
+            <button class="smbtn no" type="button" data-mark="0" aria-pressed="${cur===false}">Not quite</button>
+          </div></div>`;
+    });
+
+    res.innerHTML = `<div class="verdict ${vclass}">${vtext}</div>
+                     ${isSkip ? `<p class="skipnote">You said you hadn't learned this one, so it isn't counted against your score — but read it through, because it'll come back in a day or two.</p>` : ""}
+                     <div class="cmp">${rows}</div>
+                     <div class="exp"><h4>Explanation</h4>${q.exp}</div>
+                     ${selfHtml}`;
+    res.classList.add("show");
+
+    perQ.push({n:q.n, set:q.set, setTitle:q.setTitle, std:q.std, autoRight, autoTotal,
+               selfTotal, skipped:isSkip, hint: !!hintsUsed[q.n]});
+  });
+
+  /* lock inputs */
+  document.querySelectorAll("input.ans, textarea.ans, select.ans").forEach(el => el.disabled = true);
+  document.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = true);
+  document.querySelectorAll(".hintbtn").forEach(el => el.style.display = "none");
+
+  const btn = document.getElementById("submitBtn");
+  btn.textContent = "Checked";
+  btn.disabled = true;
+  document.getElementById("barNote").textContent =
+    "Scroll through — every question now shows the worked explanation.";
+
+  /* On a review-mode reopen, report the time banked when she actually worked,
+     not nothing — priorSeconds was restored from the saved record. */
+  const elapsed = isRestore ? (priorSeconds > 0 ? priorSeconds : null) : elapsedSeconds();
+  window.__elapsed = elapsed;
+
+  const att = perQ.filter(p => !p.skipped);
+  const rTot = att.reduce((a,p) => a + p.autoTotal, 0);
+  const rRight = att.reduce((a,p) => a + p.autoRight, 0);
+  const nSkip = perQ.filter(p => p.skipped).length;
+  document.querySelector(".progrow").innerHTML =
+    `<span>Submitted — <strong>${rRight} of ${rTot}</strong> correct${nSkip ? `, ${nSkip} skipped` : ""}</span>
+     <span>Explanations unlocked</span>`;
+  const fillEl = document.getElementById("fill");
+  fillEl.style.width = "100%";
+  const rPct = rTot ? rRight/rTot : 0;
+  fillEl.style.background = rPct >= 0.85 ? "#1a7a4c" : rPct >= 0.65 ? "#3b4c9e" : "#b3261e";
+
+  renderScore(perQ);
+
+  const rec = {
+    date: DATE_KEY, topicDay: TOPIC_DAY, topic: TOPIC_NAME,
+    fieldsSkipped: Object.keys(skipped).filter(k => skipped[k]),
+    submittedAt: new Date().toISOString(),
+    seconds: elapsed,
+    fields, selfMarks, perQuestion: perQ,
+    autoScore: rRight,
+    autoTotal: rTot,
+    skipped: perQ.filter(p => p.skipped).map(p => p.n),
+    hintsUsed: Object.keys(hintsUsed).filter(k => hintsUsed[k]).length,
+    hintQs: perQ.filter(p => p.hint).map(p => p.n)
+  };
+  if(!isRestore) persist(rec);
+  window.__rec = rec;
+}
+
+function renderScore(perQ){
+  const att = perQ.filter(p => !p.skipped);
+  const skippedQs = perQ.filter(p => p.skipped);
+  const right = att.reduce((a,p) => a + p.autoRight, 0);
+  const total = att.reduce((a,p) => a + p.autoTotal, 0);
+  const pct = total ? Math.round(right/total*100) : 0;
+
+  document.getElementById("ringPct").textContent = pct + "%";
+  document.getElementById("ringRaw").textContent = right + "/" + total;
+  const circ = 2 * Math.PI * 41;
+  document.getElementById("ringArc").style.strokeDashoffset = circ * (1 - pct/100);
+  document.getElementById("ringArc").style.stroke =
+    pct >= 85 ? "#1a7a4c" : pct >= 65 ? "#3b4c9e" : "#b3261e";
+
+  let title, msg;
+  if(total === 0){ title = "Nothing marked today"; msg = "You skipped every question, so there's no score — but every explanation is open below. Read them, and these topics will come back in your next few sets."; }
+  else if(pct === 100){ title = "Every auto-graded part correct"; msg = "Clean sweep on the computed answers. Still read the explanations — the reasoning behind a right answer is the part that transfers to harder problems."; }
+  else if(pct >= 85){ title = "Strong work"; msg = "A couple of slips only. Read the explanations on the ones marked ✗ and note which step broke down — that's usually where the real lesson is."; }
+  else if(pct >= 65){ title = "Solid, with gaps to close"; msg = "The method is mostly there. Work carefully through the explanations below on the missed questions, then redo those problems on paper without looking."; }
+  else { title = "Worth a second pass"; msg = "Read every explanation below slowly — they show the setup step by step. Then try the missed questions again on paper. This topic repeats in the rotation, so you'll get another shot."; }
+  if(skippedQs.length && total > 0){
+    msg += ` You skipped ${skippedQs.length} ${skippedQs.length === 1 ? "question" : "questions"} — that's fine, and your score is out of the ${total} parts you did try. They'll come back in your next few sets.`;
+  }
+  document.getElementById("scoreTitle").textContent = title;
+  document.getElementById("scoreMsg").textContent = msg;
+
+  const bySet = {};
+  att.forEach(p => {
+    if(!bySet[p.set]) bySet[p.set] = {r:0,t:0};
+    bySet[p.set].r += p.autoRight; bySet[p.set].t += p.autoTotal;
+  });
+  document.getElementById("breakdown").innerHTML =
+    Object.keys(bySet).sort().map(k =>
+      `<div class="bd"><div class="t">Set ${k} · ${SET_NAMES[k]||""}</div>
+        <div class="v">${bySet[k].t ? bySet[k].r + " / " + bySet[k].t : "self-check"}</div></div>`
+    ).join("");
+
+  const missed = att.filter(p => p.autoTotal && p.autoRight < p.autoTotal).map(p => p.n);
+  const written = QUESTIONS.filter(q => q.parts.some(p => p.type === "self")).map(q => q.n);
+  const link = n => `<a href="#q${n}">Q${n}</a>`;
+  const bits = [];
+  if(missed.length) bits.push(`<b>Review these:</b> ` + missed.map(link).join(" · "));
+  if(skippedQs.length) bits.push(`<b>Skipped — read these too:</b> ` + skippedQs.map(p => link(p.n)).join(" · "));
+  if(!bits.length){
+    bits.push(`<b>Nothing flagged.</b>` + (written.length
+      ? ` Compare your written answers on ` + written.map(link).join(" · ") + ` against the model answers before you close this.`
+      : ` Read the explanations before you close this.`));
+  }
+  document.getElementById("reviewList").innerHTML = bits.join("<br>");
+
+  buildSendBack(perQ, right, total, missed, skippedQs);
+  window.__rebuildSend = () => buildSendBack(perQ, right, total, missed, skippedQs);
+
+  document.getElementById("scorecard").classList.add("show");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* ---------- send results back by email (no account needed) ---------- */
+function buildSendBack(perQ, right, total, missed, skippedQs){
+  const el = window.__elapsed;
+  const timeStr = (el === null || el === undefined) ? null
+                : el < 60 ? `${el} sec` : `${Math.round(el/60)} min`;
+
+  const writtenBits = [];
+  QUESTIONS.forEach(q => {
+    q.parts.forEach((p, i) => {
+      if(p.type !== "self") return;
+      const mark = selfMarks[`${q.n}-${i}`];
+      writtenBits.push(`Q${q.n}${p.key || ""} — ` + (mark === true ? "got it" : mark === false ? "not quite" : "not marked"));
+    });
+  });
+
+  /* Independence: which questions needed a hint, and how many she carried
+     unaided. A score built on hints is a different thing from one without. */
+  const attempted  = perQ.filter(p => !p.skipped);
+  const hintQs     = attempted.filter(p => p.hint).map(p => p.n);
+  const autoQs     = attempted.filter(p => p.autoTotal > 0);
+  const cleanQs    = autoQs.filter(p => !p.hint && p.autoRight === p.autoTotal).length;
+
+  /* The final question is the multi-step challenge — tracked on its own
+     because it's the best transfer signal and vanishes inside a percentage. */
+  const lastQ = perQ.length ? perQ[perQ.length - 1] : null;
+  const challengeStr = !lastQ ? null
+    : lastQ.skipped ? `Challenge question (Q${lastQ.n}): skipped`
+    : lastQ.autoTotal ? `Challenge question (Q${lastQ.n}): ${lastQ.autoRight}/${lastQ.autoTotal}${lastQ.hint ? " (used the hint)" : " (no hint)"}`
+    : `Challenge question (Q${lastQ.n}): written answer`;
+
+  const lines = [
+    `Math — ${DATE_LABEL}`,
+    `Topic: ${TOPIC_NAME}`,
+    ``,
+    `Score: ${right} / ${total}` + ((skippedQs && skippedQs.length) ? ` (out of what she attempted)` : ``),
+    timeStr ? `Time: ${timeStr}` : null,
+    `Hints opened: ${hintQs.length}` + (hintQs.length ? ` — on ${hintQs.map(n => "Q"+n).join(", ")}` : ``),
+    autoQs.length ? `Unaided: ${cleanQs} of ${autoQs.length} graded questions fully right with no hint` : null,
+    challengeStr,
+    missed.length ? `Missed: ${missed.map(n => "Q"+n).join(", ")}` : `Missed: none`,
+    (skippedQs && skippedQs.length)
+      ? `Skipped (hadn't learned yet): ${skippedQs.map(p => "Q" + p.n + " — " + (p.setTitle || "") + (p.std ? " [" + p.std + "]" : "")).join("; ")}`
+      : `Skipped: none`,
+    writtenBits.length ? `Written answers: ${writtenBits.join("; ")}` : null,
+    ``,
+    `Per question: ` + perQ.map(p => `Q${p.n} ` + (p.skipped ? "skipped" : (p.autoTotal ? p.autoRight+"/"+p.autoTotal : "written")) + (p.hint && !p.skipped ? " (hint)" : "")).join(", "),
+    `Standards: ` + perQ.map(p => `Q${p.n} ${p.std || "—"}`).join(", "),
+    ``,
+    `(Sent from the worksheet page)`
+  ].filter(x => x !== null);
+
+  const text = lines.join("\n");
+  document.getElementById("resultsText").value = text;
+
+  const subject = `Math results — ${DATE_LABEL} — ${right}/${total}`;
+  const href = `mailto:${encodeURIComponent(RESULTS_EMAIL)}`
+             + `?subject=${encodeURIComponent(subject)}`
+             + `&body=${encodeURIComponent(text)}`;
+
+  const done = document.getElementById("sendDone");
+
+  document.getElementById("emailResultsBtn").onclick = () => {
+    window.location.href = href;
+    done.textContent = `Your email app should be opening — just press send. If nothing happened, use "Copy instead".`;
+    done.classList.add("show");
+  };
+
+  document.getElementById("copyResultsBtn").onclick = async () => {
+    const ta = document.getElementById("resultsText");
+    ta.classList.add("show");
+    let ok = false;
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        await navigator.clipboard.writeText(text); ok = true;
+      }
+    }catch(e){}
+    if(!ok){ try{ ta.select(); ok = document.execCommand("copy"); }catch(e){} }
+    done.textContent = ok
+      ? `Copied. Reply to the email that sent you this worksheet and paste it in.`
+      : `Select the text below, copy it, and paste it into a reply to the worksheet email.`;
+    done.classList.add("show");
+  };
+}
+
+/* self-marking */
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-mark]");
+  if(!b) return;
+  const box = b.closest(".selfmark");
+  const pid = box.getAttribute("data-pid");
+  const val = b.getAttribute("data-mark") === "1";
+  selfMarks[pid] = val;
+  box.querySelectorAll(".smbtn").forEach(x => x.setAttribute("aria-pressed","false"));
+  b.setAttribute("aria-pressed","true");
+  if(window.__rec){ window.__rec.selfMarks = selfMarks; persist(window.__rec); }
+  if(window.__rebuildSend) window.__rebuildSend();
+});
+
+/* submit */
+document.getElementById("submitBtn").addEventListener("click", () => {
+  const blanks = fieldIds.filter(f => !skipped[f.q.n] && String(readField(f)).trim() === "").length;
+  const note = document.getElementById("barNote");
+  if(blanks > 0 && !note.dataset.warned){
+    note.dataset.warned = "1";
+    note.textContent = `${blanks} blank${blanks>1?"s":""} left. Fill them in, mark them "haven't learned this", or press again to check anyway.`;
+    note.style.color = "#8a5a00";
+    return;
+  }
+  note.style.color = "";
+  grade(false);
+});
+
+document.getElementById("printBtn").addEventListener("click", () => window.print());
+</script>
+</body>
+</html>
