@@ -459,17 +459,23 @@ document.title = `Math Honors — ${DATE_LABEL}`;
    STATE
    =================================================================== */
 let submitted = false;
-const sessionStart = Date.now();
-let priorSeconds = 0;     // time banked in earlier sittings, restored from storage
 const selfMarks = {};     // partId -> true/false
 const hintsUsed = {};     // qn -> true  (persisted: promotion rule 3 depends on this)
 const skipped   = {};     // qn -> true ("I don't know this one")
 let fieldIds = [];
 
-/* Total time across every sitting, not just this one. */
-function elapsedSeconds(){
-  return priorSeconds + Math.round((Date.now() - sessionStart)/1000);
-}
+/* TIME ON TASK — working seconds, not wall-clock seconds.
+   An earlier version banked (now - sessionStart), which counted every minute the
+   tab merely sat open. A set opened on Tuesday and submitted on Thursday reported
+   "1165 min". So instead we tick one second at a time and only count a second if
+   she has interacted within the last couple of minutes. Reading a question still
+   counts; a page left open overnight does not. */
+let activeSeconds = 0;              // working seconds, restored sittings included
+let lastActivity  = Date.now();
+const IDLE_CUTOFF_MS = 120000;      // 2 min with no interaction = not working
+
+function markActivity(){ lastActivity = Date.now(); }
+function elapsedSeconds(){ return activeSeconds; }
 
 /* ===================================================================
    ANSWER CHECKING
@@ -632,11 +638,15 @@ qRoot.addEventListener("input", updateProgress);
 qRoot.addEventListener("change", updateProgress);
 updateProgress();
 
-/* timer */
+/* timer — accrues working seconds only; see the note on IDLE_CUTOFF_MS above */
 const timerBadge = document.getElementById("timerBadge");
+["input","change","click","keydown"].forEach(ev =>
+  qRoot.addEventListener(ev, markActivity));
+document.addEventListener("keydown", markActivity);
 setInterval(() => {
   if(submitted) return;
-  const s = elapsedSeconds();
+  if(Date.now() - lastActivity < IDLE_CUTOFF_MS) activeSeconds++;
+  const s = activeSeconds;
   timerBadge.textContent = `Time: ${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
 }, 1000);
 
@@ -698,7 +708,7 @@ function restoreWip(rec){
   }
   /* Hints and banked time survive the tab closing — they don't count as answers. */
   if(Array.isArray(rec.hints)) rec.hints.forEach(k => { hintsUsed[k] = true; });
-  if(typeof rec.secs === "number" && isFinite(rec.secs) && rec.secs > 0) priorSeconds = rec.secs;
+  if(typeof rec.secs === "number" && isFinite(rec.secs) && rec.secs > 0) activeSeconds = rec.secs;
   if(n) updateProgress();
   return n;
 }
@@ -738,7 +748,7 @@ function restorePrior(rec){
   /* Carry the hint record and the original time into review mode, so results
      emailed from a later sitting still report them instead of 0 and "no time". */
   if(Array.isArray(rec.hintQs)) rec.hintQs.forEach(k => { hintsUsed[k] = true; });
-  if(typeof rec.seconds === "number" && isFinite(rec.seconds) && rec.seconds > 0) priorSeconds = rec.seconds;
+  if(typeof rec.seconds === "number" && isFinite(rec.seconds) && rec.seconds > 0) activeSeconds = rec.seconds;
   updateProgress();
   grade(true);
   document.getElementById("barNote").textContent = "You already finished this one — this is your review.";
@@ -834,8 +844,8 @@ function grade(isRestore){
     "Scroll through — every question now shows the worked explanation.";
 
   /* On a review-mode reopen, report the time banked when she actually worked,
-     not nothing — priorSeconds was restored from the saved record. */
-  const elapsed = isRestore ? (priorSeconds > 0 ? priorSeconds : null) : elapsedSeconds();
+     not nothing — activeSeconds was restored from the saved record. */
+  const elapsed = isRestore ? (activeSeconds > 0 ? activeSeconds : null) : activeSeconds;
   window.__elapsed = elapsed;
 
   const att = perQ.filter(p => !p.skipped);
