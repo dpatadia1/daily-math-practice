@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Math Honors — Oct 29, 2026</title>
+<style>
+  :root{
+    --paper:#fdfbf7; --card:#ffffff; --ink:#1b1a17; --muted:#6b675f;
+    --line:#e5e0d6; --accent:#3b4c9e; --accent-soft:#eef1fb;
+    --ok:#1a7a4c; --ok-soft:#e8f5ee; --no:#b3261e; --no-soft:#fdecea;
+    --warn:#8a5a00; --warn-soft:#fdf3e0;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --serif:"Iowan Old Style",Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+       font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+  .wrap{max-width:780px;margin:0 auto;padding:28px 20px 120px}
+
+  /* ---------- header ---------- */
+  header{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:8px}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  h1{font-family:var(--serif);font-size:30px;line-height:1.2;margin:8px 0 6px;font-weight:600}
+  .topicline{font-size:15px;color:var(--accent);font-weight:600}
+  .meta{font-size:13px;color:var(--muted);margin-top:8px}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center}
+  .badge{font-size:12px;padding:4px 10px;border-radius:999px;background:#f1eee6;color:var(--muted);
+         border:1px solid var(--line);font-weight:600}
+  .badge.live{background:var(--ok-soft);color:var(--ok);border-color:#bfe3cf}
+  .badge.local{background:var(--warn-soft);color:var(--warn);border-color:#ebd9b0}
+
+  /* ---------- progress ---------- */
+  .progwrap{position:sticky;top:0;background:var(--paper);padding:14px 0 12px;z-index:20;
+            border-bottom:1px solid var(--line);margin-bottom:26px}
+  .progrow{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin-bottom:7px}
+  .progrow strong{color:var(--ink)}
+  .track{height:7px;background:#ece7dc;border-radius:999px;overflow:hidden}
+  .fill{height:100%;width:0%;background:var(--accent);border-radius:999px;transition:width .3s ease}
+
+  /* ---------- sets & questions ---------- */
+  .setheader{margin:38px 0 18px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+  .setheader:first-of-type{margin-top:8px}
+  .setheader h2{font-family:var(--serif);font-size:21px;margin:0;font-weight:600}
+  .setheader .std{font-size:12px;color:var(--muted);margin-top:3px;letter-spacing:.02em}
+
+  .q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 20px 18px;
+     margin-bottom:18px;position:relative;scroll-margin-top:96px}
+  .q.flagged{border-color:#d9d2c4}
+  .qhead{display:flex;gap:12px;align-items:baseline;margin-bottom:10px}
+  .qnum{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--accent);min-width:26px}
+  .prompt{font-family:var(--serif);font-size:17.5px;line-height:1.5}
+  .prompt em{font-style:italic}
+  table.data{border-collapse:collapse;margin:14px 0 4px;font-family:var(--sans);font-size:14px}
+  table.data th,table.data td{border:1px solid var(--line);padding:7px 14px;text-align:center}
+  table.data th{background:#f6f3ec;font-weight:600;text-align:left}
+
+  .parts{margin-top:14px;display:flex;flex-direction:column;gap:11px}
+  .part{display:flex;flex-direction:column;align-items:stretch;gap:7px}
+  .plabel{font-size:15.5px;line-height:1.5;color:#2e2b26;padding-top:0}
+  .plabel .pk{font-weight:700;color:var(--ink)}
+  input.ans,select.ans{font-family:var(--sans);font-size:15px;padding:9px 11px;border:1.5px solid var(--line);
+       border-radius:8px;background:#fff;color:var(--ink);width:100%;max-width:300px}
+  input.ans:focus,select.ans:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  input.ans[disabled],select.ans[disabled]{background:#f7f5f0;color:#55524c}
+  .radios{display:flex;gap:16px;padding-top:6px;flex-wrap:wrap}
+  .radios label{font-size:15px;display:flex;gap:6px;align-items:center;cursor:pointer}
+  .longans{width:100%;max-width:none}
+  textarea.ans{font-family:var(--sans);font-size:15px;padding:9px 11px;border:1.5px solid var(--line);
+       border-radius:8px;width:100%;min-height:72px;resize:vertical;line-height:1.5;color:var(--ink);background:#fff}
+  textarea.ans:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  textarea.ans[disabled]{background:#f7f5f0;color:#55524c}
+  .explain-note{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:-2px}
+
+  .hintbtn{background:none;border:none;color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;
+           padding:4px 0;margin-top:9px;font-family:var(--sans);text-decoration:underline}
+  .hint{display:none;margin-top:9px;font-size:14px;background:var(--accent-soft);border-left:3px solid var(--accent);
+        padding:10px 13px;border-radius:0 7px 7px 0;color:#2c3870}
+  .hint.show{display:block}
+  .skiprow{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:10px}
+  .skipbtn{background:none;border:none;color:var(--muted);font-size:13px;font-weight:600;
+           cursor:pointer;padding:4px 0;font-family:var(--sans);text-decoration:underline}
+  .q.skipped{background:#f7f5f0;border-style:dashed}
+  .q.skipped .parts{opacity:.45}
+  .verdict.skip{background:#f1eee6;color:#55524c}
+  .skipnote{font-size:13.5px;color:var(--muted);margin:0 0 12px;font-style:italic}
+
+  /* ---------- results ---------- */
+  .result{display:none;margin-top:17px;border-top:1px dashed var(--line);padding-top:15px}
+  .result.show{display:block}
+  .verdict{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;
+           padding:4px 11px;border-radius:999px;margin-bottom:12px}
+  .verdict.ok{background:var(--ok-soft);color:var(--ok)}
+  .verdict.no{background:var(--no-soft);color:var(--no)}
+  .verdict.self{background:var(--accent-soft);color:var(--accent)}
+  .cmp{font-size:14px;margin-bottom:13px;background:#faf8f3;border-radius:8px;padding:11px 13px}
+  .cmp div{margin:3px 0}
+  .cmp .lab{color:var(--muted);display:inline-block;min-width:118px;font-size:13px}
+  .cmp .mine.wrong{color:var(--no);font-weight:600}
+  .cmp .mine.right{color:var(--ok);font-weight:600}
+  .cmp .theirs{font-weight:700}
+  .cmp .tick{color:var(--ok);font-weight:700;margin-left:4px}
+  .cmp .cross{color:var(--no);font-weight:700;margin:0 6px 0 4px}
+  .exp{font-size:15px;line-height:1.62}
+  .exp h4{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+          margin:0 0 7px;font-weight:700}
+  .exp p{margin:0 0 10px}
+  .exp .step{margin:0 0 9px}
+  .exp .calc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;
+             background:#f4f1ea;padding:2px 6px;border-radius:4px;white-space:nowrap}
+  .exp .strategy{background:var(--accent-soft);border-radius:8px;padding:11px 13px;margin:12px 0 0;
+                 font-size:14.5px;color:#2c3870}
+  .exp .strategy b{color:var(--accent)}
+  .exp .mistake{background:var(--warn-soft);border-radius:8px;padding:11px 13px;margin:10px 0 0;
+                font-size:14.5px;color:#6d4800}
+  .exp .mistake b{color:var(--warn)}
+  .selfmark{margin-top:14px;background:#faf8f3;border:1px solid var(--line);border-radius:8px;padding:12px 13px}
+  .selfmark p{margin:0 0 9px;font-size:14px;font-weight:600}
+  .selfmark .btns{display:flex;gap:9px;flex-wrap:wrap}
+  .smbtn{font-family:var(--sans);font-size:13.5px;font-weight:600;padding:7px 14px;border-radius:7px;
+         border:1.5px solid var(--line);background:#fff;cursor:pointer;color:var(--ink)}
+  .smbtn[aria-pressed="true"].yes{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+  .smbtn[aria-pressed="true"].no{background:var(--no-soft);border-color:var(--no);color:var(--no)}
+
+  /* ---------- submit bar ---------- */
+  .submitbar{position:fixed;left:0;right:0;bottom:0;background:rgba(253,251,247,.96);
+             backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:13px 20px;z-index:30}
+  .submitinner{max-width:780px;margin:0 auto;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .submitnote{font-size:13px;color:var(--muted)}
+  .btn{font-family:var(--sans);font-size:15px;font-weight:600;padding:11px 22px;border-radius:9px;
+       border:none;background:var(--accent);color:#fff;cursor:pointer}
+  .btn:disabled{background:#b9b5ac;cursor:not-allowed}
+  .btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+
+  /* ---------- score card ---------- */
+  .scorecard{display:none;background:var(--card);border:2px solid var(--ink);border-radius:14px;
+             padding:24px;margin:8px 0 30px}
+  .scorecard.show{display:block}
+  .scoretop{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+  .ring{width:96px;height:96px;flex-shrink:0;position:relative}
+  .ring svg{transform:rotate(-90deg)}
+  .ringtext{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ringtext b{font-family:var(--serif);font-size:25px;line-height:1}
+  .ringtext span{font-size:11px;color:var(--muted);letter-spacing:.05em}
+  .scoremsg h3{font-family:var(--serif);font-size:21px;margin:0 0 5px;font-weight:600}
+  .scoremsg p{margin:0;font-size:14.5px;color:#46433c;max-width:420px}
+  .breakdown{margin-top:20px;border-top:1px solid var(--line);padding-top:16px;
+             display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px}
+  .bd{font-size:13.5px}
+  .bd .t{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+  .bd .v{font-family:var(--serif);font-size:17px;font-weight:600;margin-top:2px}
+  .review{margin-top:16px;font-size:14px;color:#46433c}
+  .review b{color:var(--ink)}
+
+  /* ---------- send results back ---------- */
+  .sendback{margin-top:20px;border-top:1px solid var(--line);padding-top:18px}
+  .sendback h4{font-family:var(--serif);font-size:17px;margin:0 0 5px;font-weight:600}
+  .sendback p{margin:0 0 13px;font-size:14.5px;color:#46433c}
+  .sendback .btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .sendback .big{font-size:15px;font-weight:600;padding:11px 20px;border-radius:9px;border:none;
+                 background:var(--ok);color:#fff;cursor:pointer;font-family:var(--sans)}
+  .sendback .alt{font-size:14px;font-weight:600;padding:10px 16px;border-radius:9px;
+                 border:1.5px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;font-family:var(--sans)}
+  .sendback .done{margin-top:11px;font-size:13.5px;color:var(--ok);font-weight:600;display:none}
+  .sendback .done.show{display:block}
+  .sendback textarea{margin-top:12px;width:100%;min-height:120px;font-family:ui-monospace,Menlo,Consolas,monospace;
+                     font-size:12.5px;border:1.5px solid var(--line);border-radius:8px;padding:10px;
+                     display:none;background:#faf8f3;color:var(--ink)}
+  .sendback textarea.show{display:block}
+
+  @media (max-width:560px){
+    .wrap{padding:20px 14px 130px}
+    h1{font-size:25px}
+    input.ans,select.ans{max-width:none;width:100%}
+    .qhead{gap:8px}
+    .prompt{font-size:16.5px}
+  }
+  @media print{
+    .submitbar,.hintbtn,.progwrap,.badges{display:none!important}
+    body{background:#fff}
+    .q{break-inside:avoid;border-color:#ccc}
+    .wrap{padding-bottom:20px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">NJ Middle School Math Honors · Daily Set</div>
+    <h1 id="hDate"></h1>
+    <div class="topicline" id="hTopic"></div>
+    <div class="meta" id="hMeta"></div>
+    <div class="badges">
+      <span class="badge" id="syncBadge">Your answers save as you type</span>
+      <span class="badge" id="timerBadge">Time: 0:00</span>
+    </div>
+  </header>
+
+  <div class="progwrap">
+    <div class="progrow">
+      <span><strong id="answeredCount">0</strong> of <strong id="totalCount">0</strong> blanks filled</span>
+      <span id="progHint">Answer everything, then check your work</span>
+    </div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+  </div>
+
+  <div class="scorecard" id="scorecard">
+    <div class="scoretop">
+      <div class="ring">
+        <svg width="96" height="96" viewBox="0 0 96 96">
+          <circle cx="48" cy="48" r="41" fill="none" stroke="#ece7dc" stroke-width="10"></circle>
+          <circle id="ringArc" cx="48" cy="48" r="41" fill="none" stroke="#3b4c9e" stroke-width="10"
+                  stroke-linecap="round" stroke-dasharray="257.6" stroke-dashoffset="257.6"></circle>
+        </svg>
+        <div class="ringtext"><b id="ringPct">0%</b><span id="ringRaw">0/0</span></div>
+      </div>
+      <div class="scoremsg">
+        <h3 id="scoreTitle">Work checked</h3>
+        <p id="scoreMsg"></p>
+      </div>
+    </div>
+    <div class="breakdown" id="breakdown"></div>
+    <div class="review" id="reviewList"></div>
+    <div class="sendback" id="sendback">
+      <h4>Last step — send your results</h4>
+      <p>Tap the button and your email app opens with everything filled in. Just press send.</p>
+      <div class="btns">
+        <button class="big" id="emailResultsBtn" type="button">Email my results</button>
+        <button class="alt" id="copyResultsBtn" type="button">Copy instead</button>
+      </div>
+      <div class="done" id="sendDone"></div>
+      <textarea id="resultsText" readonly></textarea>
+    </div>
+  </div>
+
+  <main id="questions"></main>
+
+</div>
+
+<div class="submitbar">
+  <div class="submitinner">
+    <span class="submitnote" id="barNote">Explanations unlock after you check your work.</span>
+    <div style="display:flex;gap:9px">
+      <button class="btn ghost" id="printBtn" type="button">Print</button>
+      <button class="btn" id="submitBtn" type="button">Check my work</button>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ===== BEGIN DAILY DATA — replace everything down to END DAILY DATA =====
+   Each run swaps only this block. Nothing below it changes.
+   EVERY `label` MUST BE A COMPLETE QUESTION SENTENCE ENDING IN "?", not a
+   field name. She is 11 and reads the label as the question.
+     BAD  -> label:"What is the car's unit rate, in miles per gallon?"
+     GOOD -> label:"What is the car's unit rate, in miles per gallon?"
+   The `prompt` sets up the situation in full; each part then asks one clear
+   question about it that makes sense on its own.
+
+   part types:
+     num    -> {type:"num", correct:<number>, tol:<optional>, show:"display answer"}
+     text   -> {type:"text", accept:["normalized","variants"], re:"optional regex", show:"..."}
+     choice -> {type:"choice", options:["A","B"], correct:"B", show:"B"}
+     self   -> {type:"self", placeholder:"...", show:"model answer HTML"}  (student self-marks)
+   =========================================================================== */
+const DATE_KEY   = "2026-11-06";
+const DATE_LABEL = "Friday, November 6, 2026";
+const TOPIC_DAY  = 4;
+const TOPIC_NAME = "Expressions, Properties, Exponents & Order of Operations";
+const STANDARDS  = "NJSLS 6.EE.1&ndash;4, 7.EE.1&ndash;2";
+const SET_NAMES  = {A:"Exponents & Order of Operations", B:"Writing & Evaluating Expressions",
+                    C:"Properties & Equivalent Expressions", D:"Challenge"};
+
+const QUESTIONS = [
+{
+  n:1, set:"A", setTitle:"Exponents & Order of Operations", std:"NJSLS 6.EE.1",
+  prompt:"An <b>exponent</b> is a short way of writing repeated multiplication. In 5<sup>3</sup> the <em>base</em> is 5 and the <em>exponent</em> is 3, and it means <span class=\"calc\">5 &times; 5 &times; 5 = 125</span>. The small raised number tells you <em>how many factors of the base to multiply together</em> &mdash; it does <em>not</em> tell you what to multiply the base by.",
+  hint:"Write the multiplication out in full first, then work through it one step at a time.",
+  parts:[
+    {key:"a", label:"What is the value of 2<sup>5</sup>?", type:"num", correct:32, show:"32"},
+    {key:"b", label:"What is the value of 3<sup>4</sup>?", type:"num", correct:81, show:"81"},
+    {key:"c", label:"A storage cube measures 7 inches along every edge, so the number of cubic inches it holds is 7<sup>3</sup>. What is the volume of the cube, in cubic inches?", type:"num", correct:343, show:"343 cubic inches"}
+  ],
+  exp:`<p class="step"><b>(a) 32.</b> The exponent 5 says to use five factors of 2: <span class="calc">2 &times; 2 &times; 2 &times; 2 &times; 2</span>. Build it up in pairs so you never lose your place: 2 &times; 2 = 4, &times; 2 = 8, &times; 2 = 16, &times; 2 = <b>32</b>.</p>
+       <p class="step"><b>(b) 81.</b> Four factors of 3: <span class="calc">3 &times; 3 &times; 3 &times; 3</span>. That is 3 &times; 3 = 9, and 9 &times; 9 = <b>81</b>. Splitting it into two nines is quicker than multiplying by 3 four times, and it works because 3<sup>4</sup> = 3<sup>2</sup> &times; 3<sup>2</sup>.</p>
+       <p class="step"><b>(c) 343 cubic inches.</b> <span class="calc">7<sup>3</sup> = 7 &times; 7 &times; 7 = 49 &times; 7 = 343</span>. This is why the exponent 3 is read as "cubed" &mdash; a cube has a length, a width and a height, and all three are 7, so you multiply three sevens together.</p>
+       <div class="strategy"><b>Strategy:</b> when an exponent makes you hesitate, write the repeated multiplication out longhand before you compute anything. Once it is written out there is nothing left to get confused about.</div>
+       <div class="mistake"><b>Common mistake:</b> reading 2<sup>5</sup> as 2 &times; 5 = 10. The exponent counts the factors; it is not one of them. Notice how far apart the two answers are &mdash; 10 versus 32 &mdash; which is exactly why this slip is worth guarding against.</div>`
+},
+{
+  n:2, set:"A", setTitle:"Exponents & Order of Operations", std:"NJSLS 6.EE.2c",
+  prompt:"The <b>order of operations</b> fixes the one correct reading of an expression, so that everybody who evaluates it gets the same answer. The order is: <b>grouping symbols</b> first (parentheses and brackets), then <b>exponents</b>, then <b>multiplication and division</b> &mdash; working left to right &mdash; and finally <b>addition and subtraction</b>, also left to right.",
+  hint:"Copy the expression down and cross off one operation at a time in order, rewriting what is left after each step.",
+  parts:[
+    {key:"a", label:"What is the value of 4 + 3 &times; 2<sup>3</sup>?", type:"num", correct:28, show:"28"},
+    {key:"b", label:"What is the value of (6 + 2)<sup>2</sup> &divide; 4?", type:"num", correct:16, show:"16"},
+    {key:"c", label:"What is the value of 48 &divide; 4 &times; 3?", type:"num", correct:36, show:"36"}
+  ],
+  exp:`<p class="step"><b>(a) 28.</b> Exponents come before multiplication, and multiplication before addition:<br>
+       <span class="calc">4 + 3 &times; 2<sup>3</sup> &rarr; 4 + 3 &times; 8 &rarr; 4 + 24 &rarr; 28</span></p>
+       <p class="step"><b>(b) 16.</b> Grouping symbols come first, so the 6 + 2 inside the parentheses is settled before the squaring:<br>
+       <span class="calc">(6 + 2)<sup>2</sup> &divide; 4 &rarr; 8<sup>2</sup> &divide; 4 &rarr; 64 &divide; 4 &rarr; 16</span></p>
+       <p class="step"><b>(c) 36.</b> Division and multiplication sit at the <em>same</em> level of priority, so neither one wins &mdash; you simply go left to right:<br>
+       <span class="calc">48 &divide; 4 &times; 3 &rarr; 12 &times; 3 &rarr; 36</span></p>
+       <p class="step">This is the part of the order of operations that the word "PEMDAS" hides. The M and the D are a single step read left to right, and so are the A and the S. If you had done the multiplication first here you would have got 48 &divide; 12 = 4, which is a long way from 36.</p>
+       <div class="strategy"><b>Strategy:</b> rewrite the whole expression after every single step. It costs you one extra line and it removes almost every chance of losing a term or doing two things at once.</div>
+       <div class="mistake"><b>Common mistake:</b> treating multiplication as outranking division (or addition as outranking subtraction). They are tied, and ties are broken left to right.</div>`
+},
+{
+  n:3, set:"A", setTitle:"Exponents & Order of Operations", std:"NJSLS 6.EE.2c",
+  prompt:"Jordan was asked to find the value of <span class=\"calc\">20 &minus; 2 &times; 3<sup>2</sup></span>. Here is his work, exactly as he wrote it:<br><br><span class=\"calc\">20 &minus; 2 = 18</span><br><span class=\"calc\">18 &times; 3<sup>2</sup> = 18 &times; 9 = 162</span><br><br>So Jordan's answer was 162.",
+  hint:"Jordan handled the exponent correctly. Look instead at which operation he chose to do <em>first</em>.",
+  parts:[
+    {key:"a", label:"What is the correct value of 20 &minus; 2 &times; 3<sup>2</sup>?", type:"num", correct:2, show:"2"},
+    {key:"b", label:"Jordan got 162 instead. Explain which step he did out of order, and say what he should have done first and why.", type:"self",
+     placeholder:"Explain which step Jordan did out of order…",
+     show:`Jordan subtracted before he multiplied. He saw 20 &minus; 2 at the front of the expression and did it first because it was first on the page &mdash; but position on the page does not decide the order, priority does. Multiplication outranks subtraction, so the 2 &times; 3<sup>2</sup> has to be settled before anything is taken away from the 20. He should have done the exponent first (3<sup>2</sup> = 9), then the multiplication (2 &times; 9 = 18), and only then the subtraction (20 &minus; 18 = 2). The one thing he did get right was handling the exponent before multiplying by 2.`}
+  ],
+  exp:`<p class="step"><b>(a) 2.</b> Work through the priorities in order:<br>
+       <span class="calc">20 &minus; 2 &times; 3<sup>2</sup> &rarr; 20 &minus; 2 &times; 9 &rarr; 20 &minus; 18 &rarr; 2</span></p>
+       <p class="step">It helps to see that <span class="calc">2 &times; 3<sup>2</sup></span> is one single quantity &mdash; it is 18, all of it &mdash; and that the expression is really "20 take away that quantity." Mentally putting invisible brackets round it, as 20 &minus; (2 &times; 3<sup>2</sup>), makes the correct reading obvious.</p>
+       <p class="step"><b>(b)</b> Jordan subtracted first, because 20 &minus; 2 came first <em>on the page</em>. But reading order is not operation order. Multiplication has higher priority than subtraction, so 2 &times; 3<sup>2</sup> = 18 must be found before it is subtracted from 20. He did handle the exponent properly &mdash; his mistake was only about <em>when</em> he subtracted.</p>
+       <div class="strategy"><b>Strategy:</b> before computing anything, draw a loop around each multiplication or division in the expression. Each loop is one number waiting to be worked out, and the additions and subtractions happen between the loops, afterwards.</div>
+       <div class="mistake"><b>Common mistake:</b> exactly Jordan's &mdash; doing whatever appears leftmost first. Left to right only settles a tie <em>between operations of equal priority</em>; it never promotes a subtraction above a multiplication.</div>`
+},
+{
+  n:4, set:"B", setTitle:"Writing & Evaluating Expressions", std:"NJSLS 6.EE.2a, 6.EE.6",
+  prompt:"The school store sells pencils for $0.40 each and notebooks for $2.50 each. Let <b>p</b> stand for the number of pencils someone buys. (Money question &mdash; a calculator is fine.)",
+  hint:"The notebook costs the same no matter how many pencils are bought, so its $2.50 stands alone. The pencil cost depends on p, so it has to be multiplied by p.",
+  parts:[
+    {key:"a", label:"Write an expression for the total cost, in dollars, of one notebook and p pencils.", type:"text",
+     accept:["2.50+0.40p","0.40p+2.50","2.5+0.4p","0.4p+2.5","2.50+0.4p","2.5+0.40p","0.40p+2.5","0.4p+2.50",".40p+2.50","2.50+.40p",".4p+2.5","2.5+.4p"],
+     re:"^\\s*\\$?\\s*(?:2\\.50|2\\.5)\\s*\\+\\s*\\$?\\s*(?:0\\.40|0\\.4|\\.40|\\.4)\\s*(?:[*×·]\\s*)?p\\s*$|^\\s*\\$?\\s*(?:0\\.40|0\\.4|\\.40|\\.4)\\s*(?:[*×·]\\s*)?p\\s*\\+\\s*\\$?\\s*(?:2\\.50|2\\.5)\\s*$",
+     show:"2.50 + 0.40p &nbsp;(or 0.40p + 2.50 &mdash; the order of the two terms does not matter)"},
+    {key:"b", label:"Using that expression, what is the total cost in dollars of one notebook and 6 pencils?", type:"num", correct:4.90, show:"$4.90"},
+    {key:"c", label:"Explain why the cost of p pencils is written 0.40p and not 0.40 + p. What would 0.40 + p mean instead?", type:"self",
+     placeholder:"Explain why it is 0.40p and not 0.40 + p…",
+     show:`Each pencil costs $0.40, so buying p pencils means paying that 40 cents over and over, p times &mdash; and repeated addition of the same amount <em>is</em> multiplication. That is why it is 0.40 &times; p, written 0.40p. Writing 0.40 + p would mean "forty cents plus the number of pencils," which adds a count of pencils to an amount of money and so is not even measuring the same kind of thing. You can check it with a number: 10 pencils really cost 0.40 &times; 10 = $4.00, whereas 0.40 + 10 = 10.40, which is nothing like the true cost.`}
+  ],
+  exp:`<p class="step"><b>(a) 2.50 + 0.40p.</b> Take the two costs separately. The notebook is a <em>fixed</em> cost: $2.50 whether she buys one pencil or fifty, so it sits in the expression as a plain 2.50. The pencils are a <em>variable</em> cost: 40 cents each, repeated p times, which is 0.40 &times; p, written <span class="calc">0.40p</span>. Added together: <span class="calc">2.50 + 0.40p</span>. Writing it as 0.40p + 2.50 is equally correct.</p>
+       <p class="step">In algebra a number written against a letter always means multiplication, so 0.40p needs no multiplication sign at all. The number in front is called the <b>coefficient</b>.</p>
+       <p class="step"><b>(b) $4.90.</b> Substitute p = 6 and respect the order of operations &mdash; multiply before adding:<br>
+       <span class="calc">2.50 + 0.40 &times; 6 &rarr; 2.50 + 2.40 &rarr; 4.90</span></p>
+       <p class="step"><b>(c)</b> 0.40p is right because p pencils means paying 40 cents p separate times, and repeated addition of equal amounts is multiplication. 0.40 + p would instead add the <em>number</em> of pencils to an <em>amount of money</em>, which are not the same kind of quantity. Testing it exposes the problem at once: 10 pencils cost $4.00, not $10.40.</p>
+       <div class="strategy"><b>Strategy:</b> when you build an expression, sort the quantities into fixed ones and ones that change. The fixed ones stand alone; the ones that change get multiplied by the variable.</div>
+       <div class="mistake"><b>Common mistake:</b> adding the per-item price instead of multiplying by it. Try your expression on a small number you can check in your head &mdash; it catches this instantly.</div>`
+},
+{
+  n:5, set:"B", setTitle:"Writing & Evaluating Expressions", std:"NJSLS 6.EE.2c, 6.EE.6",
+  prompt:"A square photo has sides of length <b>s</b> inches. It is mounted on a square mat that adds a 2-inch border all the way around, on every side. Because 2 inches are added on the left <em>and</em> 2 inches on the right, the whole mounted square measures (s + 4) inches along each edge, so its total area in square inches is given by the expression <span class=\"calc\">(s + 4)<sup>2</sup></span>.",
+  hint:"Always finish what is inside the parentheses before you square anything.",
+  parts:[
+    {key:"a", label:"What is the value of (s + 4)<sup>2</sup> when s = 6?", type:"num", correct:100, show:"100 square inches"},
+    {key:"b", label:"What is the value of (s + 4)<sup>2</sup> when s = 11?", type:"num", correct:225, show:"225 square inches"},
+    {key:"c", label:"When s = 11, what is the area in square inches of the photo by itself, without the border?", type:"num", correct:121, show:"121 square inches"}
+  ],
+  exp:`<p class="step"><b>(a) 100 square inches.</b> Substitute s = 6 into the parentheses first: <span class="calc">(6 + 4)<sup>2</sup> = 10<sup>2</sup> = 100</span>. The mounted square is 10 inches on each side, and 10 &times; 10 = 100.</p>
+       <p class="step"><b>(b) 225 square inches.</b> <span class="calc">(11 + 4)<sup>2</sup> = 15<sup>2</sup> = 225</span>. If 15<sup>2</sup> is not a fact you have memorised, 15 &times; 15 = 15 &times; 10 + 15 &times; 5 = 150 + 75 = 225.</p>
+       <p class="step"><b>(c) 121 square inches.</b> The photo alone is a square with side s = 11, so its area is <span class="calc">11<sup>2</sup> = 121</span> square inches. Worth noticing: the border adds 225 &minus; 121 = 104 square inches, which is far more than the 4 inches added to the side length. Area grows much faster than length &mdash; that is what squaring does.</p>
+       <p class="step">And notice why the expression is (s + 4)<sup>2</sup> rather than (s + 2)<sup>2</sup>: the border of 2 inches appears at <em>both</em> ends of every edge, so each edge grows by 2 + 2 = 4 inches in total.</p>
+       <div class="strategy"><b>Strategy:</b> substituting a value is just swapping the letter for the number and then evaluating as usual. Put the number inside the parentheses where the letter was, and keep the parentheses there until you have finished with what is inside them.</div>
+       <div class="mistake"><b>Common mistake:</b> squaring the s and the 4 separately and writing s<sup>2</sup> + 16 &mdash; so (11 + 4)<sup>2</sup> becomes 121 + 16 = 137 instead of 225. The exponent applies to the whole bracket, not to each piece inside it.</div>`
+},
+{
+  n:6, set:"B", setTitle:"Writing & Evaluating Expressions", std:"NJSLS 6.EE.2c, 7.EE.1",
+  prompt:"A tile pattern grows figure by figure. The number of tiles in figure number <b>n</b> is given by the expression <span class=\"calc\">3n<sup>2</sup> &minus; 5n</span>. Remember that in 3n<sup>2</sup> the exponent belongs to the <b>n</b> alone, so you square n first and only then multiply by 3.",
+  hint:"Square n, then multiply by 3, then subtract 5n. The exponent is always settled before the multiplication.",
+  parts:[
+    {key:"a", label:"What is the value of 3n<sup>2</sup> when n = 4?", type:"num", correct:48, show:"48"},
+    {key:"b", label:"How many tiles are in figure 4 &mdash; that is, what is the value of 3n<sup>2</sup> &minus; 5n when n = 4?", type:"num", correct:28, show:"28 tiles"},
+    {key:"c", label:"How many tiles are in figure 6 &mdash; that is, what is the value of 3n<sup>2</sup> &minus; 5n when n = 6?", type:"num", correct:78, show:"78 tiles"}
+  ],
+  exp:`<p class="step"><b>(a) 48.</b> In 3n<sup>2</sup> the exponent sits on the n only, so square first and multiply second: <span class="calc">3 &times; 4<sup>2</sup> = 3 &times; 16 = 48</span>.</p>
+       <p class="step">If the 3 were meant to be squared as well, the expression would have to say (3n)<sup>2</sup>, which would give (3 &times; 4)<sup>2</sup> = 12<sup>2</sup> = 144. The parentheses are what change the meaning, and here there are none.</p>
+       <p class="step"><b>(b) 28 tiles.</b> You already have 3n<sup>2</sup> = 48 from part (a). Now the second term: <span class="calc">5n = 5 &times; 4 = 20</span>. Then subtract: <span class="calc">48 &minus; 20 = 28</span>.</p>
+       <p class="step"><b>(c) 78 tiles.</b> Same routine with n = 6: <span class="calc">3 &times; 6<sup>2</sup> = 3 &times; 36 = 108</span>, and <span class="calc">5 &times; 6 = 30</span>, so <span class="calc">108 &minus; 30 = 78</span>.</p>
+       <p class="step">Look at the jump from figure 4 to figure 6: 28 tiles up to 78 tiles. The figure number went up by half again, but the tile count nearly tripled, because the n<sup>2</sup> term grows much faster than the 5n term can hold it back.</p>
+       <div class="strategy"><b>Strategy:</b> evaluate an expression one term at a time, writing each term's value down before you combine them. Here that is "48, then 20, then subtract" &mdash; three small safe steps instead of one crowded line.</div>
+       <div class="mistake"><b>Common mistake:</b> reading 3n<sup>2</sup> as (3n)<sup>2</sup> and getting 144 for part (a). An exponent attaches only to the thing immediately before it &mdash; here, the n.</div>`
+},
+{
+  n:7, set:"C", setTitle:"Properties & Equivalent Expressions", std:"NJSLS 6.EE.3",
+  prompt:"The <b>distributive property</b> says that multiplying a sum gives the same result as multiplying each part of the sum and then adding: <span class=\"calc\">a(b + c) = ab + ac</span>. It works for subtraction too: <span class=\"calc\">a(b &minus; c) = ab &minus; ac</span>. In words, the number outside the parentheses must reach <em>every</em> term inside, not just the first one.",
+  hint:"Multiply the outside number by each term inside the parentheses in turn, and keep the sign that sits in front of each term.",
+  parts:[
+    {key:"a", label:"Use the distributive property to write 6(x + 5) without parentheses.", type:"text",
+     accept:["6x+30","30+6x"],
+     re:"^\\s*6\\s*(?:[*×·]\\s*)?x\\s*\\+\\s*30\\s*$|^\\s*30\\s*\\+\\s*6\\s*(?:[*×·]\\s*)?x\\s*$",
+     show:"6x + 30"},
+    {key:"b", label:"Use the distributive property to write 8(2n &minus; 3) without parentheses.", type:"text",
+     accept:["16n-24","16n−24","16n–24","-24+16n","−24+16n"],
+     re:"^\\s*16\\s*(?:[*×·]\\s*)?n\\s*[-−–—]\\s*24\\s*$",
+     show:"16n &minus; 24"},
+    {key:"c", label:"Every gift bag at a party holds 4 stickers and 3 erasers. How many items are in 15 gift bags altogether?", type:"num", correct:105, show:"105 items"}
+  ],
+  exp:`<p class="step"><b>(a) 6x + 30.</b> The 6 multiplies both terms inside: <span class="calc">6 &times; x = 6x</span> and <span class="calc">6 &times; 5 = 30</span>, giving <span class="calc">6x + 30</span>.</p>
+       <p class="step"><b>(b) 16n &minus; 24.</b> The 8 reaches both terms again, and the subtraction sign stays where it is: <span class="calc">8 &times; 2n = 16n</span> and <span class="calc">8 &times; 3 = 24</span>, so the answer is <span class="calc">16n &minus; 24</span>. A quick check with a number: at n = 5, the original is 8(10 &minus; 3) = 8 &times; 7 = 56, and the new form is 16 &times; 5 &minus; 24 = 80 &minus; 24 = 56. They agree, which is what "equivalent" means.</p>
+       <p class="step"><b>(c) 105 items.</b> This is the distributive property doing real work, and there are two routes to it. Either collect each bag first &mdash; one bag holds 4 + 3 = 7 items, so 15 bags hold <span class="calc">15 &times; 7 = 105</span> &mdash; or count by type and add: <span class="calc">15 &times; 4 = 60</span> stickers and <span class="calc">15 &times; 3 = 45</span> erasers, and 60 + 45 = 105.</p>
+       <p class="step">Both routes give 105 because <span class="calc">15(4 + 3) = 15 &times; 4 + 15 &times; 3</span>. That is exactly the distributive property, and it is the reason you are allowed to choose whichever route is easier.</p>
+       <div class="strategy"><b>Strategy:</b> draw an arrow from the outside number to each term inside the parentheses before you multiply. If a term has no arrow pointing at it, you have not finished distributing.</div>
+       <div class="mistake"><b>Common mistake:</b> multiplying only the first term, so 6(x + 5) becomes 6x + 5. The 5 has to be multiplied too. In part (b), the other frequent slip is losing the minus sign and writing 16n + 24.</div>`
+},
+{
+  n:8, set:"C", setTitle:"Properties & Equivalent Expressions", std:"NJSLS 6.EE.3&ndash;4, 7.EE.1",
+  prompt:"<b>Like terms</b> have exactly the same variable part, so 5y and 2y are like terms and can be combined into 7y. But 5y and 5y<sup>2</sup> are <em>not</em> like terms, and neither are 5y and the plain number 5. Only like terms can be added together or subtracted from one another.",
+  hint:"Group the terms that share the same letter, and group the plain numbers separately. Keep each term's sign with it as you move it.",
+  parts:[
+    {key:"a", label:"Write 9m + 4 + 3m &minus; 1 in simplest form by combining like terms.", type:"text",
+     accept:["12m+3","3+12m"],
+     re:"^\\s*12\\s*(?:[*×·]\\s*)?m\\s*\\+\\s*3\\s*$|^\\s*3\\s*\\+\\s*12\\s*(?:[*×·]\\s*)?m\\s*$",
+     show:"12m + 3"},
+    {key:"b", label:"Write 7k &minus; 2(k + 4) in simplest form.", type:"text",
+     accept:["5k-8","5k−8","5k–8","-8+5k","−8+5k"],
+     re:"^\\s*5\\s*(?:[*×·]\\s*)?k\\s*[-−–—]\\s*8\\s*$",
+     show:"5k &minus; 8"},
+    {key:"c", label:"Riley says that 4 + 3x is the same as 7x, because 4 + 3 = 7. Explain why Riley is wrong, and show it by working out the value of both expressions when x = 2.", type:"self",
+     placeholder:"Explain why 4 + 3x is not 7x…",
+     show:`Riley added a plain number to a coefficient, and you are only allowed to combine <em>like</em> terms &mdash; terms with the same variable part. Here 4 is a plain number and 3x is 3 lots of x, so they are different kinds of term and the addition cannot be carried out until you know what x is. Substituting x = 2 proves it: 4 + 3x = 4 + 3 &times; 2 = 4 + 6 = <b>10</b>, while 7x = 7 &times; 2 = <b>14</b>. Since 10 and 14 are different, the two expressions are not equivalent. (A useful way to picture it: 3x means three x-blocks, and you cannot merge three x-blocks with four single units into seven of anything.)`}
+  ],
+  exp:`<p class="step"><b>(a) 12m + 3.</b> Sort the four terms into two families. The m-terms: <span class="calc">9m + 3m = 12m</span>. The plain numbers: <span class="calc">4 &minus; 1 = 3</span>. Put them together: <span class="calc">12m + 3</span>. They cannot be combined any further, because 12m and 3 are not like terms.</p>
+       <p class="step"><b>(b) 5k &minus; 8.</b> Two steps, in this order. First distribute the &minus;2 across the parentheses &mdash; and the minus sign travels with it, so <em>both</em> new terms are negative: <span class="calc">&minus;2(k + 4) = &minus;2k &minus; 8</span>. The expression is now <span class="calc">7k &minus; 2k &minus; 8</span>. Then combine the like terms: <span class="calc">7k &minus; 2k = 5k</span>, leaving <span class="calc">5k &minus; 8</span>.</p>
+       <p class="step">Check it at k = 3: the original is 7 &times; 3 &minus; 2(3 + 4) = 21 &minus; 14 = 7, and the simplified form is 5 &times; 3 &minus; 8 = 15 &minus; 8 = 7. They match.</p>
+       <p class="step"><b>(c)</b> Riley combined a plain number with a coefficient, but 4 and 3x are not like terms, so they cannot be added into a single term at all. At x = 2 the two expressions give 4 + 6 = 10 and 7 &times; 2 = 14 &mdash; different answers, so they are not equivalent. Substituting a number is the fastest way to test any claim that two expressions are "the same."</p>
+       <div class="strategy"><b>Strategy:</b> underline each family of like terms in a different way before combining &mdash; one underline for the k-terms, a circle for the plain numbers. And whenever you simplify, test the original and your answer at one easy value. If they disagree, you have found your own mistake before anyone else does.</div>
+       <div class="mistake"><b>Common mistake:</b> in part (b), distributing the 2 but forgetting the minus sign and writing 7k &minus; 2k + 8. The sign in front of the parentheses belongs to the whole bracket.</div>`
+},
+{
+  n:9, set:"C", setTitle:"Properties & Equivalent Expressions", std:"NJSLS 7.EE.2",
+  prompt:"A store is taking 20% off every item in a sale. If an item's original price is <b>p</b> dollars, then the discount is 0.20p and the sale price is <span class=\"calc\">p &minus; 0.20p</span>. There is a shorter, more useful way to write the very same thing. (The money part is a calculator question.)",
+  hint:"A lone p counts as 1p, so the expression is really 1p &minus; 0.20p &mdash; and now the two terms are like terms.",
+  parts:[
+    {key:"a", label:"Write p &minus; 0.20p in simplest form, as a single term involving p.", type:"text",
+     accept:["0.80p","0.8p",".8p",".80p","80%p","80%ofp","4/5p"],
+     re:"^\\s*(?:0\\.80|0\\.8|\\.80|\\.8)\\s*(?:[*×·]\\s*)?p\\s*$|^\\s*(?:4\\s*/\\s*5)\\s*(?:[*×·]\\s*)?p\\s*$|^\\s*80\\s*%\\s*(?:of\\s*)?p\\s*$",
+     show:"0.80p &nbsp;(the same as 0.8p)"},
+    {key:"b", label:"A jacket's original price is $45. Using 0.80p, what is its sale price in dollars?", type:"num", correct:36, show:"$36.00"},
+    {key:"c", label:"What does the 0.80 in 0.80p tell you about what a shopper actually pays?", type:"choice",
+     options:["She pays 20% of the original price","She pays 80% of the original price","She pays 180% of the original price","She pays 8% of the original price"],
+     correct:"She pays 80% of the original price",
+     show:"She pays 80% of the original price"}
+  ],
+  exp:`<p class="step"><b>(a) 0.80p.</b> The trick is to see that a lone p means <em>one</em> p, so you can write it as 1p. Then both terms have the same variable part and they are like terms: <span class="calc">1p &minus; 0.20p = (1 &minus; 0.20)p = 0.80p</span>.</p>
+       <p class="step"><b>(b) $36.00.</b> Substitute p = 45: <span class="calc">0.80 &times; 45 = 36</span>. You can check it the long way round &mdash; the discount is 0.20 &times; 45 = $9, and 45 &minus; 9 = $36 &mdash; and the two routes agree, because the expressions are equivalent.</p>
+       <p class="step"><b>(c) She pays 80% of the original price.</b> This is the whole point of rewriting the expression. The form p &minus; 0.20p describes the shopping from the <em>store's</em> point of view: start at full price, take 20% away. The form 0.80p describes the same sale from the <em>shopper's</em> point of view: she simply pays 80% of the original. Same answer every time, but the second form says something the first one hid, and it is also one multiplication instead of two steps.</p>
+       <p class="step">This is what standard 7.EE.2 is really about &mdash; rewriting an expression not to make it shorter, but to make it <em>say</em> something new about the situation.</p>
+       <div class="strategy"><b>Strategy:</b> treat a lone variable as having an invisible coefficient of 1. That single habit turns p &minus; 0.20p from something that looks uncombinable into a routine like-terms subtraction.</div>
+       <div class="mistake"><b>Common mistake:</b> writing the answer as 0.20p &mdash; that is the <em>discount</em>, the money she saves, not the price she pays. Always re-read which of the two the question asked for.</div>`
+},
+{
+  n:10, set:"D", setTitle:"Challenge", std:"NJSLS 6.EE.2, 6.EE.6, 7.EE.2, 7.RP.3",
+  prompt:"Suhani is making friendship bracelets to sell at a school fair.<br><br>Each bracelet uses <b>24 inches of cord</b>, and cord costs <b>$0.15 per inch</b>. She also has to buy a <b>display stand for $6.00</b>, once, no matter how many bracelets she makes. At the register, New Jersey sales tax of <b>6.625%</b> is added to her whole purchase.<br><br>Work through it one stage at a time. (Money question &mdash; a calculator is fine, and round money answers to the nearest cent.)",
+  hint:"Find the cord cost for a single bracelet first. That number becomes the coefficient of n, and the $6.00 stand is the fixed part that stands alone.",
+  parts:[
+    {key:"a", label:"How much does the cord for just ONE bracelet cost, in dollars, if a bracelet uses 24 inches of cord at $0.15 per inch?", type:"num", correct:3.60, show:"$3.60"},
+    {key:"b", label:"Write an expression for her total cost in dollars before tax, for the $6.00 display stand plus the cord for n bracelets.", type:"text",
+     accept:["6+3.60n","6+3.6n","6.00+3.60n","6.00+3.6n","3.60n+6","3.6n+6","3.60n+6.00","3.6n+6.00"],
+     re:"^\\s*\\$?\\s*(?:6\\.00|6\\.0|6)\\s*\\+\\s*\\$?\\s*(?:3\\.60|3\\.6)\\s*(?:[*×·]\\s*)?n\\s*$|^\\s*\\$?\\s*(?:3\\.60|3\\.6)\\s*(?:[*×·]\\s*)?n\\s*\\+\\s*\\$?\\s*(?:6\\.00|6\\.0|6)\\s*$",
+     show:"6 + 3.60n &nbsp;(or 3.60n + 6)"},
+    {key:"c", label:"She decides to make 12 bracelets. What is her total cost in dollars before tax?", type:"num", correct:49.20, show:"$49.20"},
+    {key:"d", label:"How much is the 6.625% New Jersey sales tax on that pre-tax total of $49.20, to the nearest cent?", type:"num", correct:3.26, tol:0.005, show:"$3.26"},
+    {key:"e", label:"What is the total amount she pays at the register, including the tax, to the nearest cent?", type:"num", correct:52.46, tol:0.005, show:"$52.46"}
+  ],
+  exp:`<p class="step"><b>(a) $3.60.</b> 24 inches at $0.15 per inch is <span class="calc">24 &times; 0.15 = 3.60</span> dollars. If decimals make you uneasy here, think in cents: 24 &times; 15 = 360 cents, and 360 cents is $3.60.</p>
+       <p class="step"><b>(b) 6 + 3.60n.</b> Sort the costs into fixed and variable, exactly as in question 4. The stand is <em>fixed</em> &mdash; $6.00 once, however many bracelets she makes &mdash; so it stands alone. The cord is <em>variable</em> &mdash; $3.60 for every bracelet &mdash; so it is multiplied by n, giving 3.60n. Altogether: <span class="calc">6 + 3.60n</span>.</p>
+       <p class="step">Notice that part (a) was not a detour. Its answer, $3.60, is precisely the <b>coefficient</b> of n. That is the usual shape of a problem like this: you compute a unit rate, and the unit rate becomes the number sitting in front of the variable.</p>
+       <p class="step"><b>(c) $49.20.</b> Substitute n = 12, multiplying before adding: <span class="calc">6 + 3.60 &times; 12 &rarr; 6 + 43.20 &rarr; 49.20</span>. (3.60 &times; 12 = 3.60 &times; 10 + 3.60 &times; 2 = 36.00 + 7.20 = 43.20.)</p>
+       <p class="step"><b>(d) $3.26.</b> A percent of an amount means multiply by that percent written as a decimal, and 6.625% = 0.06625. So <span class="calc">49.20 &times; 0.06625 = 3.2595</span> dollars. Rounding to the nearest cent, the digit after the cents place is a 9, so you round up: <b>$3.26</b>.</p>
+       <p class="step"><b>(e) $52.46.</b> Add the tax to the pre-tax total: <span class="calc">49.20 + 3.26 = 52.46</span>.</p>
+       <p class="step">There is a neater one-step route, and it is the same idea as question 9 in reverse. Paying the price <em>plus</em> 6.625% of it means paying 100% + 6.625% = 106.625% of it, so the total is <span class="calc">49.20 &times; 1.06625 = 52.4595 &rarr; $52.46</span>. One multiplication instead of two steps, and it agrees to the cent.</p>
+       <div class="strategy"><b>Strategy:</b> in a long money problem, label each stage before computing it &mdash; unit cost, expression, pre-tax total, tax, grand total &mdash; and carry the full unrounded value forward, rounding only at the end. Rounding in the middle is how a final answer ends up a cent or two adrift.</div>
+       <div class="mistake"><b>Common mistake:</b> multiplying the $6.00 stand by n as well, giving 6n + 3.60n = 9.60n, which would charge her for a new display stand with every single bracelet. A fixed cost is paid once and never gets multiplied by the variable. The other frequent slip is stopping at (d) and reporting the tax as the amount she pays &mdash; (d) is only the tax; the register total is (e).</div>`
+}
+];
+
+/* ===== END DAILY DATA ===== */
+
+/* ===== PROGRAM CONFIG — stable across days, do not change per run ===== */
+const RESULTS_EMAIL = "patadiakd@gmail.com";   // where "Email my results" sends
+const RESULTS_TO_LABEL = "Dad";
+
+/* header */
+document.getElementById("hDate").textContent  = DATE_LABEL;
+document.getElementById("hTopic").textContent = `Topic Day ${TOPIC_DAY} — ${TOPIC_NAME}`;
+document.getElementById("hMeta").textContent  =
+  `${QUESTIONS.length} questions · ${STANDARDS} · No calculator except the money problems`;
+document.title = `Math Honors — ${DATE_LABEL}`;
+
+/* ===================================================================
+   STATE
+   =================================================================== */
+let submitted = false;
+const selfMarks = {};     // partId -> true/false
+const hintsUsed = {};     // qn -> true  (persisted: promotion rule 3 depends on this)
+const skipped   = {};     // qn -> true ("I don't know this one")
+let fieldIds = [];
+
+/* TIME ON TASK — working seconds, not wall-clock seconds.
+   An earlier version banked (now - sessionStart), which counted every minute the
+   tab merely sat open. A set opened on Tuesday and submitted on Thursday reported
+   "1165 min". So instead we tick one second at a time and only count a second if
+   she has interacted within the last couple of minutes. Reading a question still
+   counts; a page left open overnight does not. */
+let activeSeconds = 0;              // working seconds, restored sittings included
+let lastActivity  = Date.now();
+const IDLE_CUTOFF_MS = 120000;      // 2 min with no interaction = not working
+
+function markActivity(){ lastActivity = Date.now(); }
+function elapsedSeconds(){ return activeSeconds; }
+
+/* ===================================================================
+   ANSWER CHECKING
+   =================================================================== */
+const UNIT_WORDS = /\b(cups?|cup|miles?|mph|mpg|miles per gallon|per gallon|gallons?|inches|inch|in\b|hours?|hrs?|hr|minutes?|mins?|min|students?|boys?|girls?|people|persons?|dollars?|dollar|cents?|percent|each|rooms?|posters?|notebooks?|apiece|about|approx\.?|approximately|around)\b/g;
+
+function parseNum(raw){
+  if(raw === null || raw === undefined) return null;
+  let t = String(raw).toLowerCase().trim();
+  if(!t) return null;
+  t = t.replace(/[$,]/g,"").replace(/%/g,"").replace(UNIT_WORDS," ").replace(/\s+/g," ").trim();
+  let m = t.match(/^(-?\d+)\s+(\d+)\s*\/\s*(\d+)$/);            // mixed: 8 2/11
+  if(m) return parseInt(m[1],10) + parseInt(m[2],10)/parseInt(m[3],10);
+  m = t.match(/^(-?\d+)\s*\/\s*(\d+)$/);                         // fraction: 90/11
+  if(m) return parseInt(m[1],10)/parseInt(m[2],10);
+  m = t.match(/^-?\d*\.?\d+$/);                                  // plain
+  if(m) return parseFloat(t);
+  m = t.match(/-?\d*\.?\d+/);                                    // first number found
+  return m ? parseFloat(m[0]) : null;
+}
+
+function normText(raw){
+  return String(raw||"").toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×·]/g,"")
+    .replace(/[$,]/g,"")
+    .replace(/\.$/,"")
+    .replace(/\bto\b/g,"to");
+}
+
+function isCorrect(part, raw){
+  if(raw === null || raw === undefined || String(raw).trim() === "") return false;
+  if(part.type === "num"){
+    const v = parseNum(raw);
+    if(v === null) return false;
+    const tol = part.tol !== undefined ? part.tol : 0.005;
+    return Math.abs(v - part.correct) <= tol;
+  }
+  if(part.type === "choice") return String(raw) === part.correct;
+  if(part.type === "text"){
+    const n = normText(raw);
+    if(part.accept && part.accept.some(a => normText(a) === n)) return true;
+    if(part.re) return new RegExp(part.re,"i").test(String(raw).toLowerCase());
+    return false;
+  }
+  return false;
+}
+
+/* ===================================================================
+   RENDER
+   =================================================================== */
+const qRoot = document.getElementById("questions");
+let lastSet = null;
+
+QUESTIONS.forEach(q => {
+  if(q.set !== lastSet){
+    lastSet = q.set;
+    const sh = document.createElement("div");
+    sh.className = "setheader";
+    sh.innerHTML = `<h2>Set ${q.set} — ${q.setTitle}</h2><div class="std">${q.std}</div>`;
+    qRoot.appendChild(sh);
+  }
+
+  const card = document.createElement("section");
+  card.className = "q";
+  card.id = "q" + q.n;
+
+  let html = `<div class="qhead"><div class="qnum">${q.n}.</div><div class="prompt">${q.prompt}</div></div>`;
+  if(q.table) html += q.table;
+  html += `<div class="parts">`;
+
+  q.parts.forEach((p, i) => {
+    const fid = `f-${q.n}-${i}`;
+    fieldIds.push({fid, q, p, i});
+    const lab = (p.key ? `<span class="pk">(${p.key})</span> ` : "") + p.label;
+    if(p.type === "choice"){
+      html += `<div class="part"><div class="plabel">${lab}</div><div class="radios">` +
+        p.options.map(o => `<label><input type="radio" name="${fid}" value="${o}"> ${o}</label>`).join("") +
+        `</div></div>`;
+    } else if(p.type === "self"){
+      html += `<div class="part" style="flex-direction:column;align-items:stretch">
+                 <div class="plabel" style="padding-top:0">${lab}</div>
+                 <textarea class="ans" id="${fid}" placeholder="${p.placeholder||"Write your reasoning…"}"></textarea>
+                 <div class="explain-note">Written answer — you'll compare it to the model answer and mark yourself.</div>
+               </div>`;
+    } else {
+      html += `<div class="part"><div class="plabel">${lab}</div>
+                 <input class="ans" id="${fid}" type="text" autocomplete="off" inputmode="text"></div>`;
+    }
+  });
+  html += `</div>`;
+
+  html += `<div class="skiprow">`;
+  if(q.hint) html += `<button class="hintbtn" type="button" data-hint="${q.n}">Need a hint?</button>`;
+  html += `<button class="skipbtn" type="button" data-skip="${q.n}">I haven't learned this one &mdash; skip it</button>`;
+  html += `</div>`;
+  if(q.hint) html += `<div class="hint" id="hint-${q.n}">${q.hint}</div>`;
+  html += `<div class="result" id="res-${q.n}"></div>`;
+
+  card.innerHTML = html;
+  qRoot.appendChild(card);
+});
+
+document.getElementById("totalCount").textContent = fieldIds.length;
+
+/* hints */
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-hint]");
+  if(!b) return;
+  const n = b.getAttribute("data-hint");
+  const h = document.getElementById("hint-" + n);
+  h.classList.toggle("show");
+  b.textContent = h.classList.contains("show") ? "Hide hint" : "Need a hint?";
+  if(h.classList.contains("show")) hintsUsed[n] = true;
+});
+
+/* skipping — honest "I don't know", not a wrong answer */
+function applySkipUI(n){
+  const card = document.getElementById("q" + n);
+  if(!card) return;
+  const off = !!skipped[n];
+  card.classList.toggle("skipped", off);
+  card.querySelectorAll("input.ans, textarea.ans").forEach(el => el.disabled = off);
+  card.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = off);
+  const b = card.querySelector("[data-skip]");
+  if(b) b.innerHTML = off ? "Actually, let me try this one" : "I haven't learned this one &mdash; skip it";
+}
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-skip]");
+  if(!b || submitted) return;
+  const n = b.getAttribute("data-skip");
+  skipped[n] = !skipped[n];
+  applySkipUI(n);
+  updateProgress();
+  queueSave();
+});
+
+/* ===================================================================
+   PROGRESS
+   =================================================================== */
+function readField(f){
+  if(f.p.type === "choice"){
+    const sel = document.querySelector(`input[name="${f.fid}"]:checked`);
+    return sel ? sel.value : "";
+  }
+  const el = document.getElementById(f.fid);
+  return el ? el.value : "";
+}
+
+function updateProgress(){
+  if(submitted) return;
+  const filled = fieldIds.filter(f => skipped[f.q.n] || String(readField(f)).trim() !== "").length;
+  document.getElementById("answeredCount").textContent = filled;
+  document.getElementById("fill").style.width = (filled / fieldIds.length * 100) + "%";
+  const left = fieldIds.length - filled;
+  document.getElementById("progHint").textContent =
+    left === 0 ? "All done — ready to check" : `${left} left`;
+}
+qRoot.addEventListener("input", updateProgress);
+qRoot.addEventListener("change", updateProgress);
+updateProgress();
+
+/* timer — accrues working seconds only; see the note on IDLE_CUTOFF_MS above */
+const timerBadge = document.getElementById("timerBadge");
+["input","change","click","keydown"].forEach(ev =>
+  qRoot.addEventListener(ev, markActivity));
+document.addEventListener("keydown", markActivity);
+setInterval(() => {
+  if(submitted) return;
+  if(Date.now() - lastActivity < IDLE_CUTOFF_MS) activeSeconds++;
+  const s = activeSeconds;
+  timerBadge.textContent = `Time: ${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
+}, 1000);
+
+/* ===================================================================
+   STORAGE
+   =================================================================== */
+const syncBadge = document.getElementById("syncBadge");
+const WIP_KEY  = "mathwip:" + DATE_KEY;
+const DONE_KEY = "mathlog:" + DATE_KEY;
+
+function setBadge(text, cls){
+  syncBadge.textContent = text;
+  syncBadge.className = "badge " + (cls || "");
+}
+
+/* Save work in progress, so she can close the tab and come back later. */
+let saveTimer = null;
+function saveProgress(){
+  if(submitted) return;
+  try{
+    localStorage.setItem(WIP_KEY, JSON.stringify({
+      date: DATE_KEY,
+      savedAt: new Date().toISOString(),
+      fields: fieldIds.map(readField),
+      skipped: Object.keys(skipped).filter(k => skipped[k]),
+      hints: Object.keys(hintsUsed).filter(k => hintsUsed[k]),
+      secs: elapsedSeconds()
+    }));
+    setBadge("Saved — you can close this and come back", "live");
+  }catch(e){
+    setBadge("Couldn't save on this computer", "local");
+  }
+}
+function queueSave(){
+  if(submitted) return;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveProgress, 600);
+}
+qRoot.addEventListener("input", queueSave);
+qRoot.addEventListener("change", queueSave);
+window.addEventListener("beforeunload", () => { clearTimeout(saveTimer); saveProgress(); });
+
+function restoreWip(rec){
+  if(!rec || !Array.isArray(rec.fields) || submitted) return 0;
+  let n = 0;
+  fieldIds.forEach((f, idx) => {
+    const v = rec.fields[idx];
+    if(v === undefined || v === null || v === "") return;
+    if(f.p.type === "choice"){
+      const el = document.querySelector(`input[name="${f.fid}"][value="${String(v).replace(/"/g,"")}"]`);
+      if(el){ el.checked = true; n++; }
+    } else {
+      const el = document.getElementById(f.fid);
+      if(el){ el.value = v; n++; }
+    }
+  });
+  if(Array.isArray(rec.skipped)){
+    rec.skipped.forEach(k => { skipped[k] = true; applySkipUI(k); n++; });
+  }
+  /* Hints and banked time survive the tab closing — they don't count as answers. */
+  if(Array.isArray(rec.hints)) rec.hints.forEach(k => { hintsUsed[k] = true; });
+  if(typeof rec.secs === "number" && isFinite(rec.secs) && rec.secs > 0) activeSeconds = rec.secs;
+  if(n) updateProgress();
+  return n;
+}
+
+(function initStorage(){
+  let done = null, wip = null;
+  try{ done = JSON.parse(localStorage.getItem(DONE_KEY) || "null"); }catch(e){}
+  try{ wip  = JSON.parse(localStorage.getItem(WIP_KEY)  || "null"); }catch(e){}
+
+  if(done && Array.isArray(done.fields)){
+    restorePrior(done);
+    return;
+  }
+  const n = wip ? restoreWip(wip) : 0;
+  if(n){
+    setBadge(n + (n === 1 ? " answer" : " answers") + " picked back up", "live");
+  } else {
+    setBadge("Your answers save as you type", "");
+  }
+})();
+
+function restorePrior(rec){
+  if(!rec || !rec.fields || submitted) return;
+  fieldIds.forEach((f, idx) => {
+    const v = rec.fields[idx];
+    if(v === undefined || v === null) return;
+    if(f.p.type === "choice"){
+      const el = document.querySelector(`input[name="${f.fid}"][value="${String(v).replace(/"/g,"")}"]`);
+      if(el) el.checked = true;
+    } else {
+      const el = document.getElementById(f.fid);
+      if(el) el.value = v;
+    }
+  });
+  if(rec.selfMarks) Object.assign(selfMarks, rec.selfMarks);
+  if(Array.isArray(rec.skipped)) rec.skipped.forEach(k => { skipped[k] = true; });
+  /* Carry the hint record and the original time into review mode, so results
+     emailed from a later sitting still report them instead of 0 and "no time". */
+  if(Array.isArray(rec.hintQs)) rec.hintQs.forEach(k => { hintsUsed[k] = true; });
+  if(typeof rec.seconds === "number" && isFinite(rec.seconds) && rec.seconds > 0) activeSeconds = rec.seconds;
+  updateProgress();
+  grade(true);
+  document.getElementById("barNote").textContent = "You already finished this one — this is your review.";
+}
+
+function persist(rec){
+  try{
+    localStorage.setItem(DONE_KEY, JSON.stringify(rec));
+    localStorage.removeItem(WIP_KEY);
+    setBadge("Finished and saved", "live");
+  }catch(e){
+    setBadge("Couldn't save on this computer", "local");
+  }
+}
+
+/* ===================================================================
+   GRADE & REVEAL
+   =================================================================== */
+function esc(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+function grade(isRestore){
+  submitted = true;
+  const fields = fieldIds.map(readField);
+  const perQ = [];
+
+  QUESTIONS.forEach(q => {
+    const mine = fieldIds.filter(f => f.q.n === q.n);
+    const res = document.getElementById("res-" + q.n);
+    let autoRight = 0, autoTotal = 0, selfTotal = 0;
+    const isSkip = !!skipped[q.n];
+    let rows = "";
+
+    mine.forEach(f => {
+      const raw = readField(f);
+      const p = f.p;
+      if(p.type === "self"){
+        selfTotal++;
+        rows += `<div><span class="lab">Your answer</span><span class="mine">${raw.trim() ? esc(raw) : "—"}</span></div>
+                 <div><span class="lab">Model answer</span><span class="theirs">${p.show}</span></div>`;
+      } else {
+        autoTotal++;
+        const ok = !isSkip && isCorrect(p, raw);
+        if(ok) autoRight++;
+        const rowLab = p.label.length > 52 ? p.label.slice(0, 49) + "\u2026" : p.label;
+        rows += `<div><span class="lab">${esc(rowLab)}</span>
+                   <span class="mine ${ok?"right":"wrong"}">${raw.trim() ? esc(raw) : "(blank)"}</span>
+                   ${ok ? ` <span class="tick">&#10003;</span>`
+                        : ` <span class="cross">&#10007;</span> <span class="lab" style="min-width:0">correct answer:</span> <span class="theirs">${p.show}</span>`}</div>`;
+      }
+    });
+
+    let vclass = "ok", vtext = "Correct";
+    if(isSkip){ vclass = "skip"; vtext = "Skipped — here's how it works"; }
+    else if(autoTotal === 0){ vclass = "self"; vtext = "Check yourself"; }
+    else if(autoRight === 0){ vclass = "no"; vtext = "Not yet"; }
+    else if(autoRight < autoTotal){ vclass = "no"; vtext = `${autoRight} of ${autoTotal} parts right`; }
+
+    let selfHtml = "";
+    mine.forEach((f, i) => {
+      if(f.p.type !== "self") return;
+      const pid = `${q.n}-${f.i}`;
+      const cur = selfMarks[pid];
+      selfHtml += `<div class="selfmark" data-pid="${pid}">
+          <p>Did your reasoning match the model answer?</p>
+          <div class="btns">
+            <button class="smbtn yes" type="button" data-mark="1" aria-pressed="${cur===true}">Yes, I had it</button>
+            <button class="smbtn no" type="button" data-mark="0" aria-pressed="${cur===false}">Not quite</button>
+          </div></div>`;
+    });
+
+    res.innerHTML = `<div class="verdict ${vclass}">${vtext}</div>
+                     ${isSkip ? `<p class="skipnote">You said you hadn't learned this one, so it isn't counted against your score — but read it through, because it'll come back in a day or two.</p>` : ""}
+                     <div class="cmp">${rows}</div>
+                     <div class="exp"><h4>Explanation</h4>${q.exp}</div>
+                     ${selfHtml}`;
+    res.classList.add("show");
+
+    perQ.push({n:q.n, set:q.set, setTitle:q.setTitle, std:q.std, autoRight, autoTotal,
+               selfTotal, skipped:isSkip, hint: !!hintsUsed[q.n]});
+  });
+
+  /* lock inputs */
+  document.querySelectorAll("input.ans, textarea.ans, select.ans").forEach(el => el.disabled = true);
+  document.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = true);
+  document.querySelectorAll(".hintbtn").forEach(el => el.style.display = "none");
+
+  const btn = document.getElementById("submitBtn");
+  btn.textContent = "Checked";
+  btn.disabled = true;
+  document.getElementById("barNote").textContent =
+    "Scroll through — every question now shows the worked explanation.";
+
+  /* On a review-mode reopen, report the time banked when she actually worked,
+     not nothing — activeSeconds was restored from the saved record. */
+  const elapsed = isRestore ? (activeSeconds > 0 ? activeSeconds : null) : activeSeconds;
+  window.__elapsed = elapsed;
+
+  const att = perQ.filter(p => !p.skipped);
+  const rTot = att.reduce((a,p) => a + p.autoTotal, 0);
+  const rRight = att.reduce((a,p) => a + p.autoRight, 0);
+  const nSkip = perQ.filter(p => p.skipped).length;
+  document.querySelector(".progrow").innerHTML =
+    `<span>Submitted — <strong>${rRight} of ${rTot}</strong> correct${nSkip ? `, ${nSkip} skipped` : ""}</span>
+     <span>Explanations unlocked</span>`;
+  const fillEl = document.getElementById("fill");
+  fillEl.style.width = "100%";
+  const rPct = rTot ? rRight/rTot : 0;
+  fillEl.style.background = rPct >= 0.85 ? "#1a7a4c" : rPct >= 0.65 ? "#3b4c9e" : "#b3261e";
+
+  renderScore(perQ);
+
+  const rec = {
+    date: DATE_KEY, topicDay: TOPIC_DAY, topic: TOPIC_NAME,
+    fieldsSkipped: Object.keys(skipped).filter(k => skipped[k]),
+    submittedAt: new Date().toISOString(),
+    seconds: elapsed,
+    fields, selfMarks, perQuestion: perQ,
+    autoScore: rRight,
+    autoTotal: rTot,
+    skipped: perQ.filter(p => p.skipped).map(p => p.n),
+    hintsUsed: Object.keys(hintsUsed).filter(k => hintsUsed[k]).length,
+    hintQs: perQ.filter(p => p.hint).map(p => p.n)
+  };
+  if(!isRestore) persist(rec);
+  window.__rec = rec;
+}
+
+function renderScore(perQ){
+  const att = perQ.filter(p => !p.skipped);
+  const skippedQs = perQ.filter(p => p.skipped);
+  const right = att.reduce((a,p) => a + p.autoRight, 0);
+  const total = att.reduce((a,p) => a + p.autoTotal, 0);
+  const pct = total ? Math.round(right/total*100) : 0;
+
+  document.getElementById("ringPct").textContent = pct + "%";
+  document.getElementById("ringRaw").textContent = right + "/" + total;
+  const circ = 2 * Math.PI * 41;
+  document.getElementById("ringArc").style.strokeDashoffset = circ * (1 - pct/100);
+  document.getElementById("ringArc").style.stroke =
+    pct >= 85 ? "#1a7a4c" : pct >= 65 ? "#3b4c9e" : "#b3261e";
+
+  let title, msg;
+  if(total === 0){ title = "Nothing marked today"; msg = "You skipped every question, so there's no score — but every explanation is open below. Read them, and these topics will come back in your next few sets."; }
+  else if(pct === 100){ title = "Every auto-graded part correct"; msg = "Clean sweep on the computed answers. Still read the explanations — the reasoning behind a right answer is the part that transfers to harder problems."; }
+  else if(pct >= 85){ title = "Strong work"; msg = "A couple of slips only. Read the explanations on the ones marked ✗ and note which step broke down — that's usually where the real lesson is."; }
+  else if(pct >= 65){ title = "Solid, with gaps to close"; msg = "The method is mostly there. Work carefully through the explanations below on the missed questions, then redo those problems on paper without looking."; }
+  else { title = "Worth a second pass"; msg = "Read every explanation below slowly — they show the setup step by step. Then try the missed questions again on paper. This topic repeats in the rotation, so you'll get another shot."; }
+  if(skippedQs.length && total > 0){
+    msg += ` You skipped ${skippedQs.length} ${skippedQs.length === 1 ? "question" : "questions"} — that's fine, and your score is out of the ${total} parts you did try. They'll come back in your next few sets.`;
+  }
+  document.getElementById("scoreTitle").textContent = title;
+  document.getElementById("scoreMsg").textContent = msg;
+
+  const bySet = {};
+  att.forEach(p => {
+    if(!bySet[p.set]) bySet[p.set] = {r:0,t:0};
+    bySet[p.set].r += p.autoRight; bySet[p.set].t += p.autoTotal;
+  });
+  document.getElementById("breakdown").innerHTML =
+    Object.keys(bySet).sort().map(k =>
+      `<div class="bd"><div class="t">Set ${k} · ${SET_NAMES[k]||""}</div>
+        <div class="v">${bySet[k].t ? bySet[k].r + " / " + bySet[k].t : "self-check"}</div></div>`
+    ).join("");
+
+  const missed = att.filter(p => p.autoTotal && p.autoRight < p.autoTotal).map(p => p.n);
+  const written = QUESTIONS.filter(q => q.parts.some(p => p.type === "self")).map(q => q.n);
+  const link = n => `<a href="#q${n}">Q${n}</a>`;
+  const bits = [];
+  if(missed.length) bits.push(`<b>Review these:</b> ` + missed.map(link).join(" · "));
+  if(skippedQs.length) bits.push(`<b>Skipped — read these too:</b> ` + skippedQs.map(p => link(p.n)).join(" · "));
+  if(!bits.length){
+    bits.push(`<b>Nothing flagged.</b>` + (written.length
+      ? ` Compare your written answers on ` + written.map(link).join(" · ") + ` against the model answers before you close this.`
+      : ` Read the explanations before you close this.`));
+  }
+  document.getElementById("reviewList").innerHTML = bits.join("<br>");
+
+  buildSendBack(perQ, right, total, missed, skippedQs);
+  window.__rebuildSend = () => buildSendBack(perQ, right, total, missed, skippedQs);
+
+  document.getElementById("scorecard").classList.add("show");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* ---------- send results back by email (no account needed) ---------- */
+function buildSendBack(perQ, right, total, missed, skippedQs){
+  const el = window.__elapsed;
+  const timeStr = (el === null || el === undefined) ? null
+                : el < 60 ? `${el} sec` : `${Math.round(el/60)} min`;
+
+  const writtenBits = [];
+  QUESTIONS.forEach(q => {
+    q.parts.forEach((p, i) => {
+      if(p.type !== "self") return;
+      const mark = selfMarks[`${q.n}-${i}`];
+      writtenBits.push(`Q${q.n}${p.key || ""} — ` + (mark === true ? "got it" : mark === false ? "not quite" : "not marked"));
+    });
+  });
+
+  /* Independence: which questions needed a hint, and how many she carried
+     unaided. A score built on hints is a different thing from one without. */
+  const attempted  = perQ.filter(p => !p.skipped);
+  const hintQs     = attempted.filter(p => p.hint).map(p => p.n);
+  const autoQs     = attempted.filter(p => p.autoTotal > 0);
+  const cleanQs    = autoQs.filter(p => !p.hint && p.autoRight === p.autoTotal).length;
+
+  /* The final question is the multi-step challenge — tracked on its own
+     because it's the best transfer signal and vanishes inside a percentage. */
+  const lastQ = perQ.length ? perQ[perQ.length - 1] : null;
+  const challengeStr = !lastQ ? null
+    : lastQ.skipped ? `Challenge question (Q${lastQ.n}): skipped`
+    : lastQ.autoTotal ? `Challenge question (Q${lastQ.n}): ${lastQ.autoRight}/${lastQ.autoTotal}${lastQ.hint ? " (used the hint)" : " (no hint)"}`
+    : `Challenge question (Q${lastQ.n}): written answer`;
+
+  const lines = [
+    `Math — ${DATE_LABEL}`,
+    `Topic: ${TOPIC_NAME}`,
+    ``,
+    `Score: ${right} / ${total}` + ((skippedQs && skippedQs.length) ? ` (out of what she attempted)` : ``),
+    timeStr ? `Time: ${timeStr}` : null,
+    `Hints opened: ${hintQs.length}` + (hintQs.length ? ` — on ${hintQs.map(n => "Q"+n).join(", ")}` : ``),
+    autoQs.length ? `Unaided: ${cleanQs} of ${autoQs.length} graded questions fully right with no hint` : null,
+    challengeStr,
+    missed.length ? `Missed: ${missed.map(n => "Q"+n).join(", ")}` : `Missed: none`,
+    (skippedQs && skippedQs.length)
+      ? `Skipped (hadn't learned yet): ${skippedQs.map(p => "Q" + p.n + " — " + (p.setTitle || "") + (p.std ? " [" + p.std + "]" : "")).join("; ")}`
+      : `Skipped: none`,
+    writtenBits.length ? `Written answers: ${writtenBits.join("; ")}` : null,
+    ``,
+    `Per question: ` + perQ.map(p => `Q${p.n} ` + (p.skipped ? "skipped" : (p.autoTotal ? p.autoRight+"/"+p.autoTotal : "written")) + (p.hint && !p.skipped ? " (hint)" : "")).join(", "),
+    `Standards: ` + perQ.map(p => `Q${p.n} ${p.std || "—"}`).join(", "),
+    ``,
+    `(Sent from the worksheet page)`
+  ].filter(x => x !== null);
+
+  const text = lines.join("\n");
+  document.getElementById("resultsText").value = text;
+
+  const subject = `Math results — ${DATE_LABEL} — ${right}/${total}`;
+  const href = `mailto:${encodeURIComponent(RESULTS_EMAIL)}`
+             + `?subject=${encodeURIComponent(subject)}`
+             + `&body=${encodeURIComponent(text)}`;
+
+  const done = document.getElementById("sendDone");
+
+  document.getElementById("emailResultsBtn").onclick = () => {
+    window.location.href = href;
+    done.textContent = `Your email app should be opening — just press send. If nothing happened, use "Copy instead".`;
+    done.classList.add("show");
+  };
+
+  document.getElementById("copyResultsBtn").onclick = async () => {
+    const ta = document.getElementById("resultsText");
+    ta.classList.add("show");
+    let ok = false;
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        await navigator.clipboard.writeText(text); ok = true;
+      }
+    }catch(e){}
+    if(!ok){ try{ ta.select(); ok = document.execCommand("copy"); }catch(e){} }
+    done.textContent = ok
+      ? `Copied. Reply to the email that sent you this worksheet and paste it in.`
+      : `Select the text below, copy it, and paste it into a reply to the worksheet email.`;
+    done.classList.add("show");
+  };
+}
+
+/* self-marking */
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-mark]");
+  if(!b) return;
+  const box = b.closest(".selfmark");
+  const pid = box.getAttribute("data-pid");
+  const val = b.getAttribute("data-mark") === "1";
+  selfMarks[pid] = val;
+  box.querySelectorAll(".smbtn").forEach(x => x.setAttribute("aria-pressed","false"));
+  b.setAttribute("aria-pressed","true");
+  if(window.__rec){ window.__rec.selfMarks = selfMarks; persist(window.__rec); }
+  if(window.__rebuildSend) window.__rebuildSend();
+});
+
+/* submit */
+document.getElementById("submitBtn").addEventListener("click", () => {
+  const blanks = fieldIds.filter(f => !skipped[f.q.n] && String(readField(f)).trim() === "").length;
+  const note = document.getElementById("barNote");
+  if(blanks > 0 && !note.dataset.warned){
+    note.dataset.warned = "1";
+    note.textContent = `${blanks} blank${blanks>1?"s":""} left. Fill them in, mark them "haven't learned this", or press again to check anyway.`;
+    note.style.color = "#8a5a00";
+    return;
+  }
+  note.style.color = "";
+  grade(false);
+});
+
+document.getElementById("printBtn").addEventListener("click", () => window.print());
+</script>
+</body>
+</html>
