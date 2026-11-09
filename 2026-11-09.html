@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Math Honors — Oct 29, 2026</title>
+<style>
+  :root{
+    --paper:#fdfbf7; --card:#ffffff; --ink:#1b1a17; --muted:#6b675f;
+    --line:#e5e0d6; --accent:#3b4c9e; --accent-soft:#eef1fb;
+    --ok:#1a7a4c; --ok-soft:#e8f5ee; --no:#b3261e; --no-soft:#fdecea;
+    --warn:#8a5a00; --warn-soft:#fdf3e0;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --serif:"Iowan Old Style",Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+       font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+  .wrap{max-width:780px;margin:0 auto;padding:28px 20px 120px}
+
+  /* ---------- header ---------- */
+  header{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:8px}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  h1{font-family:var(--serif);font-size:30px;line-height:1.2;margin:8px 0 6px;font-weight:600}
+  .topicline{font-size:15px;color:var(--accent);font-weight:600}
+  .meta{font-size:13px;color:var(--muted);margin-top:8px}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center}
+  .badge{font-size:12px;padding:4px 10px;border-radius:999px;background:#f1eee6;color:var(--muted);
+         border:1px solid var(--line);font-weight:600}
+  .badge.live{background:var(--ok-soft);color:var(--ok);border-color:#bfe3cf}
+  .badge.local{background:var(--warn-soft);color:var(--warn);border-color:#ebd9b0}
+
+  /* ---------- progress ---------- */
+  .progwrap{position:sticky;top:0;background:var(--paper);padding:14px 0 12px;z-index:20;
+            border-bottom:1px solid var(--line);margin-bottom:26px}
+  .progrow{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin-bottom:7px}
+  .progrow strong{color:var(--ink)}
+  .track{height:7px;background:#ece7dc;border-radius:999px;overflow:hidden}
+  .fill{height:100%;width:0%;background:var(--accent);border-radius:999px;transition:width .3s ease}
+
+  /* ---------- sets & questions ---------- */
+  .setheader{margin:38px 0 18px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+  .setheader:first-of-type{margin-top:8px}
+  .setheader h2{font-family:var(--serif);font-size:21px;margin:0;font-weight:600}
+  .setheader .std{font-size:12px;color:var(--muted);margin-top:3px;letter-spacing:.02em}
+
+  .q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 20px 18px;
+     margin-bottom:18px;position:relative;scroll-margin-top:96px}
+  .q.flagged{border-color:#d9d2c4}
+  .qhead{display:flex;gap:12px;align-items:baseline;margin-bottom:10px}
+  .qnum{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--accent);min-width:26px}
+  .prompt{font-family:var(--serif);font-size:17.5px;line-height:1.5}
+  .prompt em{font-style:italic}
+  table.data{border-collapse:collapse;margin:14px 0 4px;font-family:var(--sans);font-size:14px}
+  table.data th,table.data td{border:1px solid var(--line);padding:7px 14px;text-align:center}
+  table.data th{background:#f6f3ec;font-weight:600;text-align:left}
+
+  .parts{margin-top:14px;display:flex;flex-direction:column;gap:11px}
+  .part{display:flex;flex-direction:column;align-items:stretch;gap:7px}
+  .plabel{font-size:15.5px;line-height:1.5;color:#2e2b26;padding-top:0}
+  .plabel .pk{font-weight:700;color:var(--ink)}
+  input.ans,select.ans{font-family:var(--sans);font-size:15px;padding:9px 11px;border:1.5px solid var(--line);
+       border-radius:8px;background:#fff;color:var(--ink);width:100%;max-width:300px}
+  input.ans:focus,select.ans:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  input.ans[disabled],select.ans[disabled]{background:#f7f5f0;color:#55524c}
+  .radios{display:flex;gap:16px;padding-top:6px;flex-wrap:wrap}
+  .radios label{font-size:15px;display:flex;gap:6px;align-items:center;cursor:pointer}
+  .longans{width:100%;max-width:none}
+  textarea.ans{font-family:var(--sans);font-size:15px;padding:9px 11px;border:1.5px solid var(--line);
+       border-radius:8px;width:100%;min-height:72px;resize:vertical;line-height:1.5;color:var(--ink);background:#fff}
+  textarea.ans:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  textarea.ans[disabled]{background:#f7f5f0;color:#55524c}
+  .explain-note{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:-2px}
+
+  .hintbtn{background:none;border:none;color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;
+           padding:4px 0;margin-top:9px;font-family:var(--sans);text-decoration:underline}
+  .hint{display:none;margin-top:9px;font-size:14px;background:var(--accent-soft);border-left:3px solid var(--accent);
+        padding:10px 13px;border-radius:0 7px 7px 0;color:#2c3870}
+  .hint.show{display:block}
+  .skiprow{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:10px}
+  .skipbtn{background:none;border:none;color:var(--muted);font-size:13px;font-weight:600;
+           cursor:pointer;padding:4px 0;font-family:var(--sans);text-decoration:underline}
+  .q.skipped{background:#f7f5f0;border-style:dashed}
+  .q.skipped .parts{opacity:.45}
+  .verdict.skip{background:#f1eee6;color:#55524c}
+  .skipnote{font-size:13.5px;color:var(--muted);margin:0 0 12px;font-style:italic}
+
+  /* ---------- results ---------- */
+  .result{display:none;margin-top:17px;border-top:1px dashed var(--line);padding-top:15px}
+  .result.show{display:block}
+  .verdict{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;
+           padding:4px 11px;border-radius:999px;margin-bottom:12px}
+  .verdict.ok{background:var(--ok-soft);color:var(--ok)}
+  .verdict.no{background:var(--no-soft);color:var(--no)}
+  .verdict.self{background:var(--accent-soft);color:var(--accent)}
+  .cmp{font-size:14px;margin-bottom:13px;background:#faf8f3;border-radius:8px;padding:11px 13px}
+  .cmp div{margin:3px 0}
+  .cmp .lab{color:var(--muted);display:inline-block;min-width:118px;font-size:13px}
+  .cmp .mine.wrong{color:var(--no);font-weight:600}
+  .cmp .mine.right{color:var(--ok);font-weight:600}
+  .cmp .theirs{font-weight:700}
+  .cmp .tick{color:var(--ok);font-weight:700;margin-left:4px}
+  .cmp .cross{color:var(--no);font-weight:700;margin:0 6px 0 4px}
+  .exp{font-size:15px;line-height:1.62}
+  .exp h4{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+          margin:0 0 7px;font-weight:700}
+  .exp p{margin:0 0 10px}
+  .exp .step{margin:0 0 9px}
+  .exp .calc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;
+             background:#f4f1ea;padding:2px 6px;border-radius:4px;white-space:nowrap}
+  .exp .strategy{background:var(--accent-soft);border-radius:8px;padding:11px 13px;margin:12px 0 0;
+                 font-size:14.5px;color:#2c3870}
+  .exp .strategy b{color:var(--accent)}
+  .exp .mistake{background:var(--warn-soft);border-radius:8px;padding:11px 13px;margin:10px 0 0;
+                font-size:14.5px;color:#6d4800}
+  .exp .mistake b{color:var(--warn)}
+  .selfmark{margin-top:14px;background:#faf8f3;border:1px solid var(--line);border-radius:8px;padding:12px 13px}
+  .selfmark p{margin:0 0 9px;font-size:14px;font-weight:600}
+  .selfmark .btns{display:flex;gap:9px;flex-wrap:wrap}
+  .smbtn{font-family:var(--sans);font-size:13.5px;font-weight:600;padding:7px 14px;border-radius:7px;
+         border:1.5px solid var(--line);background:#fff;cursor:pointer;color:var(--ink)}
+  .smbtn[aria-pressed="true"].yes{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+  .smbtn[aria-pressed="true"].no{background:var(--no-soft);border-color:var(--no);color:var(--no)}
+
+  /* ---------- submit bar ---------- */
+  .submitbar{position:fixed;left:0;right:0;bottom:0;background:rgba(253,251,247,.96);
+             backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:13px 20px;z-index:30}
+  .submitinner{max-width:780px;margin:0 auto;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .submitnote{font-size:13px;color:var(--muted)}
+  .btn{font-family:var(--sans);font-size:15px;font-weight:600;padding:11px 22px;border-radius:9px;
+       border:none;background:var(--accent);color:#fff;cursor:pointer}
+  .btn:disabled{background:#b9b5ac;cursor:not-allowed}
+  .btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+
+  /* ---------- score card ---------- */
+  .scorecard{display:none;background:var(--card);border:2px solid var(--ink);border-radius:14px;
+             padding:24px;margin:8px 0 30px}
+  .scorecard.show{display:block}
+  .scoretop{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+  .ring{width:96px;height:96px;flex-shrink:0;position:relative}
+  .ring svg{transform:rotate(-90deg)}
+  .ringtext{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ringtext b{font-family:var(--serif);font-size:25px;line-height:1}
+  .ringtext span{font-size:11px;color:var(--muted);letter-spacing:.05em}
+  .scoremsg h3{font-family:var(--serif);font-size:21px;margin:0 0 5px;font-weight:600}
+  .scoremsg p{margin:0;font-size:14.5px;color:#46433c;max-width:420px}
+  .breakdown{margin-top:20px;border-top:1px solid var(--line);padding-top:16px;
+             display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px}
+  .bd{font-size:13.5px}
+  .bd .t{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+  .bd .v{font-family:var(--serif);font-size:17px;font-weight:600;margin-top:2px}
+  .review{margin-top:16px;font-size:14px;color:#46433c}
+  .review b{color:var(--ink)}
+
+  /* ---------- send results back ---------- */
+  .sendback{margin-top:20px;border-top:1px solid var(--line);padding-top:18px}
+  .sendback h4{font-family:var(--serif);font-size:17px;margin:0 0 5px;font-weight:600}
+  .sendback p{margin:0 0 13px;font-size:14.5px;color:#46433c}
+  .sendback .btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .sendback .big{font-size:15px;font-weight:600;padding:11px 20px;border-radius:9px;border:none;
+                 background:var(--ok);color:#fff;cursor:pointer;font-family:var(--sans)}
+  .sendback .alt{font-size:14px;font-weight:600;padding:10px 16px;border-radius:9px;
+                 border:1.5px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;font-family:var(--sans)}
+  .sendback .done{margin-top:11px;font-size:13.5px;color:var(--ok);font-weight:600;display:none}
+  .sendback .done.show{display:block}
+  .sendback textarea{margin-top:12px;width:100%;min-height:120px;font-family:ui-monospace,Menlo,Consolas,monospace;
+                     font-size:12.5px;border:1.5px solid var(--line);border-radius:8px;padding:10px;
+                     display:none;background:#faf8f3;color:var(--ink)}
+  .sendback textarea.show{display:block}
+
+  @media (max-width:560px){
+    .wrap{padding:20px 14px 130px}
+    h1{font-size:25px}
+    input.ans,select.ans{max-width:none;width:100%}
+    .qhead{gap:8px}
+    .prompt{font-size:16.5px}
+  }
+  @media print{
+    .submitbar,.hintbtn,.progwrap,.badges{display:none!important}
+    body{background:#fff}
+    .q{break-inside:avoid;border-color:#ccc}
+    .wrap{padding-bottom:20px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">NJ Middle School Math Honors · Daily Set</div>
+    <h1 id="hDate"></h1>
+    <div class="topicline" id="hTopic"></div>
+    <div class="meta" id="hMeta"></div>
+    <div class="badges">
+      <span class="badge" id="syncBadge">Your answers save as you type</span>
+      <span class="badge" id="timerBadge">Time: 0:00</span>
+    </div>
+  </header>
+
+  <div class="progwrap">
+    <div class="progrow">
+      <span><strong id="answeredCount">0</strong> of <strong id="totalCount">0</strong> blanks filled</span>
+      <span id="progHint">Answer everything, then check your work</span>
+    </div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+  </div>
+
+  <div class="scorecard" id="scorecard">
+    <div class="scoretop">
+      <div class="ring">
+        <svg width="96" height="96" viewBox="0 0 96 96">
+          <circle cx="48" cy="48" r="41" fill="none" stroke="#ece7dc" stroke-width="10"></circle>
+          <circle id="ringArc" cx="48" cy="48" r="41" fill="none" stroke="#3b4c9e" stroke-width="10"
+                  stroke-linecap="round" stroke-dasharray="257.6" stroke-dashoffset="257.6"></circle>
+        </svg>
+        <div class="ringtext"><b id="ringPct">0%</b><span id="ringRaw">0/0</span></div>
+      </div>
+      <div class="scoremsg">
+        <h3 id="scoreTitle">Work checked</h3>
+        <p id="scoreMsg"></p>
+      </div>
+    </div>
+    <div class="breakdown" id="breakdown"></div>
+    <div class="review" id="reviewList"></div>
+    <div class="sendback" id="sendback">
+      <h4>Last step — send your results</h4>
+      <p>Tap the button and your email app opens with everything filled in. Just press send.</p>
+      <div class="btns">
+        <button class="big" id="emailResultsBtn" type="button">Email my results</button>
+        <button class="alt" id="copyResultsBtn" type="button">Copy instead</button>
+      </div>
+      <div class="done" id="sendDone"></div>
+      <textarea id="resultsText" readonly></textarea>
+    </div>
+  </div>
+
+  <main id="questions"></main>
+
+</div>
+
+<div class="submitbar">
+  <div class="submitinner">
+    <span class="submitnote" id="barNote">Explanations unlock after you check your work.</span>
+    <div style="display:flex;gap:9px">
+      <button class="btn ghost" id="printBtn" type="button">Print</button>
+      <button class="btn" id="submitBtn" type="button">Check my work</button>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ===== BEGIN DAILY DATA — replace everything down to END DAILY DATA =====
+   Each run swaps only this block. Nothing below it changes.
+   EVERY `label` MUST BE A COMPLETE QUESTION SENTENCE ENDING IN "?", not a
+   field name. She is 11 and reads the label as the question.
+     BAD  -> label:"What is the car's unit rate, in miles per gallon?"
+     GOOD -> label:"What is the car's unit rate, in miles per gallon?"
+   The `prompt` sets up the situation in full; each part then asks one clear
+   question about it that makes sense on its own.
+
+   part types:
+     num    -> {type:"num", correct:<number>, tol:<optional>, show:"display answer"}
+     text   -> {type:"text", accept:["normalized","variants"], re:"optional regex", show:"..."}
+     choice -> {type:"choice", options:["A","B"], correct:"B", show:"B"}
+     self   -> {type:"self", placeholder:"...", show:"model answer HTML"}  (student self-marks)
+   =========================================================================== */
+const DATE_KEY   = "2026-11-09";
+const DATE_LABEL = "Monday, November 9, 2026";
+const TOPIC_DAY  = 5;
+const TOPIC_NAME = "Equations & Inequalities";
+const STANDARDS  = "NJSLS 6.EE.5–8, 7.EE.4";
+const SET_NAMES  = {A:"One-Step Equations", B:"Brackets & Two-Step Equations",
+                    C:"Inequalities", D:"Challenge"};
+
+const QUESTIONS = [
+{
+  n:1, set:"A", setTitle:"One-Step Equations", std:"NJSLS 6.EE.5–7",
+  prompt:"Solve each equation below. Each one is a single step: look at what has been done to the variable, then do the opposite operation to both sides. Give each answer as a number only.",
+  hint:"Ask yourself \"what is being done to the letter?\" — then undo it on BOTH sides.",
+  parts:[
+    {key:"a", label:"What value of x makes x + 17 = 41 true?", type:"num", correct:24, show:"x = 24"},
+    {key:"b", label:"What value of m makes 8m = 104 true?", type:"num", correct:13, show:"m = 13"},
+    {key:"c", label:"What value of w makes w &divide; 6 = 9 true?", type:"num", correct:54, show:"w = 54"}
+  ],
+  exp:`<p class="step"><b>(a)</b> In <span class="calc">x + 17 = 41</span>, 17 has been <em>added</em> to x, so undo it by subtracting 17 &mdash; from <em>both</em> sides, which keeps the equation balanced: <span class="calc">x = 41 &minus; 17 = 24</span>.</p>
+       <p class="step"><b>(b)</b> In <span class="calc">8m = 104</span>, m has been <em>multiplied</em> by 8, so divide both sides by 8: <span class="calc">m = 104 &divide; 8 = 13</span>.</p>
+       <p class="step"><b>(c)</b> In <span class="calc">w &divide; 6 = 9</span>, w has been <em>divided</em> by 6, so multiply both sides by 6: <span class="calc">w = 9 &times; 6 = 54</span>.</p>
+       <p class="step">Always check by substituting back: 24 + 17 = 41 &#10003; · 8 &times; 13 = 104 &#10003; · 54 &divide; 6 = 9 &#10003;</p>
+       <div class="strategy"><b>Strategy:</b> solving an equation is <em>undoing</em>. Name the operation done to the variable, then apply its inverse to both sides. Addition &harr; subtraction; multiplication &harr; division.</div>
+       <div class="mistake"><b>Common mistake:</b> doing the operation to only one side. An equation is a balance &mdash; whatever you do to the left you must do to the right, or it stops being true.</div>`
+},
+{
+  n:2, set:"A", setTitle:"One-Step Equations", std:"NJSLS 6.EE.6–7",
+  prompt:"Maya had a box of stickers. She gave 14 of them to her little brother, and she has 29 stickers left. She wants to work out how many she started with. Use the letter s for the number of stickers she started with.",
+  hint:"Write what HAPPENED to s as an equation first, then solve it. \"Gave away\" means subtract.",
+  parts:[
+    {key:"a", label:"Write an equation using s that describes this situation. (She started with s, gave away 14, and has 29 left.)", type:"text",
+     accept:["s-14=29","s−14=29","29=s-14","29=s−14"], re:"^\\s*(29\\s*=\\s*s\\s*[-−–—]\\s*14|s\\s*[-−–—]\\s*14\\s*=\\s*29)\\s*$", show:"s &minus; 14 = 29"},
+    {key:"b", label:"How many stickers did Maya start with?", type:"num", correct:43, show:"43 stickers"}
+  ],
+  exp:`<p class="step"><b>(a)</b> Translate the story one phrase at a time. "She started with s" gives you <span class="calc">s</span>; "gave 14 away" gives <span class="calc">s &minus; 14</span>; "has 29 left" tells you what that equals. So the equation is <b>s &minus; 14 = 29</b>.</p>
+       <p class="step"><b>(b)</b> Now undo the subtraction by adding 14 to both sides: <span class="calc">s = 29 + 14 = 43</span> stickers.</p>
+       <p class="step"><b>Checking your answer.</b> Substitute it back in: <span class="calc">43 &minus; 14 = 29</span> &#10003;. Checking by substitution is different from solving again &mdash; if you made a mistake solving, you would probably repeat it, but substitution tests the answer against the <em>original</em> problem.</p>
+       <div class="strategy"><b>Strategy:</b> for a word problem, write the equation before you solve anything. Translating the sentence is the hard part; the solving is then mechanical.</div>
+       <div class="mistake"><b>Common mistake:</b> writing <span class="calc">14 &minus; s = 29</span>. Order matters in subtraction &mdash; she had the stickers first, then gave some away, so s comes first.</div>`
+},
+{
+  n:3, set:"B", setTitle:"Brackets & Two-Step Equations", std:"NJSLS 6.EE.7, 7.EE.4",
+  prompt:"Solve each two-step equation. In a two-step equation two things have been done to the variable, so you undo them in reverse order — deal with the adding or subtracting first, then the multiplying or dividing. Give each answer as a number only.",
+  hint:"Undo in reverse order: get the multiplied term alone first, then divide.",
+  parts:[
+    {key:"a", label:"What value of x makes 3x + 7 = 31 true?", type:"num", correct:8, show:"x = 8"},
+    {key:"b", label:"What value of y makes 5y &minus; 12 = 48 true?", type:"num", correct:12, show:"y = 12"},
+    {key:"c", label:"What value of n makes (n &divide; 4) + 9 = 15 true?", type:"num", correct:24, show:"n = 24"}
+  ],
+  exp:`<p class="step"><b>(a)</b> <span class="calc">3x + 7 = 31</span>. Subtract 7 from both sides first: <span class="calc">3x = 24</span>. Then divide both sides by 3: <span class="calc">x = 8</span>.</p>
+       <p class="step"><b>(b)</b> <span class="calc">5y &minus; 12 = 48</span>. Add 12 to both sides: <span class="calc">5y = 60</span>. Divide by 5: <span class="calc">y = 12</span>.</p>
+       <p class="step"><b>(c)</b> <span class="calc">(n &divide; 4) + 9 = 15</span>. Subtract 9: <span class="calc">n &divide; 4 = 6</span>. Multiply both sides by 4: <span class="calc">n = 24</span>.</p>
+       <p class="step">Why reverse order? Think of getting dressed: socks then shoes. To undo it you take the shoes off first. Here the variable was multiplied and <em>then</em> something was added, so you undo the addition first.</p>
+       <div class="strategy"><b>Strategy:</b> peel the equation like an onion, from the outside in. Strip away the loose number first, leaving the variable term alone, then undo the multiplication or division.</div>
+       <div class="mistake"><b>Common mistake:</b> dividing first in (a) &mdash; writing x + 7 = 31 &divide; 3. You can divide first, but then you must divide <em>every</em> term, including the 7. Subtracting first is cleaner.</div>`
+},
+{
+  n:4, set:"B", setTitle:"Brackets & Two-Step Equations", std:"NJSLS 6.EE.3–4, 7.EE.1",
+  prompt:"Expanding a bracket means multiplying the number outside by EVERY term inside — not just the first one. For example, 5(a + 3) = 5a + 15. Expand each expression below and write it in its simplest form.",
+  hint:"Multiply the outside number by each term inside, one at a time. Two terms inside means two multiplications.",
+  parts:[
+    {key:"a", label:"What is 4(y &minus; 7) when the bracket is expanded?", type:"text",
+     accept:["4y-28","4y−28","-28+4y","−28+4y"], re:"^\\s*(4\\s*y\\s*[-−–—]\\s*28|[-−–—]\\s*28\\s*\\+\\s*4\\s*y)\\s*$", show:"4y &minus; 28"},
+    {key:"b", label:"What is 6(2a &minus; 3) when the bracket is expanded?", type:"text",
+     accept:["12a-18","12a−18","-18+12a","−18+12a"], re:"^\\s*(12\\s*a\\s*[-−–—]\\s*18|[-−–—]\\s*18\\s*\\+\\s*12\\s*a)\\s*$", show:"12a &minus; 18"},
+    {key:"c", label:"What is 3(5 &minus; 2k) when the bracket is expanded?", type:"text",
+     accept:["15-6k","15−6k","-6k+15","−6k+15"], re:"^\\s*(15\\s*[-−–—]\\s*6\\s*k|[-−–—]\\s*6\\s*k\\s*\\+\\s*15)\\s*$", show:"15 &minus; 6k"}
+  ],
+  exp:`<p class="step"><b>(a)</b> <span class="calc">4(y &minus; 7)</span>. The 4 multiplies both terms inside: <span class="calc">4 &times; y = 4y</span> and <span class="calc">4 &times; 7 = 28</span>. The sign inside is a minus, so it stays a minus: <b>4y &minus; 28</b>.</p>
+       <p class="step"><b>(b)</b> <span class="calc">6(2a &minus; 3)</span>. Multiply each term: <span class="calc">6 &times; 2a = 12a</span>, <span class="calc">6 &times; 3 = 18</span>. Result: <b>12a &minus; 18</b>.</p>
+       <p class="step"><b>(c)</b> <span class="calc">3(5 &minus; 2k)</span>. Here the number comes first inside the bracket: <span class="calc">3 &times; 5 = 15</span> and <span class="calc">3 &times; 2k = 6k</span>, giving <b>15 &minus; 6k</b>. Writing it as &minus;6k + 15 is the same expression.</p>
+       <p class="step">A useful picture: a rectangle 4 tall and (y &minus; 7) wide has area 4y &minus; 28 &mdash; the 4 reaches across the whole width, not just part of it. That is what "distribute" means: hand the multiplier out to everybody inside.</p>
+       <div class="strategy"><b>Strategy:</b> count the terms inside the bracket, then make sure you have done that many multiplications. Two terms in, two products out.</div>
+       <div class="mistake"><b>Common mistake:</b> multiplying only the first term &mdash; writing 4(y &minus; 7) as 4y &minus; 7. Test it with a number: if y = 10, the real value is 4(3) = 12, while 4y &minus; 7 gives 33. Substituting a number is a fast way to catch this.</div>`
+},
+{
+  n:5, set:"B", setTitle:"Brackets & Two-Step Equations", std:"NJSLS 7.EE.1, 6.EE.3",
+  prompt:"Now the multiplier outside the bracket is negative, or the bracket is being subtracted. The rule is exactly the same — multiply by every term inside — but the SIGN of the multiplier travels with it, so a plus inside can come out as a minus.",
+  hint:"A negative multiplier flips the sign of every term it reaches. Treat subtracting a bracket as multiplying it by −1.",
+  parts:[
+    {key:"a", label:"What is &minus;2(x + 5) when the bracket is expanded?", type:"text",
+     accept:["-2x-10","−2x−10","-2x−10","−2x-10","-10-2x","−10−2x","−10-2x","-10−2x"],
+     re:"^\\s*([-−–—]\\s*2\\s*x\\s*[-−–—]\\s*10|[-−–—]\\s*10\\s*[-−–—]\\s*2\\s*x)\\s*$", show:"&minus;2x &minus; 10"},
+    {key:"b", label:"Simplify 7k &minus; 2(k + 4) completely. (Expand the bracket first, then collect the k terms.)", type:"text",
+     accept:["5k-8","5k−8","-8+5k","−8+5k"], re:"^\\s*(5\\s*k\\s*[-−–—]\\s*8|[-−–—]\\s*8\\s*\\+\\s*5\\s*k)\\s*$", show:"5k &minus; 8"},
+    {key:"c", label:"In 7k &minus; 2(k + 4), the 4 inside the bracket has a plus in front of it, but it ends up as &minus;8 in the answer. Explain why the sign changes.", type:"self",
+     placeholder:"Explain what happens to the +4…",
+     show:`Because the bracket is being subtracted, the multiplier reaching inside is &minus;2, not +2. Every term inside gets multiplied by &minus;2: &minus;2 &times; k = &minus;2k and &minus;2 &times; (+4) = &minus;8. A negative times a positive is negative, so the +4 becomes &minus;8. Then 7k &minus; 2k = 5k, leaving 5k &minus; 8.`}
+  ],
+  exp:`<p class="step"><b>(a)</b> <span class="calc">&minus;2(x + 5)</span>. The multiplier is <b>&minus;2</b>, and it reaches both terms: <span class="calc">&minus;2 &times; x = &minus;2x</span> and <span class="calc">&minus;2 &times; 5 = &minus;10</span>. So the answer is <b>&minus;2x &minus; 10</b>. Notice the plus inside became a minus outside, because a negative times a positive is negative.</p>
+       <p class="step"><b>(b)</b> <span class="calc">7k &minus; 2(k + 4)</span>. The minus sign belongs to the 2, so the multiplier is &minus;2: <span class="calc">&minus;2 &times; k = &minus;2k</span>, <span class="calc">&minus;2 &times; 4 = &minus;8</span>. That gives <span class="calc">7k &minus; 2k &minus; 8</span>. Collect the like terms: <span class="calc">7k &minus; 2k = 5k</span>, so the answer is <b>5k &minus; 8</b>.</p>
+       <p class="step"><b>(c)</b> The +4 is multiplied by &minus;2, and a negative times a positive is negative, so it arrives as &minus;8. The sign in front of a bracket is part of the multiplier &mdash; it is never left behind.</p>
+       <p class="step">Check (b) with a number. Let k = 3: the original is 7(3) &minus; 2(3 + 4) = 21 &minus; 14 = 7, and the answer gives 5(3) &minus; 8 = 7. &#10003; If you had wrongly written 5k + 8 you would get 23, which does not match &mdash; so substitution catches the sign error immediately.</p>
+       <div class="strategy"><b>Strategy:</b> before you multiply anything, write down the multiplier <em>with its sign</em>. Say it out loud: "negative two times x, negative two times five." Naming the sign first is what stops it going missing.</div>
+       <div class="mistake"><b>Common mistake:</b> keeping the plus and writing &minus;2x + 10, or simplifying 7k &minus; 2(k + 4) to 5k + 8. The minus has to travel to <em>every</em> term inside, not just the first.</div>`
+},
+{
+  n:6, set:"B", setTitle:"Brackets & Two-Step Equations", std:"NJSLS 7.EE.4a",
+  prompt:"These equations have a bracket in them. You can either expand the bracket first and then solve, or divide both sides by the number outside the bracket first — both routes work. Give each answer as a number only.",
+  hint:"Either expand first, or divide both sides by the outside number first. Try both on (a) and see that they agree.",
+  parts:[
+    {key:"a", label:"What value of x makes 3(x &minus; 4) = 18 true?", type:"num", correct:10, show:"x = 10"},
+    {key:"b", label:"What value of m makes 5(2m + 1) = 45 true?", type:"num", correct:4, show:"m = 4"}
+  ],
+  exp:`<p class="step"><b>(a)</b> <span class="calc">3(x &minus; 4) = 18</span>.<br>
+       <em>Route 1 &mdash; expand first:</em> <span class="calc">3x &minus; 12 = 18</span>, so <span class="calc">3x = 30</span> and <span class="calc">x = 10</span>.<br>
+       <em>Route 2 &mdash; divide first:</em> divide both sides by 3 to get <span class="calc">x &minus; 4 = 6</span>, so <span class="calc">x = 10</span>. Same answer, and Route 2 is quicker here because 18 divides neatly by 3.</p>
+       <p class="step"><b>(b)</b> <span class="calc">5(2m + 1) = 45</span>. Divide both sides by 5: <span class="calc">2m + 1 = 9</span>. Subtract 1: <span class="calc">2m = 8</span>. Divide by 2: <span class="calc">m = 4</span>.<br>
+       Expanding instead gives <span class="calc">10m + 5 = 45</span> &rarr; <span class="calc">10m = 40</span> &rarr; m = 4. &#10003;</p>
+       <div class="strategy"><b>Strategy:</b> look at the number on the right before choosing. If the outside number divides it cleanly, dividing first saves a step; if not, expand.</div>
+       <div class="mistake"><b>Common mistake:</b> dividing only part of the equation &mdash; writing 3(x &minus; 4) = 18 as x &minus; 4 = 18. If you divide the left side by 3, the right side must be divided by 3 too.</div>`
+},
+{
+  n:7, set:"C", setTitle:"Inequalities", std:"NJSLS 6.EE.5, 6.EE.8, 7.EE.4b",
+  prompt:"An inequality is solved the same way as an equation, but the answer is a RANGE of values rather than a single one. Solve each inequality and write your answer as an inequality, for example \"x > 5\".",
+  hint:"Solve it exactly like an equation, but keep the inequality sign where it is and write the answer as a range.",
+  parts:[
+    {key:"a", label:"Solve x + 9 &le; 15. Write your answer as an inequality.", type:"text",
+     accept:["x<=6","x≤6","x=<6","6>=x","6≥x"], re:"^\\s*(x\\s*(<=|≤|=<)\\s*6|6\\s*(>=|≥|=>)\\s*x)\\s*$", show:"x &le; 6"},
+    {key:"b", label:"Solve 2y &minus; 5 > 11. Write your answer as an inequality.", type:"text",
+     accept:["y>8","8<y"], re:"^\\s*(y\\s*>\\s*8|8\\s*<\\s*y)\\s*$", show:"y > 8"},
+    {key:"c", label:"On a number line, the answer to part (a) is drawn with a FILLED-IN circle at 6, but the answer to part (b) is drawn with an OPEN circle at 8. Explain why the two circles are different.", type:"self",
+     placeholder:"Explain the difference between the two circles…",
+     show:`In part (a) the sign is &le;, which means "less than <em>or equal to</em>", so 6 itself is a solution &mdash; the circle is filled in to include it. In part (b) the sign is >, strictly greater than, so 8 itself is <em>not</em> a solution &mdash; the circle is left open to show the boundary is excluded. Check: 6 + 9 = 15, and 15 &le; 15 is true, so 6 works. But 2(8) &minus; 5 = 11, and 11 > 11 is false, so 8 does not work.`}
+  ],
+  exp:`<p class="step"><b>(a)</b> <span class="calc">x + 9 &le; 15</span>. Subtract 9 from both sides: <span class="calc">x &le; 6</span>. So <em>every</em> number up to and including 6 is a solution &mdash; 6, 5.5, 0, &minus;12 all work.</p>
+       <p class="step"><b>(b)</b> <span class="calc">2y &minus; 5 > 11</span>. Add 5: <span class="calc">2y > 16</span>. Divide by 2: <span class="calc">y > 8</span>. Here 8 itself does <em>not</em> count, because 8 is not greater than 8; 8.1 and 9 do.</p>
+       <p class="step"><b>(c)</b> The circle shows whether the boundary number is included. &le; and &ge; include it (filled circle); &lt; and &gt; exclude it (open circle). Testing the boundary number in the original inequality always tells you which one you need.</p>
+       <div class="strategy"><b>Strategy:</b> solve an inequality with exactly the same moves as an equation, then ask one extra question &mdash; "is the boundary itself a solution?" Substituting the boundary number answers it in seconds.</div>
+       <div class="mistake"><b>Common mistake:</b> writing a single number as the answer, like "x = 6". An inequality has infinitely many solutions, so the answer must be written as an inequality. (One extra rule for later: multiplying or dividing by a <em>negative</em> number flips the inequality sign. None of today's questions needs that, but it is worth knowing it exists.)</div>`
+},
+{
+  n:8, set:"C", setTitle:"Inequalities", std:"NJSLS 7.EE.4b",
+  prompt:"Suhani is booking tickets for a school show. Each ticket costs $7, and the website adds a single $4 booking fee to the whole order, no matter how many tickets she buys. She has $60 to spend in total. Use the letter t for the number of tickets.",
+  hint:"\"Has $60 to spend\" means the total must be at most 60 — that is an at-most inequality, not an equation.",
+  parts:[
+    {key:"a", label:"Write an inequality using t for the total cost being no more than $60. (Remember the $4 fee is added only once.)", type:"text",
+     accept:["7t+4<=60","7t+4≤60","4+7t<=60","4+7t≤60","7t+4=<60","60>=7t+4","60≥7t+4"],
+     re:"^\\s*(7\\s*t\\s*\\+\\s*4\\s*(<=|≤|=<)\\s*60|4\\s*\\+\\s*7\\s*t\\s*(<=|≤|=<)\\s*60|60\\s*(>=|≥|=>)\\s*7\\s*t\\s*\\+\\s*4)\\s*$",
+     show:"7t + 4 &le; 60"},
+    {key:"b", label:"What is the greatest number of tickets Suhani can buy?", type:"num", correct:8, show:"8 tickets"},
+    {key:"c", label:"Suppose the arithmetic had given you t &le; 8.7 instead. Why would the answer still be 8 tickets rather than 9, or 8.7?", type:"self",
+     placeholder:"Explain what the context tells you to do with the decimal…",
+     show:`Because you cannot buy part of a ticket, so t has to be a whole number. t &le; 8.7 means every value up to 8.7 is allowed, and the largest whole number in that range is 8. Rounding 8.7 up to 9 would break the inequality &mdash; 9 tickets would cost more than she has. With an "at most" budget you always round DOWN to a whole number, even when the decimal looks close to the next one.`}
+  ],
+  exp:`<p class="step"><b>(a)</b> Build the cost one piece at a time: t tickets at $7 each is <span class="calc">7t</span>, plus the single fee gives <span class="calc">7t + 4</span>. "She has $60" means the total must be no more than 60, so the inequality is <b>7t + 4 &le; 60</b>. The &le; matters &mdash; spending exactly $60 is allowed.</p>
+       <p class="step"><b>(b)</b> Solve it like a two-step equation. Subtract 4 from both sides: <span class="calc">7t &le; 56</span>. Divide both sides by 7: <span class="calc">t &le; 8</span>. So the greatest number of tickets is <b>8</b>.<br>
+       Check: 8 tickets cost 8 &times; 7 = $56, plus the $4 fee = $60 exactly &mdash; she can just afford it. Nine tickets would be 63 + 4 = $67, too much.</p>
+       <p class="step"><b>(c)</b> Tickets come in whole numbers, so you take the largest whole number allowed by the range. With an "at most" inequality that always means rounding <em>down</em>, whatever the decimal is.</p>
+       <div class="strategy"><b>Strategy:</b> watch for the fee that is charged <em>once</em> rather than per item. It is added on its own, outside the multiplication &mdash; that is what makes the expression 7t + 4 and not 11t.</div>
+       <div class="mistake"><b>Common mistake:</b> writing 11t &le; 60 by adding the $7 and the $4 together. The fee does not repeat with each ticket, so it must sit outside the 7 &times; t.</div>`
+},
+{
+  n:9, set:"C", setTitle:"Inequalities", std:"NJSLS 6.NS.5, 7.EE.4a",
+  prompt:"Solve each equation below. Every answer this time is a NEGATIVE number, so take care with the sign. Write each answer including its minus sign, for example \"-12\".",
+  hint:"Solve exactly as usual — the only difference is that the number you land on is below zero. Keep the minus sign in your answer.",
+  parts:[
+    {key:"a", label:"What value of x makes x + 23 = 8 true?", type:"text",
+     accept:["-15","−15","x=-15","x=−15","–15","—15"], re:"^\\s*(x\\s*=\\s*)?[-−–—]\\s*15\\s*$", show:"x = &minus;15"},
+    {key:"b", label:"What value of m makes 6m = &minus;54 true?", type:"text",
+     accept:["-9","−9","m=-9","m=−9","–9","—9"], re:"^\\s*(m\\s*=\\s*)?[-−–—]\\s*9\\s*$", show:"m = &minus;9"},
+    {key:"c", label:"What value of x makes 2x + 19 = 5 true?", type:"text",
+     accept:["-7","−7","x=-7","x=−7","–7","—7"], re:"^\\s*(x\\s*=\\s*)?[-−–—]\\s*7\\s*$", show:"x = &minus;7"}
+  ],
+  exp:`<p class="step"><b>(a)</b> <span class="calc">x + 23 = 8</span>. Subtract 23 from both sides: <span class="calc">x = 8 &minus; 23 = &minus;15</span>. Adding 23 to a number has to land you on 8, and 8 is smaller than 23, so the starting number must be below zero &mdash; the negative answer is expected, not a mistake.</p>
+       <p class="step"><b>(b)</b> <span class="calc">6m = &minus;54</span>. Divide both sides by 6: <span class="calc">m = &minus;54 &divide; 6 = &minus;9</span>. A negative divided by a positive is negative.</p>
+       <p class="step"><b>(c)</b> <span class="calc">2x + 19 = 5</span>. Subtract 19: <span class="calc">2x = 5 &minus; 19 = &minus;14</span>. Divide by 2: <span class="calc">x = &minus;7</span>.</p>
+       <p class="step">Check each one by substituting back: &minus;15 + 23 = 8 &#10003; · 6 &times; (&minus;9) = &minus;54 &#10003; · 2(&minus;7) + 19 = &minus;14 + 19 = 5 &#10003;</p>
+       <div class="strategy"><b>Strategy:</b> predict the sign before you compute. If you must <em>add</em> something to reach a smaller number, the answer is negative. Knowing the sign in advance means you will notice if your arithmetic disagrees.</div>
+       <div class="mistake"><b>Common mistake:</b> writing the answer without its minus sign &mdash; giving 15 instead of &minus;15 because 23 &minus; 8 = 15. The size is right but the sign is the answer. Check with substitution: 15 + 23 = 38, not 8.</div>`
+},
+{
+  n:10, set:"D", setTitle:"Challenge", std:"NJSLS 7.EE.4, 7.RP.3 · multi-step",
+  prompt:"The Science Club is ordering T-shirts. The printer charges $11.50 per shirt plus a one-time $25 design fee for the whole order. New Jersey sales tax of 6.625% is then added to the entire bill, fee included. Work through the parts in order. This is a money question, so you may use a calculator.",
+  hint:"Build the before-tax cost as an expression first. Tax multiplies the WHOLE bill, including the one-time fee.",
+  parts:[
+    {key:"a", label:"Write an expression for the cost C, before tax, of ordering n shirts. (Remember the $25 fee is charged only once.)", type:"text",
+     accept:["11.5n+25","25+11.5n","11.50n+25","25+11.50n","c=11.5n+25","c=11.50n+25","c=25+11.5n"],
+     re:"^\\s*(c\\s*=\\s*)?(11\\.50?\\s*n\\s*\\+\\s*25|25\\s*\\+\\s*11\\.50?\\s*n)\\s*$", show:"C = 11.5n + 25"},
+    {key:"b", label:"The club orders 24 shirts. What is the cost before tax, in dollars?", type:"num", correct:301, show:"$301.00"},
+    {key:"c", label:"How much sales tax is charged on that 24-shirt order, to the nearest cent?", type:"num", correct:19.94, tol:0.015, show:"$19.94"},
+    {key:"d", label:"What is the total amount the club pays for the 24 shirts, including tax, to the nearest cent?", type:"num", correct:320.94, tol:0.015, show:"$320.94"},
+    {key:"e", label:"The club actually has a budget of $400 including tax. What is the greatest number of shirts it can order without going over $400?", type:"num", correct:30, show:"30 shirts"}
+  ],
+  exp:`<p class="step"><b>(a)</b> Each shirt adds $11.50, so n shirts cost <span class="calc">11.5n</span>. The design fee is charged once for the whole order, so it is added on its own: <b>C = 11.5n + 25</b>. This is the same "rate plus fixed fee" shape as question 8 &mdash; and it is <em>not</em> proportional, because 0 shirts would still cost $25.</p>
+       <p class="step"><b>(b)</b> Substitute n = 24: <span class="calc">11.5 &times; 24 = 276</span>, then <span class="calc">276 + 25 = $301.00</span> before tax.</p>
+       <p class="step"><b>(c)</b> Tax is 6.625% of the whole bill: <span class="calc">301 &times; 0.06625 = 19.94125</span>, which is <b>$19.94</b> to the nearest cent. Write the percent as a decimal by dividing by 100: 6.625% = 0.06625.</p>
+       <p class="step"><b>(d)</b> Total <span class="calc">= 301 + 19.94 = $320.94</span>. (You can also do it in one step: <span class="calc">301 &times; 1.06625 = 320.94125</span> &rarr; $320.94. Multiplying by 1.06625 means "keep the whole bill and add 6.625% more".)</p>
+       <p class="step"><b>(e)</b> Now work backwards from the $400 budget. The total paid is <span class="calc">(11.5n + 25) &times; 1.06625 &le; 400</span>.<br>
+       First undo the tax: <span class="calc">11.5n + 25 &le; 400 &divide; 1.06625 = 375.14&hellip;</span><br>
+       Then undo the fee: <span class="calc">11.5n &le; 350.14&hellip;</span><br>
+       Then divide: <span class="calc">n &le; 30.44&hellip;</span><br>
+       Shirts are whole, and this is an "at most" budget, so round <b>down</b>: <b>30 shirts</b>.<br>
+       Check 30: <span class="calc">11.5 &times; 30 + 25 = $370</span>, tax <span class="calc">370 &times; 0.06625 = $24.51</span>, total <span class="calc">$394.51</span> &mdash; inside the budget. Check 31: before tax $381.50, tax $25.27, total <span class="calc">$406.77</span> &mdash; over. So 30 is right.</p>
+       <div class="strategy"><b>Strategy:</b> for a backwards budget question, write the whole situation as one inequality and then undo the operations in reverse order &mdash; tax, then fee, then the per-item rate. Resist the urge to guess numbers and test them; guessing works but it is slow, and setting up the inequality is the skill that transfers.</div>
+       <div class="mistake"><b>Common mistake:</b> applying the tax to the shirts only and forgetting the $25 fee is taxed too, or rounding 30.44 up to 31 because the budget "looks close". With an at-most budget you always round down.</div>`
+}
+];
+/* ===== END DAILY DATA ===== */
+
+/* ===== PROGRAM CONFIG — stable across days, do not change per run ===== */
+const RESULTS_EMAIL = "patadiakd@gmail.com";   // where "Email my results" sends
+const RESULTS_TO_LABEL = "Dad";
+
+/* header */
+document.getElementById("hDate").textContent  = DATE_LABEL;
+document.getElementById("hTopic").textContent = `Topic Day ${TOPIC_DAY} — ${TOPIC_NAME}`;
+document.getElementById("hMeta").textContent  =
+  `${QUESTIONS.length} questions · ${STANDARDS} · No calculator except the money problems`;
+document.title = `Math Honors — ${DATE_LABEL}`;
+
+/* ===================================================================
+   STATE
+   =================================================================== */
+let submitted = false;
+const selfMarks = {};     // partId -> true/false
+const hintsUsed = {};     // qn -> true  (persisted: promotion rule 3 depends on this)
+const skipped   = {};     // qn -> true ("I don't know this one")
+let fieldIds = [];
+
+/* TIME ON TASK — working seconds, not wall-clock seconds.
+   An earlier version banked (now - sessionStart), which counted every minute the
+   tab merely sat open. A set opened on Tuesday and submitted on Thursday reported
+   "1165 min". So instead we tick one second at a time and only count a second if
+   she has interacted within the last couple of minutes. Reading a question still
+   counts; a page left open overnight does not. */
+let activeSeconds = 0;              // working seconds, restored sittings included
+let lastActivity  = Date.now();
+const IDLE_CUTOFF_MS = 120000;      // 2 min with no interaction = not working
+
+function markActivity(){ lastActivity = Date.now(); }
+function elapsedSeconds(){ return activeSeconds; }
+
+/* ===================================================================
+   ANSWER CHECKING
+   =================================================================== */
+const UNIT_WORDS = /\b(cups?|cup|miles?|mph|mpg|miles per gallon|per gallon|gallons?|inches|inch|in\b|hours?|hrs?|hr|minutes?|mins?|min|students?|boys?|girls?|people|persons?|dollars?|dollar|cents?|percent|each|rooms?|posters?|notebooks?|apiece|about|approx\.?|approximately|around)\b/g;
+
+function parseNum(raw){
+  if(raw === null || raw === undefined) return null;
+  let t = String(raw).toLowerCase().trim();
+  if(!t) return null;
+  t = t.replace(/[$,]/g,"").replace(/%/g,"").replace(UNIT_WORDS," ").replace(/\s+/g," ").trim();
+  let m = t.match(/^(-?\d+)\s+(\d+)\s*\/\s*(\d+)$/);            // mixed: 8 2/11
+  if(m) return parseInt(m[1],10) + parseInt(m[2],10)/parseInt(m[3],10);
+  m = t.match(/^(-?\d+)\s*\/\s*(\d+)$/);                         // fraction: 90/11
+  if(m) return parseInt(m[1],10)/parseInt(m[2],10);
+  m = t.match(/^-?\d*\.?\d+$/);                                  // plain
+  if(m) return parseFloat(t);
+  m = t.match(/-?\d*\.?\d+/);                                    // first number found
+  return m ? parseFloat(m[0]) : null;
+}
+
+function normText(raw){
+  return String(raw||"").toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×·]/g,"")
+    .replace(/[$,]/g,"")
+    .replace(/\.$/,"")
+    .replace(/\bto\b/g,"to");
+}
+
+function isCorrect(part, raw){
+  if(raw === null || raw === undefined || String(raw).trim() === "") return false;
+  if(part.type === "num"){
+    const v = parseNum(raw);
+    if(v === null) return false;
+    const tol = part.tol !== undefined ? part.tol : 0.005;
+    return Math.abs(v - part.correct) <= tol;
+  }
+  if(part.type === "choice") return String(raw) === part.correct;
+  if(part.type === "text"){
+    const n = normText(raw);
+    if(part.accept && part.accept.some(a => normText(a) === n)) return true;
+    if(part.re) return new RegExp(part.re,"i").test(String(raw).toLowerCase());
+    return false;
+  }
+  return false;
+}
+
+/* ===================================================================
+   RENDER
+   =================================================================== */
+const qRoot = document.getElementById("questions");
+let lastSet = null;
+
+QUESTIONS.forEach(q => {
+  if(q.set !== lastSet){
+    lastSet = q.set;
+    const sh = document.createElement("div");
+    sh.className = "setheader";
+    sh.innerHTML = `<h2>Set ${q.set} — ${q.setTitle}</h2><div class="std">${q.std}</div>`;
+    qRoot.appendChild(sh);
+  }
+
+  const card = document.createElement("section");
+  card.className = "q";
+  card.id = "q" + q.n;
+
+  let html = `<div class="qhead"><div class="qnum">${q.n}.</div><div class="prompt">${q.prompt}</div></div>`;
+  if(q.table) html += q.table;
+  html += `<div class="parts">`;
+
+  q.parts.forEach((p, i) => {
+    const fid = `f-${q.n}-${i}`;
+    fieldIds.push({fid, q, p, i});
+    const lab = (p.key ? `<span class="pk">(${p.key})</span> ` : "") + p.label;
+    if(p.type === "choice"){
+      html += `<div class="part"><div class="plabel">${lab}</div><div class="radios">` +
+        p.options.map(o => `<label><input type="radio" name="${fid}" value="${o}"> ${o}</label>`).join("") +
+        `</div></div>`;
+    } else if(p.type === "self"){
+      html += `<div class="part" style="flex-direction:column;align-items:stretch">
+                 <div class="plabel" style="padding-top:0">${lab}</div>
+                 <textarea class="ans" id="${fid}" placeholder="${p.placeholder||"Write your reasoning…"}"></textarea>
+                 <div class="explain-note">Written answer — you'll compare it to the model answer and mark yourself.</div>
+               </div>`;
+    } else {
+      html += `<div class="part"><div class="plabel">${lab}</div>
+                 <input class="ans" id="${fid}" type="text" autocomplete="off" inputmode="text"></div>`;
+    }
+  });
+  html += `</div>`;
+
+  html += `<div class="skiprow">`;
+  if(q.hint) html += `<button class="hintbtn" type="button" data-hint="${q.n}">Need a hint?</button>`;
+  html += `<button class="skipbtn" type="button" data-skip="${q.n}">I haven't learned this one &mdash; skip it</button>`;
+  html += `</div>`;
+  if(q.hint) html += `<div class="hint" id="hint-${q.n}">${q.hint}</div>`;
+  html += `<div class="result" id="res-${q.n}"></div>`;
+
+  card.innerHTML = html;
+  qRoot.appendChild(card);
+});
+
+document.getElementById("totalCount").textContent = fieldIds.length;
+
+/* hints */
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-hint]");
+  if(!b) return;
+  const n = b.getAttribute("data-hint");
+  const h = document.getElementById("hint-" + n);
+  h.classList.toggle("show");
+  b.textContent = h.classList.contains("show") ? "Hide hint" : "Need a hint?";
+  if(h.classList.contains("show")) hintsUsed[n] = true;
+});
+
+/* skipping — honest "I don't know", not a wrong answer */
+function applySkipUI(n){
+  const card = document.getElementById("q" + n);
+  if(!card) return;
+  const off = !!skipped[n];
+  card.classList.toggle("skipped", off);
+  card.querySelectorAll("input.ans, textarea.ans").forEach(el => el.disabled = off);
+  card.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = off);
+  const b = card.querySelector("[data-skip]");
+  if(b) b.innerHTML = off ? "Actually, let me try this one" : "I haven't learned this one &mdash; skip it";
+}
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-skip]");
+  if(!b || submitted) return;
+  const n = b.getAttribute("data-skip");
+  skipped[n] = !skipped[n];
+  applySkipUI(n);
+  updateProgress();
+  queueSave();
+});
+
+/* ===================================================================
+   PROGRESS
+   =================================================================== */
+function readField(f){
+  if(f.p.type === "choice"){
+    const sel = document.querySelector(`input[name="${f.fid}"]:checked`);
+    return sel ? sel.value : "";
+  }
+  const el = document.getElementById(f.fid);
+  return el ? el.value : "";
+}
+
+function updateProgress(){
+  if(submitted) return;
+  const filled = fieldIds.filter(f => skipped[f.q.n] || String(readField(f)).trim() !== "").length;
+  document.getElementById("answeredCount").textContent = filled;
+  document.getElementById("fill").style.width = (filled / fieldIds.length * 100) + "%";
+  const left = fieldIds.length - filled;
+  document.getElementById("progHint").textContent =
+    left === 0 ? "All done — ready to check" : `${left} left`;
+}
+qRoot.addEventListener("input", updateProgress);
+qRoot.addEventListener("change", updateProgress);
+updateProgress();
+
+/* timer — accrues working seconds only; see the note on IDLE_CUTOFF_MS above */
+const timerBadge = document.getElementById("timerBadge");
+["input","change","click","keydown"].forEach(ev =>
+  qRoot.addEventListener(ev, markActivity));
+document.addEventListener("keydown", markActivity);
+setInterval(() => {
+  if(submitted) return;
+  if(Date.now() - lastActivity < IDLE_CUTOFF_MS) activeSeconds++;
+  const s = activeSeconds;
+  timerBadge.textContent = `Time: ${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
+}, 1000);
+
+/* ===================================================================
+   STORAGE
+   =================================================================== */
+const syncBadge = document.getElementById("syncBadge");
+const WIP_KEY  = "mathwip:" + DATE_KEY;
+const DONE_KEY = "mathlog:" + DATE_KEY;
+
+function setBadge(text, cls){
+  syncBadge.textContent = text;
+  syncBadge.className = "badge " + (cls || "");
+}
+
+/* Save work in progress, so she can close the tab and come back later. */
+let saveTimer = null;
+function saveProgress(){
+  if(submitted) return;
+  try{
+    localStorage.setItem(WIP_KEY, JSON.stringify({
+      date: DATE_KEY,
+      savedAt: new Date().toISOString(),
+      fields: fieldIds.map(readField),
+      skipped: Object.keys(skipped).filter(k => skipped[k]),
+      hints: Object.keys(hintsUsed).filter(k => hintsUsed[k]),
+      secs: elapsedSeconds()
+    }));
+    setBadge("Saved — you can close this and come back", "live");
+  }catch(e){
+    setBadge("Couldn't save on this computer", "local");
+  }
+}
+function queueSave(){
+  if(submitted) return;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveProgress, 600);
+}
+qRoot.addEventListener("input", queueSave);
+qRoot.addEventListener("change", queueSave);
+window.addEventListener("beforeunload", () => { clearTimeout(saveTimer); saveProgress(); });
+
+function restoreWip(rec){
+  if(!rec || !Array.isArray(rec.fields) || submitted) return 0;
+  let n = 0;
+  fieldIds.forEach((f, idx) => {
+    const v = rec.fields[idx];
+    if(v === undefined || v === null || v === "") return;
+    if(f.p.type === "choice"){
+      const el = document.querySelector(`input[name="${f.fid}"][value="${String(v).replace(/"/g,"")}"]`);
+      if(el){ el.checked = true; n++; }
+    } else {
+      const el = document.getElementById(f.fid);
+      if(el){ el.value = v; n++; }
+    }
+  });
+  if(Array.isArray(rec.skipped)){
+    rec.skipped.forEach(k => { skipped[k] = true; applySkipUI(k); n++; });
+  }
+  /* Hints and banked time survive the tab closing — they don't count as answers. */
+  if(Array.isArray(rec.hints)) rec.hints.forEach(k => { hintsUsed[k] = true; });
+  if(typeof rec.secs === "number" && isFinite(rec.secs) && rec.secs > 0) activeSeconds = rec.secs;
+  if(n) updateProgress();
+  return n;
+}
+
+(function initStorage(){
+  let done = null, wip = null;
+  try{ done = JSON.parse(localStorage.getItem(DONE_KEY) || "null"); }catch(e){}
+  try{ wip  = JSON.parse(localStorage.getItem(WIP_KEY)  || "null"); }catch(e){}
+
+  if(done && Array.isArray(done.fields)){
+    restorePrior(done);
+    return;
+  }
+  const n = wip ? restoreWip(wip) : 0;
+  if(n){
+    setBadge(n + (n === 1 ? " answer" : " answers") + " picked back up", "live");
+  } else {
+    setBadge("Your answers save as you type", "");
+  }
+})();
+
+function restorePrior(rec){
+  if(!rec || !rec.fields || submitted) return;
+  fieldIds.forEach((f, idx) => {
+    const v = rec.fields[idx];
+    if(v === undefined || v === null) return;
+    if(f.p.type === "choice"){
+      const el = document.querySelector(`input[name="${f.fid}"][value="${String(v).replace(/"/g,"")}"]`);
+      if(el) el.checked = true;
+    } else {
+      const el = document.getElementById(f.fid);
+      if(el) el.value = v;
+    }
+  });
+  if(rec.selfMarks) Object.assign(selfMarks, rec.selfMarks);
+  if(Array.isArray(rec.skipped)) rec.skipped.forEach(k => { skipped[k] = true; });
+  /* Carry the hint record and the original time into review mode, so results
+     emailed from a later sitting still report them instead of 0 and "no time". */
+  if(Array.isArray(rec.hintQs)) rec.hintQs.forEach(k => { hintsUsed[k] = true; });
+  if(typeof rec.seconds === "number" && isFinite(rec.seconds) && rec.seconds > 0) activeSeconds = rec.seconds;
+  updateProgress();
+  grade(true);
+  document.getElementById("barNote").textContent = "You already finished this one — this is your review.";
+}
+
+function persist(rec){
+  try{
+    localStorage.setItem(DONE_KEY, JSON.stringify(rec));
+    localStorage.removeItem(WIP_KEY);
+    setBadge("Finished and saved", "live");
+  }catch(e){
+    setBadge("Couldn't save on this computer", "local");
+  }
+}
+
+/* ===================================================================
+   GRADE & REVEAL
+   =================================================================== */
+function esc(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+function grade(isRestore){
+  submitted = true;
+  const fields = fieldIds.map(readField);
+  const perQ = [];
+
+  QUESTIONS.forEach(q => {
+    const mine = fieldIds.filter(f => f.q.n === q.n);
+    const res = document.getElementById("res-" + q.n);
+    let autoRight = 0, autoTotal = 0, selfTotal = 0;
+    const isSkip = !!skipped[q.n];
+    let rows = "";
+
+    mine.forEach(f => {
+      const raw = readField(f);
+      const p = f.p;
+      if(p.type === "self"){
+        selfTotal++;
+        rows += `<div><span class="lab">Your answer</span><span class="mine">${raw.trim() ? esc(raw) : "—"}</span></div>
+                 <div><span class="lab">Model answer</span><span class="theirs">${p.show}</span></div>`;
+      } else {
+        autoTotal++;
+        const ok = !isSkip && isCorrect(p, raw);
+        if(ok) autoRight++;
+        const rowLab = p.label.length > 52 ? p.label.slice(0, 49) + "\u2026" : p.label;
+        rows += `<div><span class="lab">${esc(rowLab)}</span>
+                   <span class="mine ${ok?"right":"wrong"}">${raw.trim() ? esc(raw) : "(blank)"}</span>
+                   ${ok ? ` <span class="tick">&#10003;</span>`
+                        : ` <span class="cross">&#10007;</span> <span class="lab" style="min-width:0">correct answer:</span> <span class="theirs">${p.show}</span>`}</div>`;
+      }
+    });
+
+    let vclass = "ok", vtext = "Correct";
+    if(isSkip){ vclass = "skip"; vtext = "Skipped — here's how it works"; }
+    else if(autoTotal === 0){ vclass = "self"; vtext = "Check yourself"; }
+    else if(autoRight === 0){ vclass = "no"; vtext = "Not yet"; }
+    else if(autoRight < autoTotal){ vclass = "no"; vtext = `${autoRight} of ${autoTotal} parts right`; }
+
+    let selfHtml = "";
+    mine.forEach((f, i) => {
+      if(f.p.type !== "self") return;
+      const pid = `${q.n}-${f.i}`;
+      const cur = selfMarks[pid];
+      selfHtml += `<div class="selfmark" data-pid="${pid}">
+          <p>Did your reasoning match the model answer?</p>
+          <div class="btns">
+            <button class="smbtn yes" type="button" data-mark="1" aria-pressed="${cur===true}">Yes, I had it</button>
+            <button class="smbtn no" type="button" data-mark="0" aria-pressed="${cur===false}">Not quite</button>
+          </div></div>`;
+    });
+
+    res.innerHTML = `<div class="verdict ${vclass}">${vtext}</div>
+                     ${isSkip ? `<p class="skipnote">You said you hadn't learned this one, so it isn't counted against your score — but read it through, because it'll come back in a day or two.</p>` : ""}
+                     <div class="cmp">${rows}</div>
+                     <div class="exp"><h4>Explanation</h4>${q.exp}</div>
+                     ${selfHtml}`;
+    res.classList.add("show");
+
+    perQ.push({n:q.n, set:q.set, setTitle:q.setTitle, std:q.std, autoRight, autoTotal,
+               selfTotal, skipped:isSkip, hint: !!hintsUsed[q.n]});
+  });
+
+  /* lock inputs */
+  document.querySelectorAll("input.ans, textarea.ans, select.ans").forEach(el => el.disabled = true);
+  document.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = true);
+  document.querySelectorAll(".hintbtn").forEach(el => el.style.display = "none");
+
+  const btn = document.getElementById("submitBtn");
+  btn.textContent = "Checked";
+  btn.disabled = true;
+  document.getElementById("barNote").textContent =
+    "Scroll through — every question now shows the worked explanation.";
+
+  /* On a review-mode reopen, report the time banked when she actually worked,
+     not nothing — activeSeconds was restored from the saved record. */
+  const elapsed = isRestore ? (activeSeconds > 0 ? activeSeconds : null) : activeSeconds;
+  window.__elapsed = elapsed;
+
+  const att = perQ.filter(p => !p.skipped);
+  const rTot = att.reduce((a,p) => a + p.autoTotal, 0);
+  const rRight = att.reduce((a,p) => a + p.autoRight, 0);
+  const nSkip = perQ.filter(p => p.skipped).length;
+  document.querySelector(".progrow").innerHTML =
+    `<span>Submitted — <strong>${rRight} of ${rTot}</strong> correct${nSkip ? `, ${nSkip} skipped` : ""}</span>
+     <span>Explanations unlocked</span>`;
+  const fillEl = document.getElementById("fill");
+  fillEl.style.width = "100%";
+  const rPct = rTot ? rRight/rTot : 0;
+  fillEl.style.background = rPct >= 0.85 ? "#1a7a4c" : rPct >= 0.65 ? "#3b4c9e" : "#b3261e";
+
+  renderScore(perQ);
+
+  const rec = {
+    date: DATE_KEY, topicDay: TOPIC_DAY, topic: TOPIC_NAME,
+    fieldsSkipped: Object.keys(skipped).filter(k => skipped[k]),
+    submittedAt: new Date().toISOString(),
+    seconds: elapsed,
+    fields, selfMarks, perQuestion: perQ,
+    autoScore: rRight,
+    autoTotal: rTot,
+    skipped: perQ.filter(p => p.skipped).map(p => p.n),
+    hintsUsed: Object.keys(hintsUsed).filter(k => hintsUsed[k]).length,
+    hintQs: perQ.filter(p => p.hint).map(p => p.n)
+  };
+  if(!isRestore) persist(rec);
+  window.__rec = rec;
+}
+
+function renderScore(perQ){
+  const att = perQ.filter(p => !p.skipped);
+  const skippedQs = perQ.filter(p => p.skipped);
+  const right = att.reduce((a,p) => a + p.autoRight, 0);
+  const total = att.reduce((a,p) => a + p.autoTotal, 0);
+  const pct = total ? Math.round(right/total*100) : 0;
+
+  document.getElementById("ringPct").textContent = pct + "%";
+  document.getElementById("ringRaw").textContent = right + "/" + total;
+  const circ = 2 * Math.PI * 41;
+  document.getElementById("ringArc").style.strokeDashoffset = circ * (1 - pct/100);
+  document.getElementById("ringArc").style.stroke =
+    pct >= 85 ? "#1a7a4c" : pct >= 65 ? "#3b4c9e" : "#b3261e";
+
+  let title, msg;
+  if(total === 0){ title = "Nothing marked today"; msg = "You skipped every question, so there's no score — but every explanation is open below. Read them, and these topics will come back in your next few sets."; }
+  else if(pct === 100){ title = "Every auto-graded part correct"; msg = "Clean sweep on the computed answers. Still read the explanations — the reasoning behind a right answer is the part that transfers to harder problems."; }
+  else if(pct >= 85){ title = "Strong work"; msg = "A couple of slips only. Read the explanations on the ones marked ✗ and note which step broke down — that's usually where the real lesson is."; }
+  else if(pct >= 65){ title = "Solid, with gaps to close"; msg = "The method is mostly there. Work carefully through the explanations below on the missed questions, then redo those problems on paper without looking."; }
+  else { title = "Worth a second pass"; msg = "Read every explanation below slowly — they show the setup step by step. Then try the missed questions again on paper. This topic repeats in the rotation, so you'll get another shot."; }
+  if(skippedQs.length && total > 0){
+    msg += ` You skipped ${skippedQs.length} ${skippedQs.length === 1 ? "question" : "questions"} — that's fine, and your score is out of the ${total} parts you did try. They'll come back in your next few sets.`;
+  }
+  document.getElementById("scoreTitle").textContent = title;
+  document.getElementById("scoreMsg").textContent = msg;
+
+  const bySet = {};
+  att.forEach(p => {
+    if(!bySet[p.set]) bySet[p.set] = {r:0,t:0};
+    bySet[p.set].r += p.autoRight; bySet[p.set].t += p.autoTotal;
+  });
+  document.getElementById("breakdown").innerHTML =
+    Object.keys(bySet).sort().map(k =>
+      `<div class="bd"><div class="t">Set ${k} · ${SET_NAMES[k]||""}</div>
+        <div class="v">${bySet[k].t ? bySet[k].r + " / " + bySet[k].t : "self-check"}</div></div>`
+    ).join("");
+
+  const missed = att.filter(p => p.autoTotal && p.autoRight < p.autoTotal).map(p => p.n);
+  const written = QUESTIONS.filter(q => q.parts.some(p => p.type === "self")).map(q => q.n);
+  const link = n => `<a href="#q${n}">Q${n}</a>`;
+  const bits = [];
+  if(missed.length) bits.push(`<b>Review these:</b> ` + missed.map(link).join(" · "));
+  if(skippedQs.length) bits.push(`<b>Skipped — read these too:</b> ` + skippedQs.map(p => link(p.n)).join(" · "));
+  if(!bits.length){
+    bits.push(`<b>Nothing flagged.</b>` + (written.length
+      ? ` Compare your written answers on ` + written.map(link).join(" · ") + ` against the model answers before you close this.`
+      : ` Read the explanations before you close this.`));
+  }
+  document.getElementById("reviewList").innerHTML = bits.join("<br>");
+
+  buildSendBack(perQ, right, total, missed, skippedQs);
+  window.__rebuildSend = () => buildSendBack(perQ, right, total, missed, skippedQs);
+
+  document.getElementById("scorecard").classList.add("show");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* ---------- send results back by email (no account needed) ---------- */
+function buildSendBack(perQ, right, total, missed, skippedQs){
+  const el = window.__elapsed;
+  const timeStr = (el === null || el === undefined) ? null
+                : el < 60 ? `${el} sec` : `${Math.round(el/60)} min`;
+
+  const writtenBits = [];
+  QUESTIONS.forEach(q => {
+    q.parts.forEach((p, i) => {
+      if(p.type !== "self") return;
+      const mark = selfMarks[`${q.n}-${i}`];
+      writtenBits.push(`Q${q.n}${p.key || ""} — ` + (mark === true ? "got it" : mark === false ? "not quite" : "not marked"));
+    });
+  });
+
+  /* Independence: which questions needed a hint, and how many she carried
+     unaided. A score built on hints is a different thing from one without. */
+  const attempted  = perQ.filter(p => !p.skipped);
+  const hintQs     = attempted.filter(p => p.hint).map(p => p.n);
+  const autoQs     = attempted.filter(p => p.autoTotal > 0);
+  const cleanQs    = autoQs.filter(p => !p.hint && p.autoRight === p.autoTotal).length;
+
+  /* The final question is the multi-step challenge — tracked on its own
+     because it's the best transfer signal and vanishes inside a percentage. */
+  const lastQ = perQ.length ? perQ[perQ.length - 1] : null;
+  const challengeStr = !lastQ ? null
+    : lastQ.skipped ? `Challenge question (Q${lastQ.n}): skipped`
+    : lastQ.autoTotal ? `Challenge question (Q${lastQ.n}): ${lastQ.autoRight}/${lastQ.autoTotal}${lastQ.hint ? " (used the hint)" : " (no hint)"}`
+    : `Challenge question (Q${lastQ.n}): written answer`;
+
+  const lines = [
+    `Math — ${DATE_LABEL}`,
+    `Topic: ${TOPIC_NAME}`,
+    ``,
+    `Score: ${right} / ${total}` + ((skippedQs && skippedQs.length) ? ` (out of what she attempted)` : ``),
+    timeStr ? `Time: ${timeStr}` : null,
+    `Hints opened: ${hintQs.length}` + (hintQs.length ? ` — on ${hintQs.map(n => "Q"+n).join(", ")}` : ``),
+    autoQs.length ? `Unaided: ${cleanQs} of ${autoQs.length} graded questions fully right with no hint` : null,
+    challengeStr,
+    missed.length ? `Missed: ${missed.map(n => "Q"+n).join(", ")}` : `Missed: none`,
+    (skippedQs && skippedQs.length)
+      ? `Skipped (hadn't learned yet): ${skippedQs.map(p => "Q" + p.n + " — " + (p.setTitle || "") + (p.std ? " [" + p.std + "]" : "")).join("; ")}`
+      : `Skipped: none`,
+    writtenBits.length ? `Written answers: ${writtenBits.join("; ")}` : null,
+    ``,
+    `Per question: ` + perQ.map(p => `Q${p.n} ` + (p.skipped ? "skipped" : (p.autoTotal ? p.autoRight+"/"+p.autoTotal : "written")) + (p.hint && !p.skipped ? " (hint)" : "")).join(", "),
+    `Standards: ` + perQ.map(p => `Q${p.n} ${p.std || "—"}`).join(", "),
+    ``,
+    `(Sent from the worksheet page)`
+  ].filter(x => x !== null);
+
+  const text = lines.join("\n");
+  document.getElementById("resultsText").value = text;
+
+  const subject = `Math results — ${DATE_LABEL} — ${right}/${total}`;
+  const href = `mailto:${encodeURIComponent(RESULTS_EMAIL)}`
+             + `?subject=${encodeURIComponent(subject)}`
+             + `&body=${encodeURIComponent(text)}`;
+
+  const done = document.getElementById("sendDone");
+
+  document.getElementById("emailResultsBtn").onclick = () => {
+    window.location.href = href;
+    done.textContent = `Your email app should be opening — just press send. If nothing happened, use "Copy instead".`;
+    done.classList.add("show");
+  };
+
+  document.getElementById("copyResultsBtn").onclick = async () => {
+    const ta = document.getElementById("resultsText");
+    ta.classList.add("show");
+    let ok = false;
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        await navigator.clipboard.writeText(text); ok = true;
+      }
+    }catch(e){}
+    if(!ok){ try{ ta.select(); ok = document.execCommand("copy"); }catch(e){} }
+    done.textContent = ok
+      ? `Copied. Reply to the email that sent you this worksheet and paste it in.`
+      : `Select the text below, copy it, and paste it into a reply to the worksheet email.`;
+    done.classList.add("show");
+  };
+}
+
+/* self-marking */
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-mark]");
+  if(!b) return;
+  const box = b.closest(".selfmark");
+  const pid = box.getAttribute("data-pid");
+  const val = b.getAttribute("data-mark") === "1";
+  selfMarks[pid] = val;
+  box.querySelectorAll(".smbtn").forEach(x => x.setAttribute("aria-pressed","false"));
+  b.setAttribute("aria-pressed","true");
+  if(window.__rec){ window.__rec.selfMarks = selfMarks; persist(window.__rec); }
+  if(window.__rebuildSend) window.__rebuildSend();
+});
+
+/* submit */
+document.getElementById("submitBtn").addEventListener("click", () => {
+  const blanks = fieldIds.filter(f => !skipped[f.q.n] && String(readField(f)).trim() === "").length;
+  const note = document.getElementById("barNote");
+  if(blanks > 0 && !note.dataset.warned){
+    note.dataset.warned = "1";
+    note.textContent = `${blanks} blank${blanks>1?"s":""} left. Fill them in, mark them "haven't learned this", or press again to check anyway.`;
+    note.style.color = "#8a5a00";
+    return;
+  }
+  note.style.color = "";
+  grade(false);
+});
+
+document.getElementById("printBtn").addEventListener("click", () => window.print());
+</script>
+</body>
+</html>
