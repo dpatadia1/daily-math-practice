@@ -497,11 +497,21 @@ function parseNum(raw){
   return m ? parseFloat(m[0]) : null;
 }
 
+/* Both sides of a `text` comparison go through this, so every rule here is
+   symmetric and safe to apply to the accept list as well as to what she typed. */
 function normText(raw){
   return String(raw||"").toLowerCase()
     .replace(/\s+/g,"")
     .replace(/[*×·]/g,"")
     .replace(/[$,]/g,"")
+    /* Unicode minus / en dash / em dash all mean the ASCII hyphen. She sees "−"
+       printed in the question and reasonably types or copies it back. */
+    .replace(/[−–—]/g,"-")
+    /* "a + -b" IS "a - b". Found 2026-11-09: she answered -2(x+5) as
+       "-2x + -10", which is correct, and the grader marked it wrong. Writing the
+       negative term explicitly rather than folding it into a subtraction is a
+       perfectly ordinary way for a learner to show the distribution step. */
+    .replace(/\+-/g,"-")
     .replace(/\.$/,"")
     .replace(/\bto\b/g,"to");
 }
@@ -794,7 +804,16 @@ function grade(isRestore){
         autoTotal++;
         const ok = !isSkip && isCorrect(p, raw);
         if(ok) autoRight++;
-        const rowLab = p.label.length > 52 ? p.label.slice(0, 49) + "\u2026" : p.label;
+        /* Labels are authored as HTML (they contain &minus;, &divide; and the
+           like) and the question display inserts them raw. This row used to
+           esc() them, so "&minus;" reached her as literal "&minus;2(x + 5)" in
+           her own results \u2014 which is what she screenshotted on 2026-11-09.
+           Decode to plain text first, THEN truncate, THEN escape: truncating
+           raw HTML could also slice an entity in half. */
+        const labTmp = document.createElement("div");
+        labTmp.innerHTML = p.label;
+        const labPlain = (labTmp.textContent || "").trim();
+        const rowLab = labPlain.length > 52 ? labPlain.slice(0, 49) + "\u2026" : labPlain;
         rows += `<div><span class="lab">${esc(rowLab)}</span>
                    <span class="mine ${ok?"right":"wrong"}">${raw.trim() ? esc(raw) : "(blank)"}</span>
                    ${ok ? ` <span class="tick">&#10003;</span>`
