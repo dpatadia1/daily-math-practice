@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Math Honors — Oct 29, 2026</title>
+<style>
+  :root{
+    --paper:#fdfbf7; --card:#ffffff; --ink:#1b1a17; --muted:#6b675f;
+    --line:#e5e0d6; --accent:#3b4c9e; --accent-soft:#eef1fb;
+    --ok:#1a7a4c; --ok-soft:#e8f5ee; --no:#b3261e; --no-soft:#fdecea;
+    --warn:#8a5a00; --warn-soft:#fdf3e0;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --serif:"Iowan Old Style",Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+       font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+  .wrap{max-width:780px;margin:0 auto;padding:28px 20px 120px}
+
+  /* ---------- header ---------- */
+  header{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:8px}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  h1{font-family:var(--serif);font-size:30px;line-height:1.2;margin:8px 0 6px;font-weight:600}
+  .topicline{font-size:15px;color:var(--accent);font-weight:600}
+  .meta{font-size:13px;color:var(--muted);margin-top:8px}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center}
+  .badge{font-size:12px;padding:4px 10px;border-radius:999px;background:#f1eee6;color:var(--muted);
+         border:1px solid var(--line);font-weight:600}
+  .badge.live{background:var(--ok-soft);color:var(--ok);border-color:#bfe3cf}
+  .badge.local{background:var(--warn-soft);color:var(--warn);border-color:#ebd9b0}
+
+  /* ---------- progress ---------- */
+  .progwrap{position:sticky;top:0;background:var(--paper);padding:14px 0 12px;z-index:20;
+            border-bottom:1px solid var(--line);margin-bottom:26px}
+  .progrow{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin-bottom:7px}
+  .progrow strong{color:var(--ink)}
+  .track{height:7px;background:#ece7dc;border-radius:999px;overflow:hidden}
+  .fill{height:100%;width:0%;background:var(--accent);border-radius:999px;transition:width .3s ease}
+
+  /* ---------- sets & questions ---------- */
+  .setheader{margin:38px 0 18px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+  .setheader:first-of-type{margin-top:8px}
+  .setheader h2{font-family:var(--serif);font-size:21px;margin:0;font-weight:600}
+  .setheader .std{font-size:12px;color:var(--muted);margin-top:3px;letter-spacing:.02em}
+
+  .q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 20px 18px;
+     margin-bottom:18px;position:relative;scroll-margin-top:96px}
+  .q.flagged{border-color:#d9d2c4}
+  .qhead{display:flex;gap:12px;align-items:baseline;margin-bottom:10px}
+  .qnum{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--accent);min-width:26px}
+  .prompt{font-family:var(--serif);font-size:17.5px;line-height:1.5}
+  .prompt em{font-style:italic}
+  table.data{border-collapse:collapse;margin:14px 0 4px;font-family:var(--sans);font-size:14px}
+  table.data th,table.data td{border:1px solid var(--line);padding:7px 14px;text-align:center}
+  table.data th{background:#f6f3ec;font-weight:600;text-align:left}
+
+  .parts{margin-top:14px;display:flex;flex-direction:column;gap:11px}
+  .part{display:flex;flex-direction:column;align-items:stretch;gap:7px}
+  .plabel{font-size:15.5px;line-height:1.5;color:#2e2b26;padding-top:0}
+  .plabel .pk{font-weight:700;color:var(--ink)}
+  input.ans,select.ans{font-family:var(--sans);font-size:15px;padding:9px 11px;border:1.5px solid var(--line);
+       border-radius:8px;background:#fff;color:var(--ink);width:100%;max-width:300px}
+  input.ans:focus,select.ans:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  input.ans[disabled],select.ans[disabled]{background:#f7f5f0;color:#55524c}
+  .radios{display:flex;gap:16px;padding-top:6px;flex-wrap:wrap}
+  .radios label{font-size:15px;display:flex;gap:6px;align-items:center;cursor:pointer}
+  .longans{width:100%;max-width:none}
+  textarea.ans{font-family:var(--sans);font-size:15px;padding:9px 11px;border:1.5px solid var(--line);
+       border-radius:8px;width:100%;min-height:72px;resize:vertical;line-height:1.5;color:var(--ink);background:#fff}
+  textarea.ans:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  textarea.ans[disabled]{background:#f7f5f0;color:#55524c}
+  .explain-note{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:-2px}
+
+  .hintbtn{background:none;border:none;color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;
+           padding:4px 0;margin-top:9px;font-family:var(--sans);text-decoration:underline}
+  .hint{display:none;margin-top:9px;font-size:14px;background:var(--accent-soft);border-left:3px solid var(--accent);
+        padding:10px 13px;border-radius:0 7px 7px 0;color:#2c3870}
+  .hint.show{display:block}
+  .skiprow{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:10px}
+  .skipbtn{background:none;border:none;color:var(--muted);font-size:13px;font-weight:600;
+           cursor:pointer;padding:4px 0;font-family:var(--sans);text-decoration:underline}
+  .q.skipped{background:#f7f5f0;border-style:dashed}
+  .q.skipped .parts{opacity:.45}
+  .verdict.skip{background:#f1eee6;color:#55524c}
+  .skipnote{font-size:13.5px;color:var(--muted);margin:0 0 12px;font-style:italic}
+
+  /* ---------- results ---------- */
+  .result{display:none;margin-top:17px;border-top:1px dashed var(--line);padding-top:15px}
+  .result.show{display:block}
+  .verdict{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;
+           padding:4px 11px;border-radius:999px;margin-bottom:12px}
+  .verdict.ok{background:var(--ok-soft);color:var(--ok)}
+  .verdict.no{background:var(--no-soft);color:var(--no)}
+  .verdict.self{background:var(--accent-soft);color:var(--accent)}
+  .cmp{font-size:14px;margin-bottom:13px;background:#faf8f3;border-radius:8px;padding:11px 13px}
+  .cmp div{margin:3px 0}
+  .cmp .lab{color:var(--muted);display:inline-block;min-width:118px;font-size:13px}
+  .cmp .mine.wrong{color:var(--no);font-weight:600}
+  .cmp .mine.right{color:var(--ok);font-weight:600}
+  .cmp .theirs{font-weight:700}
+  .cmp .tick{color:var(--ok);font-weight:700;margin-left:4px}
+  .cmp .cross{color:var(--no);font-weight:700;margin:0 6px 0 4px}
+  .exp{font-size:15px;line-height:1.62}
+  .exp h4{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+          margin:0 0 7px;font-weight:700}
+  .exp p{margin:0 0 10px}
+  .exp .step{margin:0 0 9px}
+  .exp .calc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;
+             background:#f4f1ea;padding:2px 6px;border-radius:4px;white-space:nowrap}
+  .exp .strategy{background:var(--accent-soft);border-radius:8px;padding:11px 13px;margin:12px 0 0;
+                 font-size:14.5px;color:#2c3870}
+  .exp .strategy b{color:var(--accent)}
+  .exp .mistake{background:var(--warn-soft);border-radius:8px;padding:11px 13px;margin:10px 0 0;
+                font-size:14.5px;color:#6d4800}
+  .exp .mistake b{color:var(--warn)}
+  .selfmark{margin-top:14px;background:#faf8f3;border:1px solid var(--line);border-radius:8px;padding:12px 13px}
+  .selfmark p{margin:0 0 9px;font-size:14px;font-weight:600}
+  .selfmark .btns{display:flex;gap:9px;flex-wrap:wrap}
+  .smbtn{font-family:var(--sans);font-size:13.5px;font-weight:600;padding:7px 14px;border-radius:7px;
+         border:1.5px solid var(--line);background:#fff;cursor:pointer;color:var(--ink)}
+  .smbtn[aria-pressed="true"].yes{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+  .smbtn[aria-pressed="true"].no{background:var(--no-soft);border-color:var(--no);color:var(--no)}
+
+  /* ---------- submit bar ---------- */
+  .submitbar{position:fixed;left:0;right:0;bottom:0;background:rgba(253,251,247,.96);
+             backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:13px 20px;z-index:30}
+  .submitinner{max-width:780px;margin:0 auto;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .submitnote{font-size:13px;color:var(--muted)}
+  .btn{font-family:var(--sans);font-size:15px;font-weight:600;padding:11px 22px;border-radius:9px;
+       border:none;background:var(--accent);color:#fff;cursor:pointer}
+  .btn:disabled{background:#b9b5ac;cursor:not-allowed}
+  .btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+
+  /* ---------- score card ---------- */
+  .scorecard{display:none;background:var(--card);border:2px solid var(--ink);border-radius:14px;
+             padding:24px;margin:8px 0 30px}
+  .scorecard.show{display:block}
+  .scoretop{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+  .ring{width:96px;height:96px;flex-shrink:0;position:relative}
+  .ring svg{transform:rotate(-90deg)}
+  .ringtext{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ringtext b{font-family:var(--serif);font-size:25px;line-height:1}
+  .ringtext span{font-size:11px;color:var(--muted);letter-spacing:.05em}
+  .scoremsg h3{font-family:var(--serif);font-size:21px;margin:0 0 5px;font-weight:600}
+  .scoremsg p{margin:0;font-size:14.5px;color:#46433c;max-width:420px}
+  .breakdown{margin-top:20px;border-top:1px solid var(--line);padding-top:16px;
+             display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px}
+  .bd{font-size:13.5px}
+  .bd .t{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+  .bd .v{font-family:var(--serif);font-size:17px;font-weight:600;margin-top:2px}
+  .review{margin-top:16px;font-size:14px;color:#46433c}
+  .review b{color:var(--ink)}
+
+  /* ---------- send results back ---------- */
+  .sendback{margin-top:20px;border-top:1px solid var(--line);padding-top:18px}
+  .sendback h4{font-family:var(--serif);font-size:17px;margin:0 0 5px;font-weight:600}
+  .sendback p{margin:0 0 13px;font-size:14.5px;color:#46433c}
+  .sendback .btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .sendback .big{font-size:15px;font-weight:600;padding:11px 20px;border-radius:9px;border:none;
+                 background:var(--ok);color:#fff;cursor:pointer;font-family:var(--sans)}
+  .sendback .alt{font-size:14px;font-weight:600;padding:10px 16px;border-radius:9px;
+                 border:1.5px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;font-family:var(--sans)}
+  .sendback .done{margin-top:11px;font-size:13.5px;color:var(--ok);font-weight:600;display:none}
+  .sendback .done.show{display:block}
+  .sendback textarea{margin-top:12px;width:100%;min-height:120px;font-family:ui-monospace,Menlo,Consolas,monospace;
+                     font-size:12.5px;border:1.5px solid var(--line);border-radius:8px;padding:10px;
+                     display:none;background:#faf8f3;color:var(--ink)}
+  .sendback textarea.show{display:block}
+
+  @media (max-width:560px){
+    .wrap{padding:20px 14px 130px}
+    h1{font-size:25px}
+    input.ans,select.ans{max-width:none;width:100%}
+    .qhead{gap:8px}
+    .prompt{font-size:16.5px}
+  }
+  @media print{
+    .submitbar,.hintbtn,.progwrap,.badges{display:none!important}
+    body{background:#fff}
+    .q{break-inside:avoid;border-color:#ccc}
+    .wrap{padding-bottom:20px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">NJ Middle School Math Honors · Daily Set</div>
+    <h1 id="hDate"></h1>
+    <div class="topicline" id="hTopic"></div>
+    <div class="meta" id="hMeta"></div>
+    <div class="badges">
+      <span class="badge" id="syncBadge">Your answers save as you type</span>
+      <span class="badge" id="timerBadge">Time: 0:00</span>
+    </div>
+  </header>
+
+  <div class="progwrap">
+    <div class="progrow">
+      <span><strong id="answeredCount">0</strong> of <strong id="totalCount">0</strong> blanks filled</span>
+      <span id="progHint">Answer everything, then check your work</span>
+    </div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+  </div>
+
+  <div class="scorecard" id="scorecard">
+    <div class="scoretop">
+      <div class="ring">
+        <svg width="96" height="96" viewBox="0 0 96 96">
+          <circle cx="48" cy="48" r="41" fill="none" stroke="#ece7dc" stroke-width="10"></circle>
+          <circle id="ringArc" cx="48" cy="48" r="41" fill="none" stroke="#3b4c9e" stroke-width="10"
+                  stroke-linecap="round" stroke-dasharray="257.6" stroke-dashoffset="257.6"></circle>
+        </svg>
+        <div class="ringtext"><b id="ringPct">0%</b><span id="ringRaw">0/0</span></div>
+      </div>
+      <div class="scoremsg">
+        <h3 id="scoreTitle">Work checked</h3>
+        <p id="scoreMsg"></p>
+      </div>
+    </div>
+    <div class="breakdown" id="breakdown"></div>
+    <div class="review" id="reviewList"></div>
+    <div class="sendback" id="sendback">
+      <h4>Last step — send your results</h4>
+      <p>Tap the button and your email app opens with everything filled in. Just press send.</p>
+      <div class="btns">
+        <button class="big" id="emailResultsBtn" type="button">Email my results</button>
+        <button class="alt" id="copyResultsBtn" type="button">Copy instead</button>
+      </div>
+      <div class="done" id="sendDone"></div>
+      <textarea id="resultsText" readonly></textarea>
+    </div>
+  </div>
+
+  <main id="questions"></main>
+
+</div>
+
+<div class="submitbar">
+  <div class="submitinner">
+    <span class="submitnote" id="barNote">Explanations unlock after you check your work.</span>
+    <div style="display:flex;gap:9px">
+      <button class="btn ghost" id="printBtn" type="button">Print</button>
+      <button class="btn" id="submitBtn" type="button">Check my work</button>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ===== BEGIN DAILY DATA — replace everything down to END DAILY DATA =====
+   Each run swaps only this block. Nothing below it changes.
+   EVERY `label` MUST BE A COMPLETE QUESTION SENTENCE ENDING IN "?", not a
+   field name. She is 11 and reads the label as the question.
+     BAD  -> label:"What is the car's unit rate, in miles per gallon?"
+     GOOD -> label:"What is the car's unit rate, in miles per gallon?"
+   The `prompt` sets up the situation in full; each part then asks one clear
+   question about it that makes sense on its own.
+
+   part types:
+     num    -> {type:"num", correct:<number>, tol:<optional>, show:"display answer"}
+     text   -> {type:"text", accept:["normalized","variants"], re:"optional regex", show:"..."}
+     choice -> {type:"choice", options:["A","B"], correct:"B", show:"B"}
+     self   -> {type:"self", placeholder:"...", show:"model answer HTML"}  (student self-marks)
+   =========================================================================== */
+const DATE_KEY   = "2026-11-19";
+const DATE_LABEL = "Thursday, November 19, 2026";
+const TOPIC_DAY  = 7;
+const TOPIC_NAME = "Area, Surface Area, Volume & Nets";
+const STANDARDS  = "NJSLS 6.G.1–4, 7.G.6";
+const SET_NAMES  = {A:"Area of Flat Shapes", B:"Volume of Prisms",
+                    C:"Surface Area & Nets", D:"Challenge"};
+
+const QUESTIONS = [
+{
+  n:1, set:"A", setTitle:"Area of Flat Shapes", std:"NJSLS 6.G.1",
+  prompt:"A rectangular rug measures 8 feet long and 5 feet wide. Separately, a triangular flag has a base of 10 centimetres and a height of 6 centimetres.",
+  hint:"Area of a rectangle is length × width. Area of a triangle is half of base × height.",
+  parts:[
+    {key:"a", label:"What is the area of the 8-foot by 5-foot rug, in square feet?", type:"num", correct:40, show:"40 square feet"},
+    {key:"b", label:"What is the area of the triangular flag with base 10 cm and height 6 cm, in square centimetres?", type:"num", correct:30, show:"30 square centimetres"}
+  ],
+  exp:`<p class="step"><b>(a) 40 square feet.</b> A rectangle's area is <span class="calc">length &times; width = 8 &times; 5 = 40</span>. This works because the rug can be imagined as 8 rows of 5 one-foot squares &mdash; area is really just <em>counting unit squares</em>, and multiplying is the fast way to count them.</p>
+       <p class="step"><b>(b) 30 square centimetres.</b> A triangle's area is <span class="calc">&frac12; &times; base &times; height = &frac12; &times; 10 &times; 6 = 30</span>. Here is <em>why</em> the half is there: any triangle is exactly half of a rectangle (or parallelogram) with the same base and the same height. Draw the 10 &times; 6 rectangle around this triangle and it has area 60 &mdash; the triangle fills half of it.</p>
+       <div class="strategy"><b>Strategy:</b> every area formula in this set comes from the rectangle. Learn <em>rectangle &rarr; parallelogram &rarr; triangle</em> as one family rather than three formulas to memorise.</div>
+       <div class="mistake"><b>Common mistake:</b> forgetting the &frac12; on a triangle, and giving 60 instead of 30. Also watch the units &mdash; area is always in <em>square</em> units, because you are counting squares.</div>`
+},
+{
+  n:2, set:"A", setTitle:"Area of Flat Shapes", std:"NJSLS 6.G.1",
+  prompt:"A parallelogram has a base of 12 centimetres and a height of 7 centimetres. A trapezoid has two parallel sides measuring 9 inches and 15 inches, and the distance between those parallel sides is 6 inches.",
+  hint:"A parallelogram uses base × height. For a trapezoid, average the two parallel sides first, then multiply by the height.",
+  parts:[
+    {key:"a", label:"What is the area of the parallelogram with base 12 cm and height 7 cm, in square centimetres?", type:"num", correct:84, show:"84 square centimetres"},
+    {key:"b", label:"What is the area of the trapezoid whose parallel sides are 9 in and 15 in, with a height of 6 in, in square inches?", type:"num", correct:72, show:"72 square inches"},
+    {key:"c", label:"The trapezoid formula adds the two parallel sides and divides by 2 before multiplying by the height. Why does averaging the two parallel sides work?", type:"self", placeholder:"Explain why averaging the two parallel sides gives the right answer…",
+     show:`Averaging the two parallel sides turns the trapezoid into a <b>rectangle of the same area</b>. The trapezoid is narrow at one end (9 in) and wide at the other (15 in); the average, 12 in, is the width a rectangle would need to hold exactly the same amount of space. So area = 12 &times; 6 = 72. Another way to see it: two identical trapezoids fitted together upside-down make a parallelogram with base 9 + 15 = 24 and height 6, area 144 &mdash; and one trapezoid is half of that, 72.`}
+  ],
+  exp:`<p class="step"><b>(a) 84 square centimetres.</b> <span class="calc">base &times; height = 12 &times; 7 = 84</span>. A parallelogram is a rectangle that has been pushed over: slice the slanted triangle off one end and slide it to the other, and you get a 12 &times; 7 rectangle. No area is gained or lost, which is why the formula has no fraction in it.</p>
+       <p class="step"><b>(b) 72 square inches.</b> <span class="calc">&frac12; &times; (9 + 15) &times; 6 = &frac12; &times; 24 &times; 6 = 12 &times; 6 = 72</span>.</p>
+       <p class="step"><b>(c)</b> Averaging replaces the trapezoid with an equal-area rectangle 12 inches wide. Or: two copies of the trapezoid, one flipped, join into a parallelogram of area <span class="calc">24 &times; 6 = 144</span>, and one trapezoid is half of that.</p>
+       <div class="strategy"><b>Strategy:</b> the <em>height</em> of a parallelogram or trapezoid is always the straight-across distance between the parallel sides &mdash; never the slanted side.</div>
+       <div class="mistake"><b>Common mistake:</b> on the trapezoid, multiplying 9 &times; 15, or forgetting to halve and giving 144. On the parallelogram, using a slanted side as the height.</div>`
+},
+{
+  n:3, set:"A", setTitle:"Area of Flat Shapes", std:"NJSLS 6.G.1",
+  prompt:"Sometimes you know the area and have to work backwards to a missing length. A triangle has an area of 54 square centimetres and a base of 12 centimetres. A parallelogram has an area of 96 square inches and a base of 8 inches.",
+  hint:"Write the formula, put in what you know, and solve for the missing letter. Remember the triangle's ½.",
+  parts:[
+    {key:"a", label:"What is the height of the triangle whose area is 54 square cm and whose base is 12 cm, in centimetres?", type:"num", correct:9, show:"9 centimetres"},
+    {key:"b", label:"What is the height of the parallelogram whose area is 96 square in and whose base is 8 in, in inches?", type:"num", correct:12, show:"12 inches"}
+  ],
+  exp:`<p class="step"><b>(a) 9 centimetres.</b> Start from the formula and substitute: <span class="calc">54 = &frac12; &times; 12 &times; h</span>. Since &frac12; &times; 12 = 6, this is <span class="calc">54 = 6h</span>, so <span class="calc">h = 54 &divide; 6 = 9</span>. Check it forwards: &frac12; &times; 12 &times; 9 = 54. &#10003;</p>
+       <p class="step"><b>(b) 12 inches.</b> <span class="calc">96 = 8 &times; h</span>, so <span class="calc">h = 96 &divide; 8 = 12</span>. Check: 8 &times; 12 = 96. &#10003;</p>
+       <p class="step">Notice what you actually did: you turned a geometry question into a one-step <em>equation</em>. That is the same skill as rotation day 5, reused on shapes &mdash; and it is exactly how ALEKS expects you to handle a missing dimension.</p>
+       <div class="strategy"><b>Strategy:</b> always substitute into the formula first and solve afterwards. Guessing numbers until the area comes out right works on easy cases and falls apart on hard ones.</div>
+       <div class="mistake"><b>Common mistake:</b> on the triangle, dividing 54 by 12 and answering 4.5 &mdash; that forgets the &frac12;. Deal with the &frac12; and the base together (as the single number 6) before dividing.</div>`
+},
+{
+  n:4, set:"B", setTitle:"Volume of Prisms", std:"NJSLS 6.G.2",
+  prompt:"A gift box is a rectangular prism measuring 9 centimetres long, 4 centimetres wide and 5 centimetres tall.",
+  hint:"Volume of a rectangular prism is length × width × height. For part (c), think about what doubling one dimension does to the count of cubes.",
+  parts:[
+    {key:"a", label:"What is the volume of the 9 cm by 4 cm by 5 cm box, in cubic centimetres?", type:"num", correct:180, show:"180 cubic centimetres"},
+    {key:"b", label:"How many 1-centimetre cubes would exactly fill that same box?", type:"num", correct:180, show:"180 cubes"},
+    {key:"c", label:"If the box kept its 9 cm length and 4 cm width but its height was doubled from 5 cm to 10 cm, what would its volume be, in cubic centimetres?", type:"num", correct:360, show:"360 cubic centimetres"}
+  ],
+  exp:`<p class="step"><b>(a) 180 cubic centimetres.</b> <span class="calc">9 &times; 4 &times; 5 = 180</span>. A good way to see it: the bottom layer is a 9 &times; 4 rectangle holding <span class="calc">36</span> one-centimetre cubes, and the box is 5 such layers tall, so <span class="calc">36 &times; 5 = 180</span>.</p>
+       <p class="step"><b>(b) 180 cubes</b> &mdash; the same number, and that is the whole point. Volume <em>is</em> the count of unit cubes that fit inside. The formula is a shortcut for counting them, which is why volume is measured in <em>cubic</em> units.</p>
+       <p class="step"><b>(c) 360 cubic centimetres.</b> <span class="calc">9 &times; 4 &times; 10 = 360</span>. You can also reason without multiplying: doubling the height stacks twice as many identical layers, so the volume simply doubles &mdash; <span class="calc">180 &times; 2 = 360</span>.</p>
+       <div class="strategy"><b>Strategy:</b> think "area of the base, times how tall it is." That phrasing works for <em>every</em> prism, not just boxes, and you will use it again in the next question.</div>
+       <div class="mistake"><b>Common mistake:</b> adding the three dimensions (9 + 4 + 5 = 18), or answering in square units. Volume fills space, so it needs three measurements multiplied together.</div>`
+},
+{
+  n:5, set:"B", setTitle:"Volume of Prisms", std:"NJSLS 6.G.2, 7.G.6",
+  prompt:"Here are two containers, each with a dimension missing. The first is a prism with a volume of 240 cubic inches whose base has an area of 40 square inches. The second is a rectangular prism with a volume of 150 cubic centimetres, a length of 10 centimetres and a width of 3 centimetres.",
+  hint:"Volume = area of base × height. If you know the volume and the base, divide to get the height.",
+  parts:[
+    {key:"a", label:"What is the height of the prism whose volume is 240 cubic in and whose base area is 40 square in, in inches?", type:"num", correct:6, show:"6 inches"},
+    {key:"b", label:"What is the height of the rectangular prism whose volume is 150 cubic cm, with a length of 10 cm and a width of 3 cm, in centimetres?", type:"num", correct:5, show:"5 centimetres"}
+  ],
+  exp:`<p class="step"><b>(a) 6 inches.</b> For any prism, <span class="calc">V = B &times; h</span>, where B is the area of the base. So <span class="calc">240 = 40 &times; h</span> and <span class="calc">h = 240 &divide; 40 = 6</span>. In plain language: each layer one inch thick holds 40 cubic inches, so to reach 240 you need 6 layers.</p>
+       <p class="step"><b>(b) 5 centimetres.</b> Here you must build the base area yourself first: <span class="calc">10 &times; 3 = 30</span> square centimetres. Then <span class="calc">150 = 30 &times; h</span>, so <span class="calc">h = 150 &divide; 30 = 5</span>. Check: 10 &times; 3 &times; 5 = 150. &#10003;</p>
+       <div class="strategy"><b>Strategy:</b> <span class="calc">V = B &times; h</span> is the one volume formula worth memorising, because the <em>only</em> thing that changes between prisms is how you work out B. Find B, then divide or multiply.</div>
+       <div class="mistake"><b>Common mistake:</b> in (b), dividing 150 by 10 or by 3 alone. The base is the whole 10-by-3 rectangle, so it is the 30 you divide by.</div>`
+},
+{
+  n:6, set:"B", setTitle:"Volume of Prisms", std:"NJSLS 7.G.6",
+  prompt:"A chocolate bar is shaped like a triangular prism. Each triangular end has a base of 8 centimetres and a height of 5 centimetres, and the bar is 11 centimetres long.",
+  hint:"First find the area of one triangular end, then treat that as the base area B in V = B × h.",
+  parts:[
+    {key:"a", label:"What is the area of one triangular end of the bar, with base 8 cm and height 5 cm, in square centimetres?", type:"num", correct:20, show:"20 square centimetres"},
+    {key:"b", label:"What is the volume of the whole 11-centimetre-long bar, in cubic centimetres?", type:"num", correct:220, show:"220 cubic centimetres"},
+    {key:"c", label:"Why can you find the volume of this prism by multiplying the area of its triangular end by its length of 11 cm?", type:"self", placeholder:"Explain why area of the end × length gives the volume…",
+     show:`Because a prism is the <b>same shape repeated all the way along</b>. Every slice you cut across the bar is an identical triangle of area 20 square centimetres. Stacking 11 centimetres' worth of those identical slices gives 11 &times; 20 = 220 cubic centimetres. That is also why <i>V = B &times; h</i> works for every prism &mdash; a box, a triangular prism, a hexagonal one &mdash; and the only thing that ever changes is how you calculate the area of that repeated face.`}
+  ],
+  exp:`<p class="step"><b>(a) 20 square centimetres.</b> The end is a triangle: <span class="calc">&frac12; &times; 8 &times; 5 = 20</span>.</p>
+       <p class="step"><b>(b) 220 cubic centimetres.</b> Use <span class="calc">V = B &times; h</span> with B = 20 (the triangular end) and the 11 cm length as the height of the prism: <span class="calc">20 &times; 11 = 220</span>.</p>
+       <p class="step"><b>(c)</b> A prism is one shape repeated along its whole length. Every cross-section is the same 20-square-centimetre triangle, so 11 centimetres of those identical slices comes to 220 cubic centimetres.</p>
+       <div class="strategy"><b>Strategy:</b> the word "height" is doing two different jobs here &mdash; the 5 cm is the height <em>of the triangle</em>, used to find B, and the 11 cm is the height (length) <em>of the prism</em>, used to stack it. Label which is which before you multiply.</div>
+       <div class="mistake"><b>Common mistake:</b> multiplying all three numbers straight away (8 &times; 5 &times; 11 = 440) and forgetting the &frac12; that makes the end a triangle rather than a rectangle. 440 is the volume of the <em>box</em> around this bar &mdash; exactly twice too big.</div>`
+},
+{
+  n:7, set:"C", setTitle:"Surface Area & Nets", std:"NJSLS 6.G.4",
+  prompt:"A closed cardboard box is a rectangular prism measuring 6 centimetres by 4 centimetres by 3 centimetres. Imagine cutting along its edges and unfolding it flat into a net.",
+  hint:"A net shows every face laid out flat. Opposite faces of a box are identical, so they come in matching pairs.",
+  parts:[
+    {key:"a", label:"How many rectangular faces will appear in the unfolded net of this closed box?", type:"num", correct:6, show:"6 faces"},
+    {key:"b", label:"What is the total surface area of the 6 cm by 4 cm by 3 cm box, in square centimetres?", type:"num", correct:108, show:"108 square centimetres"}
+  ],
+  exp:`<p class="step"><b>(a) 6 faces.</b> A closed rectangular prism has six flat faces &mdash; top and bottom, front and back, left and right &mdash; and unfolding it simply lays all six out side by side without changing their sizes.</p>
+       <p class="step"><b>(b) 108 square centimetres.</b> Surface area is just the <em>total area of the net</em>, so add up the six faces. They come in three matching pairs:<br>
+       <span class="calc">2 &times; (6 &times; 4) = 48</span> &nbsp;·&nbsp; <span class="calc">2 &times; (6 &times; 3) = 36</span> &nbsp;·&nbsp; <span class="calc">2 &times; (4 &times; 3) = 24</span><br>
+       Total: <span class="calc">48 + 36 + 24 = 108</span>.</p>
+       <p class="step">Thinking of surface area as "the area of the wrapping paper" and volume as "the amount of stuffing inside" keeps the two apart. This box has surface area 108 square cm and volume 72 cubic cm &mdash; different ideas, different units, and neither one tells you the other.</p>
+       <div class="strategy"><b>Strategy:</b> work in pairs. Find the three different face areas, double each, then add. It is faster than six separate multiplications and far harder to lose a face.</div>
+       <div class="mistake"><b>Common mistake:</b> finding only three faces (54) and forgetting the hidden matching ones, or multiplying 6 &times; 4 &times; 3 &mdash; that is the volume, not the surface area.</div>`
+},
+{
+  n:8, set:"C", setTitle:"Surface Area & Nets", std:"NJSLS 6.G.4, 7.G.6",
+  prompt:"A number cube is a perfect cube with every edge 7 centimetres long. Later in the question you will meet a different cube, whose total surface area is 150 square centimetres.",
+  hint:"All six faces of a cube are identical squares. For part (c), work backwards: find the area of one face first.",
+  parts:[
+    {key:"a", label:"What is the total surface area of a cube with 7-centimetre edges, in square centimetres?", type:"num", correct:294, show:"294 square centimetres"},
+    {key:"b", label:"What is the volume of that same cube with 7-centimetre edges, in cubic centimetres?", type:"num", correct:343, show:"343 cubic centimetres"},
+    {key:"c", label:"A different cube has a total surface area of 150 square centimetres. How long is each of its edges, in centimetres?", type:"num", correct:5, show:"5 centimetres"}
+  ],
+  exp:`<p class="step"><b>(a) 294 square centimetres.</b> One face is a square of area <span class="calc">7 &times; 7 = 49</span>, and a cube has six identical faces: <span class="calc">6 &times; 49 = 294</span>.</p>
+       <p class="step"><b>(b) 343 cubic centimetres.</b> <span class="calc">7 &times; 7 &times; 7 = 343</span>. Here you can see plainly that surface area and volume are <em>not</em> the same measurement even for the same solid: 294 square cm of skin around 343 cubic cm of space.</p>
+       <p class="step"><b>(c) 5 centimetres.</b> Work backwards in two steps. The 150 square cm is spread over six equal faces, so one face has area <span class="calc">150 &divide; 6 = 25</span> square centimetres. That face is a square, so you need the number that multiplies by itself to give 25 &mdash; and <span class="calc">5 &times; 5 = 25</span>, so each edge is <b>5 cm</b>. Check forwards: 6 &times; 5 &times; 5 = 150. &#10003;</p>
+       <div class="strategy"><b>Strategy:</b> undo the formula one operation at a time, in reverse order. The cube's surface area was built by squaring the edge and then multiplying by 6, so you divide by 6 first and <em>then</em> undo the squaring. This "what times itself gives 25?" step is the beginning of square roots, which is the 8th-grade idea hiding in this question.</div>
+       <div class="mistake"><b>Common mistake:</b> dividing 150 by 6 and stopping at 25 &mdash; but 25 is the <em>area of a face</em>, not a length. Always ask what your number is measuring before you write it down.</div>`
+},
+{
+  n:9, set:"C", setTitle:"Surface Area & Nets", std:"NJSLS 7.G.6",
+  prompt:"A tent is shaped like a triangular prism lying on its side. Each triangular end is a right triangle with legs of 6 feet and 8 feet and a longest side (the hypotenuse) of 10 feet. The tent is 12 feet long. The two triangular ends and all three rectangular sides are made of fabric.",
+  hint:"There are five faces: two triangles and three rectangles. Each rectangle is 12 ft long and as wide as one side of the triangle.",
+  parts:[
+    {key:"a", label:"What is the perimeter of one triangular end, whose sides are 6 ft, 8 ft and 10 ft, in feet?", type:"num", correct:24, show:"24 feet"},
+    {key:"b", label:"What is the total surface area of the tent, counting both triangular ends and all three rectangular sides, in square feet?", type:"num", correct:336, show:"336 square feet"},
+    {key:"c", label:"The three rectangles have widths of 6 ft, 8 ft and 10 ft, and each is 12 ft long. Explain why you can find their combined area in one step by multiplying the triangle's perimeter of 24 ft by the length of 12 ft.", type:"self", placeholder:"Explain why perimeter × length gives the three rectangles' combined area…",
+     show:`The three rectangles all share the same length, 12 ft, and their widths are the three sides of the triangle &mdash; 6, 8 and 10. So their areas are 6&times;12, 8&times;12 and 10&times;12. Because 12 is a common factor, you can add the widths first and multiply once: (6 + 8 + 10) &times; 12 = 24 &times; 12 = 288. That is exactly the <b>distributive property</b> used backwards. It also makes sense physically: the three rectangles form one long strip wrapped around the triangle, so the strip's width is the distance all the way around the triangle &mdash; its perimeter &mdash; and its length is the length of the tent.`}
+  ],
+  exp:`<p class="step"><b>(a) 24 feet.</b> Perimeter means the distance all the way round: <span class="calc">6 + 8 + 10 = 24</span>.</p>
+       <p class="step"><b>(b) 336 square feet.</b> Take the five faces in two groups.<br>
+       <b>The two triangular ends:</b> each has area <span class="calc">&frac12; &times; 6 &times; 8 = 24</span> square feet (the two legs of a right triangle are its base and height), so together <span class="calc">2 &times; 24 = 48</span>.<br>
+       <b>The three rectangles:</b> they wrap around the triangle as one strip, so <span class="calc">24 &times; 12 = 288</span> square feet.<br>
+       <b>Total:</b> <span class="calc">48 + 288 = 336</span> square feet.</p>
+       <p class="step"><b>(c)</b> All three rectangles are 12 ft long, so you can add their widths first and multiply once: <span class="calc">(6 + 8 + 10) &times; 12 = 288</span>. That is the distributive property, and physically it is one strip wrapped right around the triangle.</p>
+       <div class="strategy"><b>Strategy:</b> for <em>any</em> prism, surface area = (the two ends) + (perimeter of the end &times; the length). Learning that one sentence replaces counting five or seven faces one at a time.</div>
+       <div class="mistake"><b>Common mistake:</b> using the 10 ft hypotenuse as the triangle's height. In a right triangle the two <em>legs</em> (6 and 8) are the base and height; the hypotenuse is only a side to be wrapped, never a height. Also easy to forget that there are <em>two</em> triangular ends.</div>`
+},
+{
+  n:10, set:"D", setTitle:"Challenge", std:"NJSLS 7.G.6, 6.G.2, 7.RP.3 · multi-step",
+  prompt:"Suhani is building a wooden planter box for the garden. It is a rectangular prism with an open top &mdash; so it has a base and four sides, but no lid. Inside, it measures 30 inches long, 12 inches wide and 10 inches deep. Wood is sold in sheets that each cover 400 square inches, and only whole sheets can be bought. Each sheet costs $8.50, and New Jersey sales tax of 6.625% is added at the register.",
+  hint:"Work through it in order: soil fills the inside (volume), wood covers only five faces (no lid), then round the sheets UP to a whole number before costing them.",
+  parts:[
+    {key:"a", label:"How much soil is needed to fill the planter box completely, in cubic inches?", type:"num", correct:3600, show:"3,600 cubic inches"},
+    {key:"b", label:"What total area of wood is needed for the base and the four sides, with no lid, in square inches?", type:"num", correct:1200, show:"1,200 square inches"},
+    {key:"c", label:"If each sheet of wood covers 400 square inches and only whole sheets can be bought, how many sheets does Suhani need?", type:"num", correct:3, show:"3 sheets"},
+    {key:"d", label:"At $8.50 per sheet plus 6.625% New Jersey sales tax, what is the total cost of the wood, to the nearest cent?", type:"num", correct:27.19, show:"$27.19"},
+    {key:"e", label:"Suppose she built a second planter twice as long, twice as wide and twice as deep as the first. How many times as much soil would that bigger planter hold?", type:"num", correct:8, show:"8 times as much"}
+  ],
+  exp:`<p class="step"><b>(a) 3,600 cubic inches.</b> Soil fills the inside, so this is volume: <span class="calc">30 &times; 12 &times; 10 = 3,600</span>.</p>
+       <p class="step"><b>(b) 1,200 square inches.</b> Wood covers the outside, so this is surface area &mdash; but only <b>five</b> faces, because there is no lid. Go face by face:<br>
+       base <span class="calc">30 &times; 12 = 360</span> &nbsp;·&nbsp; two long sides <span class="calc">2 &times; (30 &times; 10) = 600</span> &nbsp;·&nbsp; two short sides <span class="calc">2 &times; (12 &times; 10) = 240</span><br>
+       Total: <span class="calc">360 + 600 + 240 = 1,200</span> square inches. (A closed box would be 1,560 &mdash; the missing lid is worth 360.)</p>
+       <p class="step"><b>(c) 3 sheets.</b> <span class="calc">1,200 &divide; 400 = 3</span> exactly, so three sheets are enough with nothing left over. Worth noticing: had the answer come out as 3.1, she would still have had to buy <b>4</b>, because shops do not sell tenths of a sheet. Real-world quantities round <em>up</em>, whatever the decimal says.</p>
+       <p class="step"><b>(d) $27.19.</b> Subtotal <span class="calc">3 &times; 8.50 = $25.50</span>. Then add the tax in one step by multiplying by 1.06625: <span class="calc">25.50 &times; 1.06625 = 27.189375</span> &rarr; <b>$27.19</b> to the nearest cent. (Separately, the tax alone is <span class="calc">25.50 &times; 0.06625 = $1.69</span>, and 25.50 + 1.69 = 27.19. &#10003;)</p>
+       <p class="step"><b>(e) 8 times as much.</b> The bigger planter is <span class="calc">60 &times; 24 &times; 20 = 28,800</span> cubic inches, and <span class="calc">28,800 &divide; 3,600 = 8</span>. You can also see it without any arithmetic: each of the three dimensions doubled, and volume multiplies all three together, so the volume grows by <span class="calc">2 &times; 2 &times; 2 = 8</span>.</p>
+       <div class="strategy"><b>Strategy:</b> the single most useful habit in a question like this is asking <em>"am I filling it or covering it?"</em> before each part. Filling &rarr; volume, cubic units. Covering &rarr; surface area, square units. Part (e) is why that matters: doubling every dimension multiplies the surface area by 4 but the volume by 8, which is the reason large animals, big ice cubes and tall buildings behave so differently from small ones.</div>
+       <div class="mistake"><b>Common mistake:</b> in (b), including the lid and getting 1,560 &mdash; read the words "open top" carefully. In (d), applying the tax to one sheet instead of the whole subtotal. In (e), answering 2 or 6 instead of 8; doubling three dimensions does not double the volume, it multiplies it eightfold.</div>`
+}
+];
+/* ===== END DAILY DATA ===== */
+
+/* ===== PROGRAM CONFIG — stable across days, do not change per run ===== */
+const RESULTS_EMAIL = "patadiakd@gmail.com";   // where "Email my results" sends
+const RESULTS_TO_LABEL = "Dad";
+
+/* header */
+document.getElementById("hDate").textContent  = DATE_LABEL;
+document.getElementById("hTopic").textContent = `Topic Day ${TOPIC_DAY} — ${TOPIC_NAME}`;
+document.getElementById("hMeta").textContent  =
+  `${QUESTIONS.length} questions · ${STANDARDS} · No calculator except the money problems`;
+document.title = `Math Honors — ${DATE_LABEL}`;
+
+/* ===================================================================
+   STATE
+   =================================================================== */
+let submitted = false;
+const selfMarks = {};     // partId -> true/false
+const hintsUsed = {};     // qn -> true  (persisted: promotion rule 3 depends on this)
+const skipped   = {};     // qn -> true ("I don't know this one")
+let fieldIds = [];
+
+/* TIME ON TASK — working seconds, not wall-clock seconds.
+   An earlier version banked (now - sessionStart), which counted every minute the
+   tab merely sat open. A set opened on Tuesday and submitted on Thursday reported
+   "1165 min". So instead we tick one second at a time and only count a second if
+   she has interacted within the last couple of minutes. Reading a question still
+   counts; a page left open overnight does not. */
+let activeSeconds = 0;              // working seconds, restored sittings included
+let lastActivity  = Date.now();
+const IDLE_CUTOFF_MS = 120000;      // 2 min with no interaction = not working
+
+function markActivity(){ lastActivity = Date.now(); }
+function elapsedSeconds(){ return activeSeconds; }
+
+/* ===================================================================
+   ANSWER CHECKING
+   =================================================================== */
+const UNIT_WORDS = /\b(cups?|cup|miles?|mph|mpg|miles per gallon|per gallon|gallons?|inches|inch|in\b|hours?|hrs?|hr|minutes?|mins?|min|students?|boys?|girls?|people|persons?|dollars?|dollar|cents?|percent|each|rooms?|posters?|notebooks?|apiece|about|approx\.?|approximately|around)\b/g;
+
+function parseNum(raw){
+  if(raw === null || raw === undefined) return null;
+  let t = String(raw).toLowerCase().trim();
+  if(!t) return null;
+  t = t.replace(/[$,]/g,"").replace(/%/g,"").replace(UNIT_WORDS," ").replace(/\s+/g," ").trim();
+  let m = t.match(/^(-?\d+)\s+(\d+)\s*\/\s*(\d+)$/);            // mixed: 8 2/11
+  if(m) return parseInt(m[1],10) + parseInt(m[2],10)/parseInt(m[3],10);
+  m = t.match(/^(-?\d+)\s*\/\s*(\d+)$/);                         // fraction: 90/11
+  if(m) return parseInt(m[1],10)/parseInt(m[2],10);
+  m = t.match(/^-?\d*\.?\d+$/);                                  // plain
+  if(m) return parseFloat(t);
+  m = t.match(/-?\d*\.?\d+/);                                    // first number found
+  return m ? parseFloat(m[0]) : null;
+}
+
+/* Both sides of a `text` comparison go through this, so every rule here is
+   symmetric and safe to apply to the accept list as well as to what she typed. */
+function normText(raw){
+  return String(raw||"").toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×·]/g,"")
+    .replace(/[$,]/g,"")
+    /* Unicode minus / en dash / em dash all mean the ASCII hyphen. She sees "−"
+       printed in the question and reasonably types or copies it back. */
+    .replace(/[−–—]/g,"-")
+    /* "a + -b" IS "a - b". Found 2026-11-09: she answered -2(x+5) as
+       "-2x + -10", which is correct, and the grader marked it wrong. Writing the
+       negative term explicitly rather than folding it into a subtraction is a
+       perfectly ordinary way for a learner to show the distribution step. */
+    .replace(/\+-/g,"-")
+    .replace(/\.$/,"")
+    .replace(/\bto\b/g,"to");
+}
+
+function isCorrect(part, raw){
+  if(raw === null || raw === undefined || String(raw).trim() === "") return false;
+  if(part.type === "num"){
+    const v = parseNum(raw);
+    if(v === null) return false;
+    const tol = part.tol !== undefined ? part.tol : 0.005;
+    return Math.abs(v - part.correct) <= tol;
+  }
+  if(part.type === "choice") return String(raw) === part.correct;
+  if(part.type === "text"){
+    const n = normText(raw);
+    if(part.accept && part.accept.some(a => normText(a) === n)) return true;
+    if(part.re) return new RegExp(part.re,"i").test(String(raw).toLowerCase());
+    return false;
+  }
+  return false;
+}
+
+/* ===================================================================
+   RENDER
+   =================================================================== */
+const qRoot = document.getElementById("questions");
+let lastSet = null;
+
+QUESTIONS.forEach(q => {
+  if(q.set !== lastSet){
+    lastSet = q.set;
+    const sh = document.createElement("div");
+    sh.className = "setheader";
+    sh.innerHTML = `<h2>Set ${q.set} — ${q.setTitle}</h2><div class="std">${q.std}</div>`;
+    qRoot.appendChild(sh);
+  }
+
+  const card = document.createElement("section");
+  card.className = "q";
+  card.id = "q" + q.n;
+
+  let html = `<div class="qhead"><div class="qnum">${q.n}.</div><div class="prompt">${q.prompt}</div></div>`;
+  if(q.table) html += q.table;
+  html += `<div class="parts">`;
+
+  q.parts.forEach((p, i) => {
+    const fid = `f-${q.n}-${i}`;
+    fieldIds.push({fid, q, p, i});
+    const lab = (p.key ? `<span class="pk">(${p.key})</span> ` : "") + p.label;
+    if(p.type === "choice"){
+      html += `<div class="part"><div class="plabel">${lab}</div><div class="radios">` +
+        p.options.map(o => `<label><input type="radio" name="${fid}" value="${o}"> ${o}</label>`).join("") +
+        `</div></div>`;
+    } else if(p.type === "self"){
+      html += `<div class="part" style="flex-direction:column;align-items:stretch">
+                 <div class="plabel" style="padding-top:0">${lab}</div>
+                 <textarea class="ans" id="${fid}" placeholder="${p.placeholder||"Write your reasoning…"}"></textarea>
+                 <div class="explain-note">Written answer — you'll compare it to the model answer and mark yourself.</div>
+               </div>`;
+    } else {
+      html += `<div class="part"><div class="plabel">${lab}</div>
+                 <input class="ans" id="${fid}" type="text" autocomplete="off" inputmode="text"></div>`;
+    }
+  });
+  html += `</div>`;
+
+  html += `<div class="skiprow">`;
+  if(q.hint) html += `<button class="hintbtn" type="button" data-hint="${q.n}">Need a hint?</button>`;
+  html += `<button class="skipbtn" type="button" data-skip="${q.n}">I haven't learned this one &mdash; skip it</button>`;
+  html += `</div>`;
+  if(q.hint) html += `<div class="hint" id="hint-${q.n}">${q.hint}</div>`;
+  html += `<div class="result" id="res-${q.n}"></div>`;
+
+  card.innerHTML = html;
+  qRoot.appendChild(card);
+});
+
+document.getElementById("totalCount").textContent = fieldIds.length;
+
+/* hints */
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-hint]");
+  if(!b) return;
+  const n = b.getAttribute("data-hint");
+  const h = document.getElementById("hint-" + n);
+  h.classList.toggle("show");
+  b.textContent = h.classList.contains("show") ? "Hide hint" : "Need a hint?";
+  if(h.classList.contains("show")) hintsUsed[n] = true;
+});
+
+/* skipping — honest "I don't know", not a wrong answer */
+function applySkipUI(n){
+  const card = document.getElementById("q" + n);
+  if(!card) return;
+  const off = !!skipped[n];
+  card.classList.toggle("skipped", off);
+  card.querySelectorAll("input.ans, textarea.ans").forEach(el => el.disabled = off);
+  card.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = off);
+  const b = card.querySelector("[data-skip]");
+  if(b) b.innerHTML = off ? "Actually, let me try this one" : "I haven't learned this one &mdash; skip it";
+}
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-skip]");
+  if(!b || submitted) return;
+  const n = b.getAttribute("data-skip");
+  skipped[n] = !skipped[n];
+  applySkipUI(n);
+  updateProgress();
+  queueSave();
+});
+
+/* ===================================================================
+   PROGRESS
+   =================================================================== */
+function readField(f){
+  if(f.p.type === "choice"){
+    const sel = document.querySelector(`input[name="${f.fid}"]:checked`);
+    return sel ? sel.value : "";
+  }
+  const el = document.getElementById(f.fid);
+  return el ? el.value : "";
+}
+
+function updateProgress(){
+  if(submitted) return;
+  const filled = fieldIds.filter(f => skipped[f.q.n] || String(readField(f)).trim() !== "").length;
+  document.getElementById("answeredCount").textContent = filled;
+  document.getElementById("fill").style.width = (filled / fieldIds.length * 100) + "%";
+  const left = fieldIds.length - filled;
+  document.getElementById("progHint").textContent =
+    left === 0 ? "All done — ready to check" : `${left} left`;
+}
+qRoot.addEventListener("input", updateProgress);
+qRoot.addEventListener("change", updateProgress);
+updateProgress();
+
+/* timer — accrues working seconds only; see the note on IDLE_CUTOFF_MS above */
+const timerBadge = document.getElementById("timerBadge");
+["input","change","click","keydown"].forEach(ev =>
+  qRoot.addEventListener(ev, markActivity));
+document.addEventListener("keydown", markActivity);
+setInterval(() => {
+  if(submitted) return;
+  if(Date.now() - lastActivity < IDLE_CUTOFF_MS) activeSeconds++;
+  const s = activeSeconds;
+  timerBadge.textContent = `Time: ${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
+}, 1000);
+
+/* ===================================================================
+   STORAGE
+   =================================================================== */
+const syncBadge = document.getElementById("syncBadge");
+const WIP_KEY  = "mathwip:" + DATE_KEY;
+const DONE_KEY = "mathlog:" + DATE_KEY;
+
+function setBadge(text, cls){
+  syncBadge.textContent = text;
+  syncBadge.className = "badge " + (cls || "");
+}
+
+/* Save work in progress, so she can close the tab and come back later. */
+let saveTimer = null;
+function saveProgress(){
+  if(submitted) return;
+  try{
+    localStorage.setItem(WIP_KEY, JSON.stringify({
+      date: DATE_KEY,
+      savedAt: new Date().toISOString(),
+      fields: fieldIds.map(readField),
+      skipped: Object.keys(skipped).filter(k => skipped[k]),
+      hints: Object.keys(hintsUsed).filter(k => hintsUsed[k]),
+      secs: elapsedSeconds()
+    }));
+    setBadge("Saved — you can close this and come back", "live");
+  }catch(e){
+    setBadge("Couldn't save on this computer", "local");
+  }
+}
+function queueSave(){
+  if(submitted) return;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveProgress, 600);
+}
+qRoot.addEventListener("input", queueSave);
+qRoot.addEventListener("change", queueSave);
+window.addEventListener("beforeunload", () => { clearTimeout(saveTimer); saveProgress(); });
+
+function restoreWip(rec){
+  if(!rec || !Array.isArray(rec.fields) || submitted) return 0;
+  let n = 0;
+  fieldIds.forEach((f, idx) => {
+    const v = rec.fields[idx];
+    if(v === undefined || v === null || v === "") return;
+    if(f.p.type === "choice"){
+      const el = document.querySelector(`input[name="${f.fid}"][value="${String(v).replace(/"/g,"")}"]`);
+      if(el){ el.checked = true; n++; }
+    } else {
+      const el = document.getElementById(f.fid);
+      if(el){ el.value = v; n++; }
+    }
+  });
+  if(Array.isArray(rec.skipped)){
+    rec.skipped.forEach(k => { skipped[k] = true; applySkipUI(k); n++; });
+  }
+  /* Hints and banked time survive the tab closing — they don't count as answers. */
+  if(Array.isArray(rec.hints)) rec.hints.forEach(k => { hintsUsed[k] = true; });
+  if(typeof rec.secs === "number" && isFinite(rec.secs) && rec.secs > 0) activeSeconds = rec.secs;
+  if(n) updateProgress();
+  return n;
+}
+
+(function initStorage(){
+  let done = null, wip = null;
+  try{ done = JSON.parse(localStorage.getItem(DONE_KEY) || "null"); }catch(e){}
+  try{ wip  = JSON.parse(localStorage.getItem(WIP_KEY)  || "null"); }catch(e){}
+
+  if(done && Array.isArray(done.fields)){
+    restorePrior(done);
+    return;
+  }
+  const n = wip ? restoreWip(wip) : 0;
+  if(n){
+    setBadge(n + (n === 1 ? " answer" : " answers") + " picked back up", "live");
+  } else {
+    setBadge("Your answers save as you type", "");
+  }
+})();
+
+function restorePrior(rec){
+  if(!rec || !rec.fields || submitted) return;
+  fieldIds.forEach((f, idx) => {
+    const v = rec.fields[idx];
+    if(v === undefined || v === null) return;
+    if(f.p.type === "choice"){
+      const el = document.querySelector(`input[name="${f.fid}"][value="${String(v).replace(/"/g,"")}"]`);
+      if(el) el.checked = true;
+    } else {
+      const el = document.getElementById(f.fid);
+      if(el) el.value = v;
+    }
+  });
+  if(rec.selfMarks) Object.assign(selfMarks, rec.selfMarks);
+  if(Array.isArray(rec.skipped)) rec.skipped.forEach(k => { skipped[k] = true; });
+  /* Carry the hint record and the original time into review mode, so results
+     emailed from a later sitting still report them instead of 0 and "no time". */
+  if(Array.isArray(rec.hintQs)) rec.hintQs.forEach(k => { hintsUsed[k] = true; });
+  if(typeof rec.seconds === "number" && isFinite(rec.seconds) && rec.seconds > 0) activeSeconds = rec.seconds;
+  updateProgress();
+  grade(true);
+  document.getElementById("barNote").textContent = "You already finished this one — this is your review.";
+}
+
+function persist(rec){
+  try{
+    localStorage.setItem(DONE_KEY, JSON.stringify(rec));
+    localStorage.removeItem(WIP_KEY);
+    setBadge("Finished and saved", "live");
+  }catch(e){
+    setBadge("Couldn't save on this computer", "local");
+  }
+}
+
+/* ===================================================================
+   GRADE & REVEAL
+   =================================================================== */
+function esc(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+function grade(isRestore){
+  submitted = true;
+  const fields = fieldIds.map(readField);
+  const perQ = [];
+
+  QUESTIONS.forEach(q => {
+    const mine = fieldIds.filter(f => f.q.n === q.n);
+    const res = document.getElementById("res-" + q.n);
+    let autoRight = 0, autoTotal = 0, selfTotal = 0;
+    const isSkip = !!skipped[q.n];
+    let rows = "";
+
+    mine.forEach(f => {
+      const raw = readField(f);
+      const p = f.p;
+      if(p.type === "self"){
+        selfTotal++;
+        rows += `<div><span class="lab">Your answer</span><span class="mine">${raw.trim() ? esc(raw) : "—"}</span></div>
+                 <div><span class="lab">Model answer</span><span class="theirs">${p.show}</span></div>`;
+      } else {
+        autoTotal++;
+        const ok = !isSkip && isCorrect(p, raw);
+        if(ok) autoRight++;
+        /* Labels are authored as HTML (they contain &minus;, &divide; and the
+           like) and the question display inserts them raw. This row used to
+           esc() them, so "&minus;" reached her as literal "&minus;2(x + 5)" in
+           her own results \u2014 which is what she screenshotted on 2026-11-09.
+           Decode to plain text first, THEN truncate, THEN escape: truncating
+           raw HTML could also slice an entity in half. */
+        const labTmp = document.createElement("div");
+        labTmp.innerHTML = p.label;
+        const labPlain = (labTmp.textContent || "").trim();
+        const rowLab = labPlain.length > 52 ? labPlain.slice(0, 49) + "\u2026" : labPlain;
+        rows += `<div><span class="lab">${esc(rowLab)}</span>
+                   <span class="mine ${ok?"right":"wrong"}">${raw.trim() ? esc(raw) : "(blank)"}</span>
+                   ${ok ? ` <span class="tick">&#10003;</span>`
+                        : ` <span class="cross">&#10007;</span> <span class="lab" style="min-width:0">correct answer:</span> <span class="theirs">${p.show}</span>`}</div>`;
+      }
+    });
+
+    let vclass = "ok", vtext = "Correct";
+    if(isSkip){ vclass = "skip"; vtext = "Skipped — here's how it works"; }
+    else if(autoTotal === 0){ vclass = "self"; vtext = "Check yourself"; }
+    else if(autoRight === 0){ vclass = "no"; vtext = "Not yet"; }
+    else if(autoRight < autoTotal){ vclass = "no"; vtext = `${autoRight} of ${autoTotal} parts right`; }
+
+    let selfHtml = "";
+    mine.forEach((f, i) => {
+      if(f.p.type !== "self") return;
+      const pid = `${q.n}-${f.i}`;
+      const cur = selfMarks[pid];
+      selfHtml += `<div class="selfmark" data-pid="${pid}">
+          <p>Did your reasoning match the model answer?</p>
+          <div class="btns">
+            <button class="smbtn yes" type="button" data-mark="1" aria-pressed="${cur===true}">Yes, I had it</button>
+            <button class="smbtn no" type="button" data-mark="0" aria-pressed="${cur===false}">Not quite</button>
+          </div></div>`;
+    });
+
+    res.innerHTML = `<div class="verdict ${vclass}">${vtext}</div>
+                     ${isSkip ? `<p class="skipnote">You said you hadn't learned this one, so it isn't counted against your score — but read it through, because it'll come back in a day or two.</p>` : ""}
+                     <div class="cmp">${rows}</div>
+                     <div class="exp"><h4>Explanation</h4>${q.exp}</div>
+                     ${selfHtml}`;
+    res.classList.add("show");
+
+    perQ.push({n:q.n, set:q.set, setTitle:q.setTitle, std:q.std, autoRight, autoTotal,
+               selfTotal, skipped:isSkip, hint: !!hintsUsed[q.n]});
+  });
+
+  /* lock inputs */
+  document.querySelectorAll("input.ans, textarea.ans, select.ans").forEach(el => el.disabled = true);
+  document.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = true);
+  document.querySelectorAll(".hintbtn").forEach(el => el.style.display = "none");
+
+  const btn = document.getElementById("submitBtn");
+  btn.textContent = "Checked";
+  btn.disabled = true;
+  document.getElementById("barNote").textContent =
+    "Scroll through — every question now shows the worked explanation.";
+
+  /* On a review-mode reopen, report the time banked when she actually worked,
+     not nothing — activeSeconds was restored from the saved record. */
+  const elapsed = isRestore ? (activeSeconds > 0 ? activeSeconds : null) : activeSeconds;
+  window.__elapsed = elapsed;
+
+  const att = perQ.filter(p => !p.skipped);
+  const rTot = att.reduce((a,p) => a + p.autoTotal, 0);
+  const rRight = att.reduce((a,p) => a + p.autoRight, 0);
+  const nSkip = perQ.filter(p => p.skipped).length;
+  document.querySelector(".progrow").innerHTML =
+    `<span>Submitted — <strong>${rRight} of ${rTot}</strong> correct${nSkip ? `, ${nSkip} skipped` : ""}</span>
+     <span>Explanations unlocked</span>`;
+  const fillEl = document.getElementById("fill");
+  fillEl.style.width = "100%";
+  const rPct = rTot ? rRight/rTot : 0;
+  fillEl.style.background = rPct >= 0.85 ? "#1a7a4c" : rPct >= 0.65 ? "#3b4c9e" : "#b3261e";
+
+  renderScore(perQ);
+
+  const rec = {
+    date: DATE_KEY, topicDay: TOPIC_DAY, topic: TOPIC_NAME,
+    fieldsSkipped: Object.keys(skipped).filter(k => skipped[k]),
+    submittedAt: new Date().toISOString(),
+    seconds: elapsed,
+    fields, selfMarks, perQuestion: perQ,
+    autoScore: rRight,
+    autoTotal: rTot,
+    skipped: perQ.filter(p => p.skipped).map(p => p.n),
+    hintsUsed: Object.keys(hintsUsed).filter(k => hintsUsed[k]).length,
+    hintQs: perQ.filter(p => p.hint).map(p => p.n)
+  };
+  if(!isRestore) persist(rec);
+  window.__rec = rec;
+}
+
+function renderScore(perQ){
+  const att = perQ.filter(p => !p.skipped);
+  const skippedQs = perQ.filter(p => p.skipped);
+  const right = att.reduce((a,p) => a + p.autoRight, 0);
+  const total = att.reduce((a,p) => a + p.autoTotal, 0);
+  const pct = total ? Math.round(right/total*100) : 0;
+
+  document.getElementById("ringPct").textContent = pct + "%";
+  document.getElementById("ringRaw").textContent = right + "/" + total;
+  const circ = 2 * Math.PI * 41;
+  document.getElementById("ringArc").style.strokeDashoffset = circ * (1 - pct/100);
+  document.getElementById("ringArc").style.stroke =
+    pct >= 85 ? "#1a7a4c" : pct >= 65 ? "#3b4c9e" : "#b3261e";
+
+  let title, msg;
+  if(total === 0){ title = "Nothing marked today"; msg = "You skipped every question, so there's no score — but every explanation is open below. Read them, and these topics will come back in your next few sets."; }
+  else if(pct === 100){ title = "Every auto-graded part correct"; msg = "Clean sweep on the computed answers. Still read the explanations — the reasoning behind a right answer is the part that transfers to harder problems."; }
+  else if(pct >= 85){ title = "Strong work"; msg = "A couple of slips only. Read the explanations on the ones marked ✗ and note which step broke down — that's usually where the real lesson is."; }
+  else if(pct >= 65){ title = "Solid, with gaps to close"; msg = "The method is mostly there. Work carefully through the explanations below on the missed questions, then redo those problems on paper without looking."; }
+  else { title = "Worth a second pass"; msg = "Read every explanation below slowly — they show the setup step by step. Then try the missed questions again on paper. This topic repeats in the rotation, so you'll get another shot."; }
+  if(skippedQs.length && total > 0){
+    msg += ` You skipped ${skippedQs.length} ${skippedQs.length === 1 ? "question" : "questions"} — that's fine, and your score is out of the ${total} parts you did try. They'll come back in your next few sets.`;
+  }
+  document.getElementById("scoreTitle").textContent = title;
+  document.getElementById("scoreMsg").textContent = msg;
+
+  const bySet = {};
+  att.forEach(p => {
+    if(!bySet[p.set]) bySet[p.set] = {r:0,t:0};
+    bySet[p.set].r += p.autoRight; bySet[p.set].t += p.autoTotal;
+  });
+  document.getElementById("breakdown").innerHTML =
+    Object.keys(bySet).sort().map(k =>
+      `<div class="bd"><div class="t">Set ${k} · ${SET_NAMES[k]||""}</div>
+        <div class="v">${bySet[k].t ? bySet[k].r + " / " + bySet[k].t : "self-check"}</div></div>`
+    ).join("");
+
+  const missed = att.filter(p => p.autoTotal && p.autoRight < p.autoTotal).map(p => p.n);
+  const written = QUESTIONS.filter(q => q.parts.some(p => p.type === "self")).map(q => q.n);
+  const link = n => `<a href="#q${n}">Q${n}</a>`;
+  const bits = [];
+  if(missed.length) bits.push(`<b>Review these:</b> ` + missed.map(link).join(" · "));
+  if(skippedQs.length) bits.push(`<b>Skipped — read these too:</b> ` + skippedQs.map(p => link(p.n)).join(" · "));
+  if(!bits.length){
+    bits.push(`<b>Nothing flagged.</b>` + (written.length
+      ? ` Compare your written answers on ` + written.map(link).join(" · ") + ` against the model answers before you close this.`
+      : ` Read the explanations before you close this.`));
+  }
+  document.getElementById("reviewList").innerHTML = bits.join("<br>");
+
+  buildSendBack(perQ, right, total, missed, skippedQs);
+  window.__rebuildSend = () => buildSendBack(perQ, right, total, missed, skippedQs);
+
+  document.getElementById("scorecard").classList.add("show");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* ---------- send results back by email (no account needed) ---------- */
+function buildSendBack(perQ, right, total, missed, skippedQs){
+  const el = window.__elapsed;
+  const timeStr = (el === null || el === undefined) ? null
+                : el < 60 ? `${el} sec` : `${Math.round(el/60)} min`;
+
+  const writtenBits = [];
+  QUESTIONS.forEach(q => {
+    q.parts.forEach((p, i) => {
+      if(p.type !== "self") return;
+      const mark = selfMarks[`${q.n}-${i}`];
+      writtenBits.push(`Q${q.n}${p.key || ""} — ` + (mark === true ? "got it" : mark === false ? "not quite" : "not marked"));
+    });
+  });
+
+  /* Independence: which questions needed a hint, and how many she carried
+     unaided. A score built on hints is a different thing from one without. */
+  const attempted  = perQ.filter(p => !p.skipped);
+  const hintQs     = attempted.filter(p => p.hint).map(p => p.n);
+  const autoQs     = attempted.filter(p => p.autoTotal > 0);
+  const cleanQs    = autoQs.filter(p => !p.hint && p.autoRight === p.autoTotal).length;
+
+  /* The final question is the multi-step challenge — tracked on its own
+     because it's the best transfer signal and vanishes inside a percentage. */
+  const lastQ = perQ.length ? perQ[perQ.length - 1] : null;
+  const challengeStr = !lastQ ? null
+    : lastQ.skipped ? `Challenge question (Q${lastQ.n}): skipped`
+    : lastQ.autoTotal ? `Challenge question (Q${lastQ.n}): ${lastQ.autoRight}/${lastQ.autoTotal}${lastQ.hint ? " (used the hint)" : " (no hint)"}`
+    : `Challenge question (Q${lastQ.n}): written answer`;
+
+  const lines = [
+    `Math — ${DATE_LABEL}`,
+    `Topic: ${TOPIC_NAME}`,
+    ``,
+    `Score: ${right} / ${total}` + ((skippedQs && skippedQs.length) ? ` (out of what she attempted)` : ``),
+    timeStr ? `Time: ${timeStr}` : null,
+    `Hints opened: ${hintQs.length}` + (hintQs.length ? ` — on ${hintQs.map(n => "Q"+n).join(", ")}` : ``),
+    autoQs.length ? `Unaided: ${cleanQs} of ${autoQs.length} graded questions fully right with no hint` : null,
+    challengeStr,
+    missed.length ? `Missed: ${missed.map(n => "Q"+n).join(", ")}` : `Missed: none`,
+    (skippedQs && skippedQs.length)
+      ? `Skipped (hadn't learned yet): ${skippedQs.map(p => "Q" + p.n + " — " + (p.setTitle || "") + (p.std ? " [" + p.std + "]" : "")).join("; ")}`
+      : `Skipped: none`,
+    writtenBits.length ? `Written answers: ${writtenBits.join("; ")}` : null,
+    ``,
+    `Per question: ` + perQ.map(p => `Q${p.n} ` + (p.skipped ? "skipped" : (p.autoTotal ? p.autoRight+"/"+p.autoTotal : "written")) + (p.hint && !p.skipped ? " (hint)" : "")).join(", "),
+    `Standards: ` + perQ.map(p => `Q${p.n} ${p.std || "—"}`).join(", "),
+    ``,
+    `(Sent from the worksheet page)`
+  ].filter(x => x !== null);
+
+  const text = lines.join("\n");
+  document.getElementById("resultsText").value = text;
+
+  const subject = `Math results — ${DATE_LABEL} — ${right}/${total}`;
+  const href = `mailto:${encodeURIComponent(RESULTS_EMAIL)}`
+             + `?subject=${encodeURIComponent(subject)}`
+             + `&body=${encodeURIComponent(text)}`;
+
+  const done = document.getElementById("sendDone");
+
+  document.getElementById("emailResultsBtn").onclick = () => {
+    window.location.href = href;
+    done.textContent = `Your email app should be opening — just press send. If nothing happened, use "Copy instead".`;
+    done.classList.add("show");
+  };
+
+  document.getElementById("copyResultsBtn").onclick = async () => {
+    const ta = document.getElementById("resultsText");
+    ta.classList.add("show");
+    let ok = false;
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        await navigator.clipboard.writeText(text); ok = true;
+      }
+    }catch(e){}
+    if(!ok){ try{ ta.select(); ok = document.execCommand("copy"); }catch(e){} }
+    done.textContent = ok
+      ? `Copied. Reply to the email that sent you this worksheet and paste it in.`
+      : `Select the text below, copy it, and paste it into a reply to the worksheet email.`;
+    done.classList.add("show");
+  };
+}
+
+/* self-marking */
+qRoot.addEventListener("click", e => {
+  const b = e.target.closest("[data-mark]");
+  if(!b) return;
+  const box = b.closest(".selfmark");
+  const pid = box.getAttribute("data-pid");
+  const val = b.getAttribute("data-mark") === "1";
+  selfMarks[pid] = val;
+  box.querySelectorAll(".smbtn").forEach(x => x.setAttribute("aria-pressed","false"));
+  b.setAttribute("aria-pressed","true");
+  if(window.__rec){ window.__rec.selfMarks = selfMarks; persist(window.__rec); }
+  if(window.__rebuildSend) window.__rebuildSend();
+});
+
+/* submit */
+document.getElementById("submitBtn").addEventListener("click", () => {
+  const blanks = fieldIds.filter(f => !skipped[f.q.n] && String(readField(f)).trim() === "").length;
+  const note = document.getElementById("barNote");
+  if(blanks > 0 && !note.dataset.warned){
+    note.dataset.warned = "1";
+    note.textContent = `${blanks} blank${blanks>1?"s":""} left. Fill them in, mark them "haven't learned this", or press again to check anyway.`;
+    note.style.color = "#8a5a00";
+    return;
+  }
+  note.style.color = "";
+  grade(false);
+});
+
+document.getElementById("printBtn").addEventListener("click", () => window.print());
+</script>
+</body>
+</html>
